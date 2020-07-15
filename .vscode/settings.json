@@ -1,0 +1,15 @@
+{
+  "files.exclude": {
+    "e2e": true,
+    "node_modules": true,
+    ".editorconfig": true,
+    "localhost.key": true,
+    "localhost.crt": true,
+    "karma.conf.js": true,
+    "browserslist": true,
+    "dist\\medabrim": true,
+    "dist": true,
+    ".vscode": true,
+    ".firebase": true
+  }
+}

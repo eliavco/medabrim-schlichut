@@ -1,0 +1,14 @@
+{
+  "projects": {
+    "medabrim": "eliav-co"
+  },
+  "targets": {
+    "eliav-co": {
+      "hosting": {
+        "medabrim-schlichut": [
+          "medabrim-schlichut"
+        ]
+      }
+    }
+  }
+}
