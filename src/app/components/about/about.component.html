@@ -1,0 +1,23 @@
+<mat-card class="card">
+	<mat-card-header>
+		<div mat-card-avatar class="header-image" style="background-image: url(assets/logo.png);"></div>
+		<mat-card-title>Medbarim Schlichut</mat-card-title>
+		<mat-card-subtitle>by Asi Aharonov PhD.</mat-card-subtitle>
+	</mat-card-header>
+	<img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of Asi Aharonov">
+	<mat-card-content>
+		<p>
+			Welcome to the podcast Medabrim Schlichut (literally - Talking Mission) - the only podcast that gives a stage to Israeli Schlichim.<br>
+			We interview past and present Schlichim who share their experiences with us.<br>
+			A lot of their experiences are mutual, though many are unique.<br>
+			Wether you consider going on a Schlichut, are on a Schlichut or were on a Schlichut - you will find here inspiration, important insights and useful tips through the Schlichim's stories.<br>
+			Everywhere you are, in Israel or abroad, on foot or in your car - you are invited to listen to the podcast that talks with the Schlichim eye to eye
+		</p>
+	</mat-card-content>
+	<mat-card-actions>
+		<a mat-button [routerLink]="['/listen']">LISTEN</a>
+		<a mat-button [routerLink]="['/contact']">CONTACT</a>
+		<button mat-button (click)="copyShare()">SHARE</button>
+	</mat-card-actions>
+	<ec-podcast-apps></ec-podcast-apps>
+</mat-card>

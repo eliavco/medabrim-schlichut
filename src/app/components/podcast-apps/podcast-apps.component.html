@@ -1,0 +1,5 @@
+<div class="podcast-apps">
+	<a *ngFor="let app of apps" mat-fab matTooltip="{{ app.name }}"
+	href="{{ app.link }}" target="_blank" class="app-picture"
+	[style]="'background-image: url(' + app.img + ');'"></a>
+</div>

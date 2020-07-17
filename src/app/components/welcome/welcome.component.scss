@@ -1,0 +1,39 @@
+$centerContrast: #00000084;
+
+.hero {
+	height: 90vh;
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
+}
+
+.center {
+	&_title {
+		position: absolute;
+		left: 50%;
+		top: 50%;
+		transform: translate(-50%, -50%);
+		background-color: $centerContrast;
+		padding: 1rem;
+		h4 {
+			color: #fff;
+			font-size: 5rem;
+			text-transform: uppercase;
+			text-align: center;
+		}
+		p {
+			color: #fff;
+			text-align: center;
+		}
+	}
+	&_image {
+		display: flex;
+		justify-content: center;
+	}
+}
+
+.button-list {
+	display: flex;
+	justify-content: space-between;
+	margin-bottom: 2rem;
+}

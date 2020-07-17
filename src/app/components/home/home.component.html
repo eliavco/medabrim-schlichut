@@ -1,2 +1,8 @@
-<ec-header></ec-header>
-<p>this is medabrim dont forget internationallization and bidirectionality</p>
+<mat-drawer-container class="example-container">
+	<mat-drawer mode="side" [opened]="nav" class="user-select-none">
+		<ec-sidebar></ec-sidebar>
+	</mat-drawer>
+	<mat-drawer-content>
+		<ec-header (toggleNav)="toggleNav()"></ec-header>
+	</mat-drawer-content>
+</mat-drawer-container>

@@ -1,7 +1,6 @@
 {
   "files.exclude": {
     "e2e": true,
-    "node_modules": true,
     ".editorconfig": true,
     "localhost.key": true,
     "localhost.crt": true,
@@ -10,6 +9,16 @@
     "dist\\medabrim": true,
     "dist": true,
     ".vscode": true,
-    ".firebase": true
+    ".firebase": true,
+    ".firebaserc": true,
+    "firebase.json": true,
+    ".gitignore": true,
+    "README.md": true,
+    "tsconfig.json": true,
+    "tsconfig.app.json": true,
+    "tsconfig.spec.json": true,
+    "package-lock.json": true,
+    "tslint.json": true,
+    "node_modules": true
   }
 }

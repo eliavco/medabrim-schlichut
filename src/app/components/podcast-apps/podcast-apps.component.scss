@@ -1,0 +1,17 @@
+.app-picture {
+	background-color: transparent;
+	background-position: center;
+	background-size: cover;
+	background-repeat: no-repeat;
+	margin-right: 1rem;
+	@media (max-width: 480px) {
+		height: 5rem;
+		width: 5rem;
+		margin-right: .5rem;
+	}
+}
+
+.podcast-apps {
+	display: flex;
+	justify-content: space-between;
+}

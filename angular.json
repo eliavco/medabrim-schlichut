@@ -28,6 +28,7 @@
               "src/assets"
             ],
             "styles": [
+              "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
               "src/styles.scss"
             ],
             "scripts": []
@@ -67,8 +68,8 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
             "browserTarget": "medabrim:build",
-			"sslKey": "./localhost.key",
-			"sslCert": "./localhost.crt"
+            "sslKey": "./localhost.key",
+            "sslCert": "./localhost.crt"
           },
           "configurations": {
             "production": {
@@ -94,6 +95,7 @@
               "src/assets"
             ],
             "styles": [
+              "./node_modules/@angular/material/prebuilt-themes/indigo-pink.css",
               "src/styles.scss"
             ],
             "scripts": []
@@ -125,6 +127,7 @@
           }
         }
       }
-    }},
+    }
+  },
   "defaultProject": "medabrim"
 }
