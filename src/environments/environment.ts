@@ -13,6 +13,8 @@ export const environment = {
 		breaker: 'https://www.breaker.audio/mdbrym-shlykhvt',
 		rss: 'https://anchor.fm/s/d8db294/podcast/rss',
 	},
+	mailService: 'https://email-cohen.herokuapp.com/send',
+	destinationMailService: 'eliav.s.cohen@gmail.com',
 	production: false
 };
 

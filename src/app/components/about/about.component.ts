@@ -9,7 +9,10 @@ import { AlertService } from './../../services/alert/alert.service';
 })
 export class AboutComponent implements OnInit {
 
-	constructor(private alert: AlertService, private clipboard: Clipboard) { }
+	constructor(
+		private alert: AlertService,
+		private clipboard: Clipboard,
+	) { }
 
 	ngOnInit(): void {
 	}

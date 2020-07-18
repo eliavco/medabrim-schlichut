@@ -1,1 +1,44 @@
-<p>contact works!</p>
+<div class="page">
+	<mat-card class="card">
+		<h2>Contact</h2>
+		<form class="form" [formGroup]="form">
+		
+			<mat-form-field class="full-width">
+				<mat-label>Your Name</mat-label>
+				<input matInput required formControlName="name" placeholder="John Smith">
+				<mat-error *ngIf="form.get('name').hasError('required')">
+					Name is <strong>required</strong>
+				</mat-error>
+			</mat-form-field>
+
+			<mat-form-field class="full-width">
+				<mat-label>Subject</mat-label>
+				<input matInput required formControlName="subject" placeholder="Great Podcast!">
+				<mat-error *ngIf="form.get('subject').hasError('required')">
+					Subject is <strong>required</strong>
+				</mat-error>
+			</mat-form-field>
+
+			<mat-form-field class="full-width">
+				<mat-label>Email</mat-label>
+				<input matInput formControlName="email" placeholder="Ex. pat@example.com" type="email" required>
+				<mat-error *ngIf="form.get('email').hasError('email') && !form.get('email').hasError('required')">
+					Please enter a valid email address
+				</mat-error>
+				<mat-error *ngIf="form.get('email').hasError('required')">
+					Email is <strong>required</strong>
+				</mat-error>
+			</mat-form-field>
+		
+			<mat-form-field class="full-width">
+				<mat-label>Message</mat-label>
+				<textarea matInput formControlName="message" required placeholder="I had some ideas for the podcast..."></textarea>
+				<mat-error *ngIf="form.get('message').hasError('required')">
+					Message is <strong>required</strong>
+				</mat-error>
+			</mat-form-field>
+
+			<button mat-raised-button type="submit" (click)="onSubmit()">SUBMIT</button>
+		</form>
+	</mat-card>
+</div>

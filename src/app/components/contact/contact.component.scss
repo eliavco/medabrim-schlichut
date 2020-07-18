@@ -1,0 +1,21 @@
+.card {
+	margin: 1rem auto;
+	width: 50%;
+	@media (max-width: 480px) {
+		width: 80%;
+	}
+}
+
+.form {
+  min-width: 150px;
+  max-width: 500px;
+  width: 100%;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.page {
+	height: 90vh;
+}

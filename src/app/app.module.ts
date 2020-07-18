@@ -41,6 +41,7 @@ import { LoadingBarHttpClientModule } from '@ngx-loading-bar/http-client';
 import { LoadingBarHttpModule } from '@ngx-loading-bar/http';
 import { LoadingBarRouterModule } from '@ngx-loading-bar/router';
 import { AlertService } from './services/alert/alert.service';
+import { ContactService } from './services/contact/contact.service';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
