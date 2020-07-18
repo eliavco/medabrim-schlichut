@@ -33,9 +33,14 @@
     "@ngx-loading-bar/router": "^5.1.0",
     "@types/jquery": "^3.5.0",
     "classlist.js": "^1.1.20150312",
+    "howler": "^2.2.0",
     "rxjs": "~6.5.4",
+    "stream": "0.0.2",
+    "timeago.js": "^4.0.2",
+    "timers": "^0.1.1",
     "tslib": "^1.10.0",
     "web-animations-js": "^2.3.2",
+    "xml2js": "^0.4.23",
     "zone.js": "~0.10.2"
   },
   "devDependencies": {

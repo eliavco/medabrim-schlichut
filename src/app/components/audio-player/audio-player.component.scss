@@ -1,0 +1,35 @@
+.player {
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	width: 100%;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+.seek {
+	flex: 1;
+}
+
+.seekbar {
+	display: flex;
+	align-items: center;
+}
+
+.small-seek {
+	font-size: 1.5rem;
+	color:  #3f3f3f;
+	margin-bottom: 0;
+}
+
+.title {
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
+}
+
+.wrapper {
+	margin-top: 12.8rem;
+}

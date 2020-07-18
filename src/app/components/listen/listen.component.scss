@@ -1,0 +1,22 @@
+.card {
+	margin: 1rem auto;
+	width: 50%;
+	@media (max-width: 480px) {
+		width: 80%;
+	}
+}
+
+.header-image {
+	background-size: cover;
+	background-position: center;
+}
+
+.description {
+	overflow-wrap: break-word;
+}
+
+.expansion-header {
+	display: flex;
+	align-items: center;
+	flex: 1;
+}

@@ -1,1 +1,28 @@
-<p>listen works!</p>
+<mat-card class="card">
+	<mat-card-header>
+		<div mat-card-avatar class="header-image" style="background-image: url(assets/logo.png);"></div>
+		<mat-card-title>Medbarim Schlichut</mat-card-title>
+		<mat-card-subtitle>by Asi Aharonov PhD.</mat-card-subtitle>
+	</mat-card-header>
+	<img mat-card-image src="assets/about/radio.jpg" alt="Photo of Asi Aharonov">
+	<mat-card-content *ngIf="episodes">
+		<mat-accordion>
+			<mat-expansion-panel *ngFor="let episode of episodes" hideToggle>
+				<mat-expansion-panel-header class="user-select-none">
+					<mat-panel-title class="expansion-header">
+						<button mat-icon-button (click)="playEpisode(episode)">
+							<mat-icon>play_arrow</mat-icon>
+						</button>
+						{{ episode.title.substring(0, 17) }}...
+					</mat-panel-title>
+					<mat-panel-description class="expansion-header">
+						{{ formatSeconds(episode.duration) }} {{ time.format(episode.date) }}
+					</mat-panel-description>
+				</mat-expansion-panel-header>
+				<p class="description"><strong>{{ episode.title }}</strong></p>
+				<p class="description" [innerHTML]="episode.description"></p>
+			</mat-expansion-panel>
+		</mat-accordion>
+	</mat-card-content>
+
+</mat-card>

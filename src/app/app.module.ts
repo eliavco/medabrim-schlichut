@@ -42,6 +42,8 @@ import { LoadingBarHttpModule } from '@ngx-loading-bar/http';
 import { LoadingBarRouterModule } from '@ngx-loading-bar/router';
 import { AlertService } from './services/alert/alert.service';
 import { ContactService } from './services/contact/contact.service';
+import { AudioPlayerService } from './services/audio-player/audio-player.service';
+import { PodcastManagerService } from './services/podcast-manager/podcast-manager.service';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -55,6 +57,7 @@ import { ListenComponent } from './components/listen/listen.component';
 import { ContactComponent } from './components/contact/contact.component';
 import { WelcomeComponent } from './components/welcome/welcome.component';
 import { PodcastAppsComponent } from './components/podcast-apps/podcast-apps.component';
+import { AudioPlayerComponent } from './components/audio-player/audio-player.component';
 
 @NgModule({
 	declarations: [
@@ -67,7 +70,8 @@ import { PodcastAppsComponent } from './components/podcast-apps/podcast-apps.com
 		ListenComponent,
 		ContactComponent,
 		WelcomeComponent,
-		PodcastAppsComponent
+		PodcastAppsComponent,
+		AudioPlayerComponent
 	],
 	imports: [
 		BrowserModule,
@@ -115,6 +119,9 @@ import { PodcastAppsComponent } from './components/podcast-apps/podcast-apps.com
 	providers: [
 		AnalyticsEventService,
 		AlertService,
+		ContactService,
+		AudioPlayerService,
+		PodcastManagerService,
 		Title
 	],
 	bootstrap: [AppComponent]

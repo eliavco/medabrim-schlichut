@@ -1,0 +1,48 @@
+<div class="wrapper" *ngIf="display">
+	<div class="player user-select-none" *ngIf="display">
+		<mat-toolbar class="seekbar">
+			<a mat-icon-button class="" [routerLink]="['/listen']">
+				<mat-icon>menu</mat-icon>
+			</a>
+			<span [title]="title" class="title">{{ title }}</span>
+			<span class="spacer"></span>
+
+			<button mat-icon-button class="" (click)="nextRate()">
+				{{ rate }}x
+			</button>
+			<!-- Volume -->
+			<button *ngIf="mute > 0" mat-icon-button class="" (click)="unmuteMusic()">
+				<mat-icon>volume_off</mat-icon>
+			</button>
+			<button *ngIf="mute === 0" mat-icon-button class="" (click)="muteMusic()">
+				<mat-icon>{{ volumeIcon }}</mat-icon>
+			</button>
+			<mat-slider [disabled]="mute > 0" thumbLabel="true" min="0" max="100" step="1" value="100" (change)="setVolume($event)"></mat-slider>
+
+			<!-- play/pause -->
+			<button *ngIf="!playing" mat-icon-button class="" (click)="playMusic()">
+				<mat-icon>play_arrow</mat-icon>
+			</button>
+			<button *ngIf="playing" mat-icon-button class="" (click)="pauseMusic()">
+				<mat-icon>pause</mat-icon>
+			</button>
+
+			<!-- close -->
+			<button mat-icon-button class="" (click)="closePlayer()">
+				<mat-icon>close</mat-icon>
+			</button>
+		</mat-toolbar>
+
+		<mat-toolbar class="seekbar">
+			<button mat-icon-button class="" (click)="back10Sec()">
+				<mat-icon>history</mat-icon>
+			</button>
+			<p class="small-seek">{{ formatSeconds(seek) }}&nbsp;</p>
+			<mat-slider class="seek" min="0" [max]="duration" step="0.1" [value]="seek" (change)="setSeek($event)"></mat-slider>
+			<p class="small-seek">&nbsp;&nbsp;{{ formatSeconds(duration) }}</p>
+			<button mat-icon-button class="" (click)="skip10Sec()">
+				<mat-icon>update</mat-icon>
+			</button>
+		</mat-toolbar>
+	</div>
+</div>
