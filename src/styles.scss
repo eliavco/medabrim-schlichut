@@ -30,8 +30,15 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300;0,400;0,500;1,400&display=swap');
 
-.hebrew *:not(.material-icons) {
-	font-family: 'Rubik', sans-serif !important;
+.hebrew {
+	*:not(.material-icons) {
+		font-family: 'Rubik', sans-serif !important;
+	}
+	&-container {
+		snack-bar-container {
+			direction: rtl;
+		}
+	}
 }
 
 html, body { height: 100%; }

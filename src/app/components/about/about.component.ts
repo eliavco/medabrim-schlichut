@@ -10,6 +10,7 @@ import { environment } from './../../../environments/environment';
 })
 export class AboutComponent implements OnInit {
 	images = environment.images;
+	lang = (window as any).loc.substring(0, 2);
 
 	constructor(
 		private alert: AlertService,
@@ -21,7 +22,11 @@ export class AboutComponent implements OnInit {
 
 	copyShare() {
 		this.clipboard.copy(location.origin);
-		this.alert.open('Link copied! Please share it!');
+		const message = {
+			he: 'הקישור הועתק! אנא שתפו אותו!',
+			en: 'Link copied! Please share it!'
+		};
+		this.alert.open(message[this.lang]);
 	}
 
 }

@@ -7,8 +7,12 @@ import { AlertService } from './../../services/alert/alert.service';
 	providedIn: 'root'
 })
 export class ContactService {
+	lang = (window as any).loc.substring(0, 2);
 
-	constructor(private http: HttpClient, private alert: AlertService) { }
+	constructor(
+		private http: HttpClient,
+		private alert: AlertService
+	) { }
 
 	send(name, from, message, subject) {
 		const data = new FormData();
@@ -18,9 +22,17 @@ export class ContactService {
 		data.append('subject', subject);
 		data.append('to', environment.destinationMailService);
 		this.http.post(environment.mailService, data).subscribe(res => {
-			this.alert.open('Email sent successfully!');
+			const mess = {
+				he: 'ההודעה נשלחה בהצלחה!',
+				en: 'Email sent successfully!'
+			};
+			this.alert.open(mess[this.lang]);
 		}, err => {
-			this.alert.open('Email could not be sent...');
+			const mess = {
+				he: 'קרתה תקלה בשליחת ההודעה...',
+				en: 'Email could not be sent...'
+			};
+			this.alert.open(mess[this.lang]);
 		});
 	}
 }

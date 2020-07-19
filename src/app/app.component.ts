@@ -40,6 +40,9 @@ export class AppComponent implements OnInit {
 	
 	ngOnInit() {
 		this.titleService.setTitle(environment.baseTitle[this.lang]);
+		if (this.isRTL) {
+			document.body.classList.add('hebrew-container');
+		}
 	}
 
 }
