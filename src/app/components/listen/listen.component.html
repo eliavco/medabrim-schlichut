@@ -11,12 +11,12 @@
 				<mat-expansion-panel-header class="user-select-none">
 					<mat-panel-title class="expansion-header">
 						<button mat-icon-button (click)="playEpisode(episode)">
-							<mat-icon>play_arrow</mat-icon>
+							<mat-icon class="mat-icon-rtl-mirror">play_arrow</mat-icon>
 						</button>
 						{{ episode.title.substring(0, 17) }}...
 					</mat-panel-title>
 					<mat-panel-description class="expansion-header">
-						{{ formatSeconds(episode.duration) }} {{ time.format(episode.date) }}
+						{{ formatSeconds(episode.duration) }} - {{ formatTimeAgo(episode.date) }}
 					</mat-panel-description>
 				</mat-expansion-panel-header>
 				<p class="description"><strong>{{ episode.title }}</strong></p>

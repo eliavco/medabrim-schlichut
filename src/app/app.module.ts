@@ -36,6 +36,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatSortModule } from '@angular/material/sort';
 import { MatPaginatorModule } from '@angular/material/paginator';
 
+import { BidiModule } from '@angular/cdk/bidi';
 import { AnalyticsEventService } from './services/analytics-event/analytics-event.service';
 import { LoadingBarHttpClientModule } from '@ngx-loading-bar/http-client';
 import { LoadingBarHttpModule } from '@ngx-loading-bar/http';
@@ -114,6 +115,7 @@ import { AudioPlayerComponent } from './components/audio-player/audio-player.com
 		MatSnackBarModule,
 		MatTableModule,
 		MatSortModule,
+		BidiModule,
 		MatPaginatorModule
 	],
 	providers: [

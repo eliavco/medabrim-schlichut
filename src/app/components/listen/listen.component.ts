@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AudioPlayerService } from './../../services/audio-player/audio-player.service';
 import { PodcastManagerService } from './../../services/podcast-manager/podcast-manager.service';
 
-import * as timeago from 'timeago.js';
+import * as moment from 'moment';
 
 const { parseString } = require('xml2js');
 
@@ -21,7 +21,8 @@ interface Episode {
 })
 export class ListenComponent implements OnInit {
 	episodes: Episode[];
-	time = timeago;
+	time = moment;
+	locale = (window as any).loc;
 
 	constructor(
 		private audioPlayerService: AudioPlayerService,
@@ -57,6 +58,10 @@ export class ListenComponent implements OnInit {
 		parseString(podcast, (err, result) => {
 			this.episodes = result.rss.channel[0].item.map(this.parseEpisode);
 		});
+	}
+
+	formatTimeAgo(date) {
+		return this.time(date).locale(this.locale).fromNow();
 	}
 
 }

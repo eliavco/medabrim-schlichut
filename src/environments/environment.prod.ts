@@ -9,6 +9,16 @@ export const environment = {
 		breaker: 'https://www.breaker.audio/mdbrym-shlykhvt',
 		rss: 'https://anchor.fm/s/d8db294/podcast/rss',
 	},
+	languages: {
+		he: {
+			flag: 'assets/flag/israel.jpg',
+			link: 'https://he-medabrim-schlichut.web.app'
+		},
+		en: {
+			flag: 'assets/flag/usa.jpg',
+			link: 'https://medabrim-schlichut.web.app'
+		}
+	},
 	mailService: 'https://email-cohen.herokuapp.com/send',
 	destinationMailService: 'eliav.s.cohen@gmail.com',
 	production: true

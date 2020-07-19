@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Inject, LOCALE_ID } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
 
 // tslint:disable-next-line: ban-types
@@ -12,8 +12,12 @@ declare let mgaids: Array<string>;
 })
 export class AppComponent {
 	title = 'Medabrim Schlichut';
+	isRTL = false;
 
-	constructor(private router: Router) {
+	constructor(
+		private router: Router,
+		@Inject(LOCALE_ID) public locale: string
+	) {
 		this.router.events.subscribe(event => {
 			if (event instanceof NavigationEnd) {
 				mgaids.forEach(mgaid => {
@@ -25,6 +29,9 @@ export class AppComponent {
 				});
 			}
 		});
+		if (this.locale.startsWith('he')) { this.isRTL = true; }
+		(window as any).loc = this.locale;
+		(window as any).rtl = this.isRTL;
 	}
 
 }

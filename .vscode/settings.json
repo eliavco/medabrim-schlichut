@@ -6,12 +6,7 @@
     "localhost.crt": true,
     "karma.conf.js": true,
     "browserslist": true,
-    "dist\\medabrim": true,
-    "dist": true,
     ".vscode": true,
-    ".firebase": true,
-    ".firebaserc": true,
-    "firebase.json": true,
     ".gitignore": true,
     "README.md": true,
     "tsconfig.json": true,
@@ -19,6 +14,10 @@
     "tsconfig.spec.json": true,
     "package-lock.json": true,
     "tslint.json": true,
+    ".firebase": true,
+    "firebase.json": true,
+    ".firebaserc": true,
+    "dist": true,
     "node_modules": true
   }
 }

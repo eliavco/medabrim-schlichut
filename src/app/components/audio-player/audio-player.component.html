@@ -11,16 +11,16 @@
 				{{ rate }}x
 			</button>
 			<!-- Volume -->
-			<button *ngIf="mute > 0" mat-icon-button class="" (click)="unmuteMusic()">
+			<button *ngIf="mute > 0" mat-icon-button class="mat-icon-rtl-mirror" (click)="unmuteMusic()">
 				<mat-icon>volume_off</mat-icon>
 			</button>
-			<button *ngIf="mute === 0" mat-icon-button class="" (click)="muteMusic()">
+			<button *ngIf="mute === 0" mat-icon-button  class="mat-icon-rtl-mirror" (click)="muteMusic()">
 				<mat-icon>{{ volumeIcon }}</mat-icon>
 			</button>
 			<mat-slider [disabled]="mute > 0" thumbLabel="true" min="0" max="100" step="1" value="100" (change)="setVolume($event)"></mat-slider>
 
 			<!-- play/pause -->
-			<button *ngIf="!playing" mat-icon-button class="" (click)="playMusic()">
+			<button *ngIf="!playing" mat-icon-button  class="mat-icon-rtl-mirror" (click)="playMusic()">
 				<mat-icon>play_arrow</mat-icon>
 			</button>
 			<button *ngIf="playing" mat-icon-button class="" (click)="pauseMusic()">
@@ -35,13 +35,13 @@
 
 		<mat-toolbar class="seekbar">
 			<button mat-icon-button class="" (click)="back10Sec()">
-				<mat-icon>history</mat-icon>
+				<mat-icon class="mat-icon-rtl-mirror">history</mat-icon>
 			</button>
 			<p class="small-seek">{{ formatSeconds(seek) }}&nbsp;</p>
 			<mat-slider class="seek" min="0" [max]="duration" step="0.1" [value]="seek" (change)="setSeek($event)"></mat-slider>
 			<p class="small-seek">&nbsp;&nbsp;{{ formatSeconds(duration) }}</p>
 			<button mat-icon-button class="" (click)="skip10Sec()">
-				<mat-icon>update</mat-icon>
+				<mat-icon class="mat-icon-rtl-mirror">update</mat-icon>
 			</button>
 		</mat-toolbar>
 	</div>
