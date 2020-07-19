@@ -2,6 +2,22 @@
 <xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
   <file source-language="en-US" datatype="plaintext" original="ng2.template">
     <body>
+      <trans-unit id="e4aaf490cfee276d3eb6bb7601db526dbce897e3" datatype="html">
+        <source>Medabrim</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/welcome/welcome.component.html</context>
+          <context context-type="linenumber">4</context>
+        </context-group>
+        <note priority="1" from="description">Main title part 1</note>
+      </trans-unit>
+      <trans-unit id="5e194460840d89ecde7bd614da9b550d33ff4803" datatype="html">
+        <source>Schlichut</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/welcome/welcome.component.html</context>
+          <context context-type="linenumber">5</context>
+        </context-group>
+        <note priority="1" from="description">Main title part 2</note>
+      </trans-unit>
     </body>
   </file>
 </xliff>

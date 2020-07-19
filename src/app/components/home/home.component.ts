@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Title } from '@angular/platform-browser';
 import { environment } from './../../../environments/environment';
 import { AlertService } from './../../services/alert/alert.service';
 
@@ -11,10 +10,9 @@ import { AlertService } from './../../services/alert/alert.service';
 export class HomeComponent implements OnInit {
 	nav = false;
 
-	constructor(private titleService: Title, private alert: AlertService) { }
+	constructor(private alert: AlertService) { }
 
 	ngOnInit(): void {
-		// this.titleService.setTitle(`${environment.baseTitle} - blabla`);
 	}
 
 	toggleNav() {

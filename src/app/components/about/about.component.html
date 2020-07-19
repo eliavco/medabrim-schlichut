@@ -1,12 +1,12 @@
 <mat-card class="card">
 	<mat-card-header>
-		<div mat-card-avatar class="header-image" style="background-image: url(assets/logo.png);"></div>
-		<mat-card-title>Medbarim Schlichut</mat-card-title>
-		<mat-card-subtitle>by Asi Aharonov PhD.</mat-card-subtitle>
+		<div mat-card-avatar class="header-image" style="{{ 'background-image: url(' + images.avatar + ');' }}"></div>
+		<mat-card-title i18n="About page - Title of podcast">Medbarim Schlichut</mat-card-title>
+		<mat-card-subtitle i18n="About page - Author of podcast">by Asi Aharonov PhD.</mat-card-subtitle>
 	</mat-card-header>
-	<img mat-card-image src="assets/about/radio.jpg" alt="Photo of Asi Aharonov">
+	<img mat-card-image [src]="images.aboutBack" alt="Photo of Asi Aharonov">
 	<mat-card-content>
-		<p>
+		<p i18n="About - Description of the podcast">
 			Welcome to the podcast Medabrim Schlichut (literally - Talking Mission) - the only podcast that gives a stage to Israeli Schlichim.<br>
 			We interview past and present Schlichim who share their experiences with us.<br>
 			A lot of their experiences are mutual, though many are unique.<br>
@@ -15,9 +15,9 @@
 		</p>
 	</mat-card-content>
 	<mat-card-actions>
-		<a mat-button [routerLink]="['/listen']">LISTEN</a>
-		<a mat-button [routerLink]="['/contact']">CONTACT</a>
-		<button mat-button (click)="copyShare()">SHARE</button>
+		<a mat-button [routerLink]="['/listen']" i18n="About page - listen link">LISTEN</a>
+		<a mat-button [routerLink]="['/contact']" i18n="About page - contact link">CONTACT</a>
+		<button mat-button (click)="copyShare()" i18n="About page - share button">SHARE</button>
 	</mat-card-actions>
 	<ec-podcast-apps></ec-podcast-apps>
 </mat-card>

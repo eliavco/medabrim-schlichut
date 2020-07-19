@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AudioPlayerService } from './../../services/audio-player/audio-player.service';
 import { PodcastManagerService } from './../../services/podcast-manager/podcast-manager.service';
+import { environment } from './../../../environments/environment';
 
 import * as moment from 'moment';
 
@@ -23,6 +24,7 @@ export class ListenComponent implements OnInit {
 	episodes: Episode[];
 	time = moment;
 	locale = (window as any).loc;
+	images = environment.images;
 
 	constructor(
 		private audioPlayerService: AudioPlayerService,

@@ -1,5 +1,5 @@
-<div class="nav">
+<div class="nav" [class.nav-rtl]="rtl">
 	<mat-list>
-		<mat-list-item *ngFor="let page of pages"><a [routerLink]="page.link"> <mat-icon>{{ page.icon }}</mat-icon>&nbsp;&nbsp;{{ page.title }} </a></mat-list-item>
+		<mat-list-item *ngFor="let page of pages"><a [routerLink]="page.link"> <mat-icon>{{ page.icon }}</mat-icon>&nbsp;&nbsp;{{ page.title[locale] }} </a></mat-list-item>
 	</mat-list>
 </div>

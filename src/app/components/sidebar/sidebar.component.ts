@@ -6,11 +6,13 @@ import { Component, OnInit } from '@angular/core';
 	styleUrls: ['./sidebar.component.scss']
 })
 export class SidebarComponent implements OnInit {
-	pages: { title: string; icon: string; link: string; }[] = [
-		{ title: 'About', icon: 'assignment', link: '/about' },
-		{ title: 'Listen', icon: 'radio', link: '/listen' },
-		{ title: 'Contact', icon: 'contact_support', link: '/contact' },
+	pages: { title: { [key: string]: string }; icon: string; link: string; }[] = [
+		{ title: { en: 'About', he: 'אודות' }, icon: 'assignment', link: '/about' },
+		{ title: { en: 'Listen', he: 'האזן' }, icon: 'radio', link: '/listen' },
+		{ title: { en: 'Contact', he: 'צור קשר' }, icon: 'contact_support', link: '/contact' },
 	];
+	locale = (window as any).loc.substring(0, 2);
+	rtl = (window as any).rtl;
 
 	constructor() { }
 

@@ -16,7 +16,6 @@ export class NavbarComponent implements OnInit {
 		Object.keys(environment.languages).forEach(key => {
 			if (!(window as any).loc.startsWith(key)) { this.otherLanguage = environment.languages[key]; }
 		});
-		console.log(this.otherLanguage);
 	}
 
 	toggleNavSend() {
