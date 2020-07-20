@@ -10,10 +10,13 @@
 			<mat-expansion-panel *ngFor="let episode of episodes" hideToggle>
 				<mat-expansion-panel-header class="user-select-none">
 					<mat-panel-title class="expansion-header">
+						<a mat-icon-button href="{{ episode.track }}" target="_blank" download>
+							<mat-icon>get_app</mat-icon>
+						</a>
 						<button mat-icon-button (click)="playEpisode(episode)">
 							<mat-icon class="mat-icon-rtl-mirror">play_arrow</mat-icon>
 						</button>
-						{{ episode.title.substring(0, 17) }}...
+						{{ episode.title.substring(0, 24) }}...
 					</mat-panel-title>
 					<mat-panel-description class="expansion-header">
 						{{ formatSeconds(episode.duration) }} - {{ formatTimeAgo(episode.date) }}

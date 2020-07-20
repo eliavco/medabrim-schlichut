@@ -24,11 +24,11 @@ export const environment = {
 	languages: {
 		he: {
 			flag: 'assets/flag/israel.jpg',
-			link: 'https://he-medabrim-schlichut.web.app'
+			link: 'https://localhost:4200'
 		},
 		en: {
 			flag: 'assets/flag/usa.jpg',
-			link: 'https://medabrim-schlichut.web.app'
+			link: 'https://localhost:4201'
 		}
 	},
 	mailService: 'https://email-cohen.herokuapp.com/send',
