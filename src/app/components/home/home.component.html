@@ -3,6 +3,6 @@
 		<ec-sidebar></ec-sidebar>
 	</mat-drawer>
 	<mat-drawer-content>
-		<ec-header (toggleNav)="toggleNav()"></ec-header>
+		<ec-header (toggleNav)="toggleNav()" [class.collapse]="nav"></ec-header>
 	</mat-drawer-content>
 </mat-drawer-container>

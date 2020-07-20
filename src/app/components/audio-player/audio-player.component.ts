@@ -17,7 +17,7 @@ export class AudioPlayerComponent implements OnInit {
 	locationUpdate;
 	seek = 0;
 	duration = 0;
-	rateList = [0.5, 0.75, 1, 1.5, 1.75, 2];
+	rateList = [0.25, 0.5, 0.75, 1, 1.25, 1.5, 1.75, 2];
 	rate = 1;
 	title = '';
 

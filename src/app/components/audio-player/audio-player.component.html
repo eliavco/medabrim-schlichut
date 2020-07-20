@@ -19,14 +19,6 @@
 			</button>
 			<mat-slider [disabled]="mute > 0" thumbLabel="true" min="0" max="100" step="1" value="100" (change)="setVolume($event)"></mat-slider>
 
-			<!-- play/pause -->
-			<button *ngIf="!playing" mat-icon-button  class="mat-icon-rtl-mirror" (click)="playMusic()">
-				<mat-icon>play_arrow</mat-icon>
-			</button>
-			<button *ngIf="playing" mat-icon-button class="" (click)="pauseMusic()">
-				<mat-icon>pause</mat-icon>
-			</button>
-
 			<!-- close -->
 			<button mat-icon-button class="" (click)="closePlayer()">
 				<mat-icon>close</mat-icon>
@@ -34,6 +26,15 @@
 		</mat-toolbar>
 
 		<mat-toolbar class="seekbar">
+			
+			<!-- play/pause -->
+			<button *ngIf="!playing" mat-icon-button (click)="playMusic()">
+				<mat-icon>play_arrow</mat-icon>
+			</button>
+			<button *ngIf="playing" mat-icon-button class="" (click)="pauseMusic()">
+				<mat-icon>pause</mat-icon>
+			</button>
+			
 			<button mat-icon-button class="" (click)="back10Sec()">
 				<mat-icon class="mat-icon-rtl-mirror">history</mat-icon>
 			</button>

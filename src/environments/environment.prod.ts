@@ -4,6 +4,8 @@ export const environment = {
 		he: 'מדברים שליחות'
 	},
 	images: {
+		logoTrans: 'assets/logo-transparent.png',
+		homeBack: 'assets/hero/radio.jpg',
 		aboutBack: 'assets/about/radio.jpg',
 		listenBack: 'assets/about/radio.jpg',
 		avatar: 'assets/logo.png'

@@ -62,8 +62,12 @@ export class ListenComponent implements OnInit {
 		});
 	}
 
-	formatTimeAgo(date) {
+	formatTimeAgo(date: Date) {
 		return this.time(date).locale(this.locale).fromNow();
+	}
+
+	formatTime(date: Date) {
+		return this.time(date).locale(this.locale).format('l');
 	}
 
 }

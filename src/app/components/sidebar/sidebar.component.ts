@@ -7,6 +7,7 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SidebarComponent implements OnInit {
 	pages: { title: { [key: string]: string }; icon: string; link: string; }[] = [
+		{ title: { en: 'Home', he: 'בית' }, icon: 'home', link: '/' },
 		{ title: { en: 'About', he: 'אודות' }, icon: 'assignment', link: '/about' },
 		{ title: { en: 'Listen', he: 'האזן' }, icon: 'radio', link: '/listen' },
 		{ title: { en: 'Contact', he: 'צור קשר' }, icon: 'contact_support', link: '/contact' },

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { environment } from './../../../environments/environment';
 
 @Component({
 	selector: 'ec-welcome',
@@ -6,6 +7,7 @@ import { Component, OnInit } from '@angular/core';
 	styleUrls: ['./welcome.component.scss']
 })
 export class WelcomeComponent implements OnInit {
+	images = environment.images;
 
 	constructor() { }
 

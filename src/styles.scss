@@ -57,3 +57,11 @@ html {
 .user-select-none {
 	user-select: none;
 }
+
+.user-select-all {
+	user-select: all;
+}
+
+.mat-drawer.mat-drawer-side {
+	z-index: 1 !important;
+}

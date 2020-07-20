@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { environment } from './../../../environments/environment';
 import { AlertService } from './../../services/alert/alert.service';
+import { Router, NavigationEnd } from '@angular/router';
 
 @Component({
 	selector: 'ec-home',
@@ -10,9 +10,14 @@ import { AlertService } from './../../services/alert/alert.service';
 export class HomeComponent implements OnInit {
 	nav = false;
 
-	constructor(private alert: AlertService) { }
+	constructor(private alert: AlertService, private router: Router) { }
 
 	ngOnInit(): void {
+		this.router.events.subscribe(event => {
+			if (event instanceof NavigationEnd) {
+				this.nav = false;
+			}
+		});
 	}
 
 	toggleNav() {

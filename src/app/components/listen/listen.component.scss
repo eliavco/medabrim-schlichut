@@ -1,12 +1,6 @@
 .card {
 	margin: 1rem auto;
-	width: 50%;
-	@media (max-width: 860px) {
-		width: 70%;
-	}
-	@media (max-width: 480px) {
-		width: 85%;
-	}
+	width: 85%;
 }
 
 .header-image {
@@ -21,5 +15,16 @@
 .expansion-header {
 	display: flex;
 	align-items: center;
-	flex: 1;
+	&-full {
+		flex: 1;
+	}
+	&-semi {
+		flex: 0.3;
+	}
+}
+
+.title-hide {
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	overflow: hidden;
 }
