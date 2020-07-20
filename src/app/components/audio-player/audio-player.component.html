@@ -1,7 +1,7 @@
 <div class="wrapper" *ngIf="display">
 	<div class="player user-select-none" *ngIf="display">
 		<mat-toolbar class="seekbar">
-			<a mat-icon-button class="" [routerLink]="['/listen']">
+			<a *ngIf="current !== origin" mat-icon-button class="" [routerLink]="['/listen']">
 				<mat-icon>menu</mat-icon>
 			</a>
 			<span [title]="title" class="title">{{ title }}</span>

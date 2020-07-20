@@ -28,3 +28,8 @@
 	text-overflow: ellipsis;
 	overflow: hidden;
 }
+
+.main-image {
+	max-height: 30rem;
+	object-fit: cover;
+}

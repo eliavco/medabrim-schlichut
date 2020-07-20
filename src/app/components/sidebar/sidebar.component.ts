@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router, NavigationEnd } from '@angular/router';
 
 @Component({
 	selector: 'ec-sidebar',
@@ -14,10 +15,16 @@ export class SidebarComponent implements OnInit {
 	];
 	locale = (window as any).loc.substring(0, 2);
 	rtl = (window as any).rtl;
+	current = location.pathname;
 
-	constructor() { }
+	constructor(private router: Router) { }
 
 	ngOnInit(): void {
+		this.router.events.subscribe(event => {
+			if (event instanceof NavigationEnd) {
+				this.current = location.pathname;
+			}
+		});
 	}
 
 }

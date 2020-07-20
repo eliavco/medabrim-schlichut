@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Howl } from 'howler';
 import { AudioPlayerService } from './../../services/audio-player/audio-player.service';
-import { copyFileSync } from 'fs';
+import { Router, NavigationEnd } from '@angular/router';
 
 @Component({
 	selector: 'ec-audio-player',
@@ -20,13 +20,20 @@ export class AudioPlayerComponent implements OnInit {
 	rateList = [0.25, 0.5, 0.75, 1, 1.25, 1.5, 1.75, 2];
 	rate = 1;
 	title = '';
+	current = location.pathname;
+	origin = '/listen';
 
-	constructor(private audioPlayerService: AudioPlayerService) { }
+	constructor(private audioPlayerService: AudioPlayerService, private router: Router) { }
 
 	ngOnInit(): void {
 		const tracks = this.audioPlayerService.getTrack();
 		tracks.subscribe(data => {
 			this.launchTrack(data.title, data.track);
+		});
+		this.router.events.subscribe(event => {
+			if (event instanceof NavigationEnd) {
+				this.current = location.pathname;
+			}
 		});
 	}
 

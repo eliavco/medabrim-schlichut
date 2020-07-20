@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AudioPlayerService } from './../../services/audio-player/audio-player.service';
 import { PodcastManagerService } from './../../services/podcast-manager/podcast-manager.service';
 import { environment } from './../../../environments/environment';
+import { Title } from '@angular/platform-browser';
 
 import * as moment from 'moment';
 
@@ -13,6 +14,7 @@ interface Episode {
 	duration: number;
 	description: string;
 	date: Date;
+	open: boolean;
 }
 
 @Component({
@@ -24,17 +26,24 @@ export class ListenComponent implements OnInit {
 	episodes: Episode[];
 	time = moment;
 	locale = (window as any).loc;
+	lang = (window as any).loc.substring(0, 2);
 	images = environment.images;
+	titles = {
+		en: 'Listen',
+		he: 'האזן'
+	};
 
 	constructor(
 		private audioPlayerService: AudioPlayerService,
-		private podcastManagerService: PodcastManagerService
+		private podcastManagerService: PodcastManagerService,
+		private titleService: Title
 	) { }
 
 	ngOnInit(): void {
 		this.podcastManagerService.getPodcast().subscribe(podcast => {
 			this.parseEpisodes(podcast);
 		});
+		this.titleService.setTitle(`${environment.baseTitle[this.lang]} - ${this.titles[this.lang]}`);
 	}
 
 	formatSeconds(time: number) {
@@ -52,7 +61,7 @@ export class ListenComponent implements OnInit {
 	parseEpisode(ep) {
 		return {
 			track: ep.enclosure[0].$.url, title: ep.title[0], date: new Date(ep.pubDate[0]),
-			duration: ep['itunes:duration'] * 1, description: ep.description[0]
+			duration: ep['itunes:duration'] * 1, description: ep.description[0], open: false
 		};
 	}
 
@@ -68,6 +77,10 @@ export class ListenComponent implements OnInit {
 
 	formatTime(date: Date) {
 		return this.time(date).locale(this.locale).format('l');
+	}
+
+	toggleEpisodeOpen(episode) {
+		episode.open = !episode.open;
 	}
 
 }

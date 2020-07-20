@@ -4,10 +4,10 @@
 		<mat-card-title i18n="Listen page - Title of podcast">Medbarim Schlichut</mat-card-title>
 		<mat-card-subtitle i18n="Listen page - Author of podcast">by Asi Aharonov PhD.</mat-card-subtitle>
 	</mat-card-header>
-	<img mat-card-image [src]="images.listenBack" alt="Photo of Asi Aharonov">
+	<img mat-card-image [src]="images.listenBack" alt="Photo of Asi Aharonov" class="main-image">
 	<mat-card-content *ngIf="episodes">
 		<mat-accordion>
-			<mat-expansion-panel *ngFor="let episode of episodes" hideToggle>
+			<mat-expansion-panel *ngFor="let episode of episodes" hideToggle (opened)="toggleEpisodeOpen(episode)" (closed)="toggleEpisodeOpen(episode)">
 				<mat-expansion-panel-header class="user-select-none">
 					<a mat-icon-button href="{{ episode.track }}" target="_blank" download>
 						<mat-icon>get_app</mat-icon>
@@ -15,10 +15,10 @@
 					<button mat-icon-button (click)="playEpisode(episode)">
 						<mat-icon>play_arrow</mat-icon>
 					</button>
-					<mat-panel-title class="expansion-header expansion-header-full title-hide">
+					<mat-panel-title *ngIf="!episode.open" class="expansion-header expansion-header-full title-hide">
 						{{ episode.title }}
 					</mat-panel-title>
-					<mat-panel-description class="expansion-header expansion-header-semi title-hide">
+					<mat-panel-description class="expansion-header title-hide" [class.expansion-header-semi]="!episode.open" [class.expansion-header-full]="episode.open">
 						{{ formatSeconds(episode.duration) }} - {{ formatTimeAgo(episode.date) }}
 					</mat-panel-description>
 				</mat-expansion-panel-header>

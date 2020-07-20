@@ -37,7 +37,7 @@ export class AppComponent implements OnInit {
 		(window as any).loc = this.locale;
 		(window as any).rtl = this.isRTL;
 	}
-	
+
 	ngOnInit() {
 		this.titleService.setTitle(environment.baseTitle[this.lang]);
 		if (this.isRTL) {
