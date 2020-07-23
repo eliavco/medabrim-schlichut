@@ -11,4 +11,13 @@ a {
 	background-position: center;
 	background-size: cover;
 	background-repeat: no-repeat;
+	@media (max-width: 480px) {
+		display: none;
+	}
+}
+
+.too-long {
+	@media (max-width: 280px) {
+		display: none;
+	}
 }

@@ -1,6 +1,6 @@
 export const environment = {
 	baseTitle: {
-		en: 'Medabrim Schlichut',
+		en: 'Medabrim Shlichut',
 		he: 'מדברים שליחות'
 	},
 	images: {
@@ -22,10 +22,12 @@ export const environment = {
 	languages: {
 		he: {
 			flag: 'assets/flag/israel.jpg',
+			name: 'עברית',
 			link: 'https://he-medabrim-schlichut.web.app'
 		},
 		en: {
-			flag: 'assets/flag/usa.jpg',
+			flag: 'assets/flag/uk.jpg',
+			name: 'English',
 			link: 'https://medabrim-schlichut.web.app'
 		}
 	},

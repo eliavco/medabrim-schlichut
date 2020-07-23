@@ -5,5 +5,8 @@
 				<a [routerLink]="page.link"> <mat-icon>{{ page.icon }}</mat-icon>&nbsp;&nbsp;{{ page.title[locale] }} </a>
 			</mat-list-item>
 		</ng-container>
+		<mat-list-item>
+			<a mat-icon-button *ngIf="otherLanguage" class="flag" style="{{ 'background-image:url(/' + otherLanguage.flag + ')'}}" [href]="otherLanguage.link">&nbsp;&nbsp;{{ otherLanguage.name }}</a>
+		</mat-list-item>
 	</mat-list>
 </div>

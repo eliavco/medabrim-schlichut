@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
+import { environment } from './../../../environments/environment';
 
 @Component({
 	selector: 'ec-sidebar',
@@ -16,6 +17,7 @@ export class SidebarComponent implements OnInit {
 	locale = (window as any).loc.substring(0, 2);
 	rtl = (window as any).rtl;
 	current = location.pathname;
+	otherLanguage;
 
 	constructor(private router: Router) { }
 
@@ -24,6 +26,9 @@ export class SidebarComponent implements OnInit {
 			if (event instanceof NavigationEnd) {
 				this.current = location.pathname;
 			}
+		});
+		Object.keys(environment.languages).forEach(key => {
+			if (!(window as any).loc.startsWith(key)) { this.otherLanguage = environment.languages[key]; }
 		});
 	}
 

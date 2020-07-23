@@ -1,10 +1,22 @@
 <mat-card class="card">
 	<mat-card-header>
 		<div mat-card-avatar class="header-image" style="{{ 'background-image: url(' + images.avatar + ');' }}"></div>
-		<mat-card-title i18n="Listen page - Title of podcast">Medbarim Schlichut</mat-card-title>
+		<mat-card-title i18n="Listen page - Title of podcast">Medbarim Shlichut</mat-card-title>
 		<mat-card-subtitle i18n="Listen page - Author of podcast">by Asi Aharonov PhD.</mat-card-subtitle>
 	</mat-card-header>
 	<img mat-card-image [src]="images.listenBack" alt="Photo of Asi Aharonov" class="main-image">
+
+	<mat-form-field class="example-form-field">
+		<mat-label i18n="Search bar label">Search Episodes</mat-label>
+		<input matInput type="text" [(ngModel)]="searchString" (keyup)="search()">
+		<button mat-button *ngIf="searchString" matSuffix mat-icon-button aria-label="Clear" (click)="searchString=''">
+			<mat-icon>close</mat-icon>
+		</button>
+		<button mat-button *ngIf="!searchString" matSuffix mat-icon-button aria-label="Search">
+			<mat-icon>search</mat-icon>
+		</button>
+	</mat-form-field>
+
 	<mat-card-content *ngIf="episodes">
 		<mat-accordion>
 			<mat-expansion-panel *ngFor="let episode of episodes" hideToggle (opened)="toggleEpisodeOpen(episode)" (closed)="toggleEpisodeOpen(episode)">

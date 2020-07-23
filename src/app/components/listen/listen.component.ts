@@ -3,6 +3,7 @@ import { AudioPlayerService } from './../../services/audio-player/audio-player.s
 import { PodcastManagerService } from './../../services/podcast-manager/podcast-manager.service';
 import { environment } from './../../../environments/environment';
 import { Title } from '@angular/platform-browser';
+import Fuse from 'fuse.js';
 
 import * as moment from 'moment';
 
@@ -24,6 +25,7 @@ interface Episode {
 })
 export class ListenComponent implements OnInit {
 	episodes: Episode[];
+	bepisodes: Episode[];
 	time = moment;
 	locale = (window as any).loc;
 	lang = (window as any).loc.substring(0, 2);
@@ -32,6 +34,8 @@ export class ListenComponent implements OnInit {
 		en: 'Listen',
 		he: 'האזן'
 	};
+	searchString = '';
+	fuse;
 
 	constructor(
 		private audioPlayerService: AudioPlayerService,
@@ -42,8 +46,15 @@ export class ListenComponent implements OnInit {
 	ngOnInit(): void {
 		this.podcastManagerService.getPodcast().subscribe(podcast => {
 			this.parseEpisodes(podcast);
+			this.fuse = new Fuse(this.episodes, { keys: ['title', 'description'] });
+			this.search();
 		});
 		this.titleService.setTitle(`${environment.baseTitle[this.lang]} - ${this.titles[this.lang]}`);
+	}
+
+	search() {
+		this.episodes = this.fuse.search(this.searchString).map(result => result.item);
+		if (!this.searchString) { this.episodes = this.bepisodes; }
 	}
 
 	formatSeconds(time: number) {
@@ -68,6 +79,7 @@ export class ListenComponent implements OnInit {
 	parseEpisodes(podcast: string) {
 		parseString(podcast, (err, result) => {
 			this.episodes = result.rss.channel[0].item.map(this.parseEpisode);
+			this.bepisodes = this.episodes;
 		});
 	}
 

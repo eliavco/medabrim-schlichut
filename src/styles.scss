@@ -48,6 +48,12 @@ html {
 	@media (max-width: 480px) {
 		font-size: 50%;
 	}
+	@media (max-width: 360px) {
+		font-size: 35%;
+	}
+	@media (max-width: 280px) {
+		font-size: 30%;
+	}
 }
 
 ::selection {

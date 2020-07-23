@@ -2,7 +2,7 @@
 	<button (click)="toggleNavSend()" mat-icon-button class="">
 		<mat-icon>menu</mat-icon>
 	</button>
-	<a [routerLink]="['/']"><span i18n="Title of app in navbar">Medabrim Schlichut</span></a>
+	<a [routerLink]="['/']" class="too-long"><span i18n="Title of app in navbar">Medabrim Shlichut</span></a>
 	<span class="example-spacer"></span>
-<a mat-icon-button *ngIf="otherLanguage" class="flag" style="{{ 'background-image:url(/' + otherLanguage.flag + ')'}}" [href]="otherLanguage.link"></a>
+	<a mat-icon-button *ngIf="otherLanguage" matTooltip="{{ otherLanguage.name }}" class="flag" style="{{ 'background-image:url(/' + otherLanguage.flag + ')'}}" [href]="otherLanguage.link"></a>
 </mat-toolbar>

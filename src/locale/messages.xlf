@@ -2,16 +2,16 @@
 <xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
   <file source-language="en-US" datatype="plaintext" original="ng2.template">
     <body>
-      <trans-unit id="e61862d034122995b5cf722177282f4cec386c60" datatype="html">
-        <source>Medabrim Schlichut</source>
+      <trans-unit id="75cb5ab2880489fe9cc8f563e02ad3d94363a23e" datatype="html">
+        <source>Medabrim Shlichut</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/navbar/navbar.component.html</context>
           <context context-type="linenumber">5</context>
         </context-group>
         <note priority="1" from="description">Title of app in navbar</note>
       </trans-unit>
-      <trans-unit id="32231ab15c7ca874057a76808d7fb2fd6bde6c5a" datatype="html">
-        <source>Medbarim Schlichut</source>
+      <trans-unit id="ccd61dc57b034b3061f60753c1f0c64e8cc90f56" datatype="html">
+        <source>Medbarim Shlichut</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/about/about.component.html</context>
           <context context-type="linenumber">4</context>
@@ -34,12 +34,12 @@
         </context-group>
         <note priority="1" from="description">About page - Author of podcast</note>
       </trans-unit>
-      <trans-unit id="142559ea779f6e4b64adca9f69b17a4a89c50a48" datatype="html">
+      <trans-unit id="8f8c4ce35966a5c0dc4070bf843686d8213c1142" datatype="html">
         <source>
-			Welcome to the podcast Medabrim Schlichut (literally - Talking Mission) - the only podcast that gives a stage to Israeli Schlichim.<x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br/&gt;"/>
+			Welcome to the podcast Medabrim Shlichut (literally - Talking Mission) - the only podcast that gives a stage to Israeli Schlichim.<x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br/&gt;"/>
 			We interview past and present Schlichim who share their experiences with us.<x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br/&gt;"/>
 			A lot of their experiences are mutual, though many are unique.<x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br/&gt;"/>
-			Wether you consider going on a Schlichut, are on a Schlichut or were on a Schlichut - you will find here inspiration, important insights and useful tips through the Schlichim&apos;s stories.<x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br/&gt;"/>
+			Wether you consider going on a Shlichut, are on a Shlichut or were on a Shlichut - you will find here inspiration, important insights and useful tips through the Schlichim&apos;s stories.<x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br/&gt;"/>
 			Everywhere you are, in Israel or abroad, on foot or in your car - you are invited to listen to the podcast that talks with the Schlichim eye to eye
 		</source>
         <context-group purpose="location">
@@ -71,6 +71,14 @@
           <context context-type="linenumber">20</context>
         </context-group>
         <note priority="1" from="description">About page - share button</note>
+      </trans-unit>
+      <trans-unit id="3605e5ce95d69a8050a9a4973456ad233b771aec" datatype="html">
+        <source>Search Episodes</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/listen/listen.component.html</context>
+          <context context-type="linenumber">10</context>
+        </context-group>
+        <note priority="1" from="description">Search bar label</note>
       </trans-unit>
       <trans-unit id="34746fb1c7f3d2194d99652bdff89e6e14c9c4f4" datatype="html">
         <source>Contact</source>
@@ -210,8 +218,8 @@
         </context-group>
         <note priority="1" from="description">Main title part 1</note>
       </trans-unit>
-      <trans-unit id="5e194460840d89ecde7bd614da9b550d33ff4803" datatype="html">
-        <source>Schlichut</source>
+      <trans-unit id="1aad61c818b2252f01d146be5577ddbcb12119e5" datatype="html">
+        <source>Shlichut</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/welcome/welcome.component.html</context>
           <context context-type="linenumber">5</context>

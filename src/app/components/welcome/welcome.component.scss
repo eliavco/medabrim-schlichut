@@ -5,6 +5,7 @@ $centerContrast: #00000084;
 	background-position: center;
 	background-repeat: no-repeat;
 	background-size: cover;
+	overflow: hidden;
 }
 
 .center {
@@ -15,6 +16,8 @@ $centerContrast: #00000084;
 		transform: translate(-50%, -50%);
 		background-color: $centerContrast;
 		padding: 1rem;
+		border-radius: 2rem;
+		margin: 1rem;
 		h4 {
 			color: #fff;
 			font-size: 5rem;
@@ -25,10 +28,16 @@ $centerContrast: #00000084;
 			color: #fff;
 			text-align: center;
 		}
+		// @media (max-width: 480px) {
+		// 	font-size: 50%;
+		// }
 	}
 	&_image {
 		display: flex;
 		justify-content: center;
+		&_main {
+			width: 40rem;
+		}
 	}
 }
 
