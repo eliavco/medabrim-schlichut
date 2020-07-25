@@ -22,6 +22,7 @@ export class AudioPlayerComponent implements OnInit {
 	title = '';
 	current = location.pathname;
 	origin = '/listen';
+	isRTL = (window as any).rtl;
 
 	constructor(private audioPlayerService: AudioPlayerService, private router: Router) { }
 
@@ -91,7 +92,7 @@ export class AudioPlayerComponent implements OnInit {
 
 	unmuteMusic() {
 		if (this.mute > 0) {
-			this.setVolume({ value: this.mute });
+			this.setVolume({ value: this.mute * 100 });
 			this.mute = 0;
 		}
 	}

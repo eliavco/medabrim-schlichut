@@ -26,11 +26,13 @@ export const environment = {
 	languages: {
 		he: {
 			flag: 'assets/flag/israel.jpg',
+			dir: 'rtl',
 			name: 'עברית',
 			link: 'https://localhost:4200'
 		},
 		en: {
 			flag: 'assets/flag/uk.jpg',
+			dir: 'ltr',
 			name: 'English',
 			link: 'https://localhost:4201'
 		}

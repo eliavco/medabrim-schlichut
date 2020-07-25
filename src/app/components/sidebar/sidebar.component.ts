@@ -32,4 +32,8 @@ export class SidebarComponent implements OnInit {
 		});
 	}
 
+	formatLink() {
+		return location.pathname;
+	}
+
 }

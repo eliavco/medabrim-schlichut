@@ -1,4 +1,5 @@
-$centerContrast: #00000084;
+$centerContrast: #f0f0f064;
+// $centerContrast: #00000084;
 
 .hero {
 	height: 100vh;
@@ -19,18 +20,15 @@ $centerContrast: #00000084;
 		border-radius: 2rem;
 		margin: 1rem;
 		h4 {
-			color: #fff;
+			// color: #fff;
 			font-size: 5rem;
 			text-transform: uppercase;
 			text-align: center;
 		}
 		p {
-			color: #fff;
+			// color: #fff;
 			text-align: center;
 		}
-		// @media (max-width: 480px) {
-		// 	font-size: 50%;
-		// }
 	}
 	&_image {
 		display: flex;

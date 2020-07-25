@@ -9,7 +9,7 @@
 	<mat-form-field class="example-form-field">
 		<mat-label i18n="Search bar label">Search Episodes</mat-label>
 		<input matInput type="text" [(ngModel)]="searchString" (keyup)="search()">
-		<button mat-button *ngIf="searchString" matSuffix mat-icon-button aria-label="Clear" (click)="searchString=''">
+		<button mat-button *ngIf="searchString" matSuffix mat-icon-button aria-label="Clear" (click)="clearSearch()">
 			<mat-icon>close</mat-icon>
 		</button>
 		<button mat-button *ngIf="!searchString" matSuffix mat-icon-button aria-label="Search">

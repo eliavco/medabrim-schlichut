@@ -16,12 +16,21 @@ export class HomeComponent implements OnInit {
 		this.router.events.subscribe(event => {
 			if (event instanceof NavigationEnd) {
 				this.nav = false;
+				this.toggleLockscroll();
 			}
 		});
+		this.toggleLockscroll();
 	}
 
 	toggleNav() {
 		this.nav = !this.nav;
+		this.toggleLockscroll();
+	}
+
+	toggleLockscroll() {
+		scrollTo(0, 0);
+		if (this.nav) { document.body.style.overflow = 'hidden'; }
+		else { document.body.style.overflow = 'initial'; }
 	}
 
 }

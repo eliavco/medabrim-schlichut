@@ -22,4 +22,8 @@ export class NavbarComponent implements OnInit {
 		this.toggleNav.emit();
 	}
 
+	formatLink() {
+		return location.pathname;
+	}
+
 }

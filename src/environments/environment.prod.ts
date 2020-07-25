@@ -22,11 +22,13 @@ export const environment = {
 	languages: {
 		he: {
 			flag: 'assets/flag/israel.jpg',
+			dir: 'rtl',
 			name: 'עברית',
 			link: 'https://he-medabrim-schlichut.web.app'
 		},
 		en: {
 			flag: 'assets/flag/uk.jpg',
+			dir: 'ltr',
 			name: 'English',
 			link: 'https://medabrim-schlichut.web.app'
 		}

@@ -46,7 +46,7 @@ export class ListenComponent implements OnInit {
 	ngOnInit(): void {
 		this.podcastManagerService.getPodcast().subscribe(podcast => {
 			this.parseEpisodes(podcast);
-			this.fuse = new Fuse(this.episodes, { keys: ['title', 'description'] });
+			this.fuse = new Fuse(this.episodes, { includeScore: true, keys: ['title', 'description'] });
 			this.search();
 		});
 		this.titleService.setTitle(`${environment.baseTitle[this.lang]} - ${this.titles[this.lang]}`);
@@ -55,6 +55,11 @@ export class ListenComponent implements OnInit {
 	search() {
 		this.episodes = this.fuse.search(this.searchString).map(result => result.item);
 		if (!this.searchString) { this.episodes = this.bepisodes; }
+	}
+
+	clearSearch() {
+		this.searchString = '';
+		this.search();
 	}
 
 	formatSeconds(time: number) {
