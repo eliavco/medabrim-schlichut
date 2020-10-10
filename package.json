@@ -6,7 +6,10 @@
     "start": "ng serve --ssl",
     "start:multi": "concurrently \"ng serve --configuration=he --ssl --port 4200\" \"ng serve --configuration=en --ssl --port 4201\" ",
     "build": "ng build --prod",
+    "translate": "elingo --languages=he,fr,es --path=/src/locale --file=messages.xlf --username=eliav.s.cohen@gmail.com --password=eliav100",
     "deploy": "firebase deploy",
+    "extract": "ng xi18n",
+    "big-build": "npm run extract && npm run translate && npm run build",
     "build-deploy": "npm run build && npm run deploy",
     "test": "ng test",
     "lint": "ng lint",
@@ -36,7 +39,9 @@
     "@types/jquery": "^3.5.0",
     "classlist.js": "^1.1.20150312",
     "concurrently": "^5.2.0",
+    "elingo": "^1.0.2",
     "fuse.js": "^6.4.0",
+    "golingo": "^1.0.0",
     "howler": "^2.2.0",
     "moment": "^2.27.0",
     "rxjs": "~6.5.4",
@@ -52,9 +57,9 @@
     "@angular/cli": "~9.1.1",
     "@angular/compiler-cli": "~9.1.1",
     "@angular/language-service": "~9.1.1",
-    "@types/node": "^12.11.1",
     "@types/jasmine": "~3.5.0",
     "@types/jasminewd2": "~2.0.3",
+    "@types/node": "^12.11.1",
     "codelyzer": "^5.1.2",
     "jasmine-core": "~3.5.0",
     "jasmine-spec-reporter": "~4.2.1",
@@ -66,6 +71,6 @@
     "protractor": "~5.4.3",
     "ts-node": "~8.3.0",
     "tslint": "~6.1.0",
-    "typescript": "~3.8.3"
+    "typescript": "^3.7.5"
   }
 }
