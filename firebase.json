@@ -2,21 +2,6 @@
 	"hosting": [
 		{
 			"target": "medabrim-schlichut",
-			"public": "dist/medabrim/en-US",
-			"ignore": [
-				"firebase.json",
-				"**/.*",
-				"**/node_modules/**"
-			],
-			"rewrites": [
-				{
-					"source": "**",
-					"destination": "/index.html"
-				}
-			]
-		},
-		{
-			"target": "he-medabrim-schlichut",
 			"public": "dist/medabrim/he",
 			"ignore": [
 				"firebase.json",
