@@ -19,7 +19,7 @@
 
 	<mat-card-content *ngIf="episodes">
 		<mat-accordion>
-			<mat-expansion-panel style="margin-bottom:3rem;" *ngFor="let episode of episodes" hideToggle (opened)="toggleEpisodeOpen(episode)" (closed)="toggleEpisodeOpen(episode)">
+			<mat-expansion-panel class="gray-hover" style="margin-bottom:3rem;" *ngFor="let episode of episodes" hideToggle (opened)="toggleEpisodeOpen(episode)" (closed)="toggleEpisodeOpen(episode)">
 				<mat-expansion-panel-header class="height-free user-select-none">
 					<mat-panel-title style="margin-top:2rem;margin-bottom:1rem;" *ngIf="!episode.open" class="expansion-header expansion-header-full title-hide">
 						{{ episode.title }}
