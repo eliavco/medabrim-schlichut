@@ -10,13 +10,13 @@
 			</ng-container>
 		</mat-list>
 	</div>
-	<div [class.nav]="rtl" [class.nav-rtl]="!rtl">
+	<!-- <div [class.nav]="rtl" [class.nav-rtl]="!rtl">
 		<mat-list>
 			<mat-list-item class="flag-overall" *ngIf="otherLanguage" dir="{{ otherLanguage.dir }}">
-				<a mat-icon-button class="flag" style="{{ 'background-image:url(/' + otherLanguage.flag + ')'}}"
+				<a mat-icon-button class="flag" [style]="'background-image:url(/' + otherLanguage.flag + ')'"
 					[href]="otherLanguage.link + formatLink()"></a>
 				<a [href]="otherLanguage.link + formatLink()">&nbsp;&nbsp;{{ otherLanguage.name }}</a>
 			</mat-list-item>
 		</mat-list>
-	</div>
+	</div> -->
 </div>
