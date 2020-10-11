@@ -43,3 +43,7 @@
 .height-free {
 	height: auto !important;
 }
+
+.gray-hover:hover mat-expansion-panel-header {
+	background-color: rgba(0, 0, 0, 0.04);
+}
