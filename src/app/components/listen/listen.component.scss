@@ -26,12 +26,20 @@
 }
 
 .title-hide {
-	white-space: nowrap;
+	white-space: normal;
+	max-width: 100%;
+	margin-right: 0 !important;
+	margin-left: 0 !important;
 	text-overflow: ellipsis;
+	text-align: justify;
 	overflow: hidden;
 }
 
 .main-image {
 	max-height: 30rem;
 	object-fit: cover;
+}
+
+.height-free {
+	height: auto !important;
 }
