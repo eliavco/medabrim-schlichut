@@ -1,0 +1,17 @@
+.offline-notice {
+	position: fixed;
+	left: 0;
+	top: 10vh;
+	z-index: 999;
+	background-color: #fff;
+	border-top-right-radius: 2rem;
+	border-bottom-right-radius: 2rem;
+	padding: .5rem;
+	padding-bottom: 0;
+	box-shadow: 2px 2px #00000033;
+	width: 5rem;
+}
+
+.icon-size {
+	font-size: 5rem;
+}
