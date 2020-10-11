@@ -1,7 +1,9 @@
 <div class="wrapper" *ngIf="display">
 	<div class="player user-select-none" *ngIf="display">
 		<mat-toolbar style="height: inherit;" (click)="displayFullTitle = false;" [class.full-title]="!displayFullTitle">
-			<p class="text-break">שלום לכם ילדים וילדות מה המצב חברס רציני מה קורה איתכם קצת יותר</p>
+			<p class="text-break" [title]="title">
+				{{ title }}
+			</p>
 		</mat-toolbar>
 
 		<mat-toolbar class="seekbar title-un-collapse" (click)="displayFullTitle = true;" [class.full-title]="displayFullTitle">

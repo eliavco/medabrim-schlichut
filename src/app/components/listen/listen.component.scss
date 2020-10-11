@@ -1,3 +1,5 @@
+// @import "~src/styles.scss";
+
 .card {
 	margin: 1rem auto;
 	width: 85%;
@@ -46,4 +48,22 @@
 
 .gray-hover:hover mat-expansion-panel-header {
 	background-color: rgba(0, 0, 0, 0.04);
+}
+
+.offline-notice {
+	margin-bottom: 2rem;
+	text-align: justify;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+.title-margin {
+	display: inline-block;
+	margin-right: 1rem;
+	&-right {
+		margin-left: 1rem;
+		margin-right: 0;
+	}
 }

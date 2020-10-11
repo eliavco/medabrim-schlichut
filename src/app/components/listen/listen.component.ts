@@ -16,6 +16,7 @@ interface Episode {
 	description: string;
 	date: Date;
 	open: boolean;
+	progress?: number;
 }
 
 @Component({
@@ -36,6 +37,8 @@ export class ListenComponent implements OnInit {
 	};
 	searchString = '';
 	fuse;
+	online: boolean = navigator.onLine;
+	isRTL: boolean = (window as any).rtl;
 
 	constructor(
 		private audioPlayerService: AudioPlayerService,
@@ -44,12 +47,36 @@ export class ListenComponent implements OnInit {
 	) { }
 
 	ngOnInit(): void {
-		this.podcastManagerService.getPodcast().subscribe(podcast => {
-			this.parseEpisodes(podcast);
-			this.fuse = new Fuse(this.episodes, { includeScore: true, keys: ['title', 'description'] });
-			this.search();
-		});
+		this.fetchEpidoes(false);
 		this.titleService.setTitle(`${environment.baseTitle[this.lang]} - ${this.titles[this.lang]}`);
+		addEventListener('online', () => { this.online = true; this.fetchEpidoes(false); });
+		addEventListener('offline', () => { this.online = false; });
+		this.audioPlayerService.getChange().subscribe((() => {
+			this.fetchEpidoes(true);
+		}).bind(this));
+	}
+
+	fetchEpidoes(offline: boolean): void {
+		if (localStorage.episodes) {
+			this.episodes = JSON.parse(localStorage.episodes);
+			this.fuse = new Fuse(this.episodes, { includeScore: true, keys: ['title', 'description'] });
+		}
+		const fetchNewEpisodes = () => {
+			this.podcastManagerService.getPodcast().subscribe(podcast => {
+				this.parseEpisodes(podcast);
+				this.fuse = new Fuse(this.episodes, { includeScore: true, keys: ['title', 'description'] });
+				this.search();
+			});
+		}
+		if (!offline) {
+			if (navigator.onLine) {
+				fetchNewEpisodes();
+			} else {
+				addEventListener('online', () => {
+					fetchNewEpisodes();
+				});
+			}
+		}
 	}
 
 	search() {
@@ -71,7 +98,11 @@ export class ListenComponent implements OnInit {
 	}
 
 	playEpisode(episode: Episode) {
-		this.audioPlayerService.startTrack(episode.track, episode.title);
+		if (episode.progress) {
+			this.audioPlayerService.startTrack(episode.track, episode.title, episode.progress);
+		} else {
+			this.audioPlayerService.startTrack(episode.track, episode.title);
+		}
 	}
 
 	parseEpisode(ep) {
@@ -81,9 +112,40 @@ export class ListenComponent implements OnInit {
 		};
 	}
 
+	compareEpisodes(a, b): boolean {
+		return a.track === b.track;
+	}
+
+	findEpisode(nepisode, episodes): Episode {
+		let fepisode;
+		episodes.forEach(episode => {
+			if (this.compareEpisodes(nepisode, episode)) {
+				fepisode = episode;
+			}
+		});
+		return fepisode;
+	}
+
+	updateEpisodes(episodeList): void {
+		const oldEpisodeList = localStorage.episodes ? JSON.parse(localStorage.episodes) : [];
+		let fepisode;
+		episodeList.forEach(newEpisode => {
+			fepisode = this.findEpisode(newEpisode, oldEpisodeList);
+			if (fepisode) {
+				newEpisode.progress = fepisode.progress;
+				newEpisode.download = fepisode.download;
+			}
+		});
+		localStorage.episodes = JSON.stringify(episodeList);
+		return episodeList;
+	}
+
 	parseEpisodes(podcast: string) {
 		parseString(podcast, (err, result) => {
-			this.episodes = result.rss.channel[0].item.map(this.parseEpisode);
+			let newPodcastList = result.rss.channel[0].item.map(this.parseEpisode);
+			newPodcastList = this.updateEpisodes(newPodcastList);
+			this.episodes = newPodcastList;
+			localStorage.episodes = JSON.stringify(this.episodes);
 			this.bepisodes = this.episodes;
 		});
 	}

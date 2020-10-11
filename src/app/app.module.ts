@@ -58,6 +58,7 @@ import { ContactComponent } from './components/contact/contact.component';
 import { WelcomeComponent } from './components/welcome/welcome.component';
 import { PodcastAppsComponent } from './components/podcast-apps/podcast-apps.component';
 import { AudioPlayerComponent } from './components/audio-player/audio-player.component';
+import { OfflineNoticeComponent } from './components/offline-notice/offline-notice.component';
 
 @NgModule({
 	declarations: [
@@ -71,7 +72,8 @@ import { AudioPlayerComponent } from './components/audio-player/audio-player.com
 		ContactComponent,
 		WelcomeComponent,
 		PodcastAppsComponent,
-		AudioPlayerComponent
+		AudioPlayerComponent,
+		OfflineNoticeComponent
 	],
 	imports: [
 		BrowserModule,

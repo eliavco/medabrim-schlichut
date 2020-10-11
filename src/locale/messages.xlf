@@ -76,6 +76,42 @@
         </context-group>
         <note priority="1" from="description">Search bar label</note>
       </trans-unit>
+      <trans-unit id="edad01790a273573119fac9e40a0db00c6b7c87c" datatype="html">
+        <source>Refresh Episodes</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/listen/listen.component.html</context>
+          <context context-type="linenumber">23</context>
+        </context-group>
+        <note priority="1" from="description">Listen Page - Refresh Button</note>
+      </trans-unit>
+      <trans-unit id="ad1e9ad3dbe0dcee00d093159d018e183c6e6500" datatype="html">
+        <source>
+			You are watching an offline version of the podcast...
+		</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/listen/listen.component.html</context>
+          <context context-type="linenumber">28</context>
+        </context-group>
+        <note priority="1" from="description">Listen page: offline notice title</note>
+      </trans-unit>
+      <trans-unit id="75574789d748a99006499240f72293dc8f66bac6" datatype="html">
+        <source>
+			Enjoy limited features until you connect back to the internet
+		</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/listen/listen.component.html</context>
+          <context context-type="linenumber">32</context>
+        </context-group>
+        <note priority="1" from="description">Listen page: offline notice subtitle</note>
+      </trans-unit>
+      <trans-unit id="0b8c0bb0c3c4b7addc6fb8305091d5766a2c3a62" datatype="html">
+        <source><x id="START_TAG_STRONG" ctype="x-strong" equiv-text="&lt;strong&gt;"/>Completed<x id="CLOSE_TAG_STRONG" ctype="x-strong" equiv-text="&lt;/strong&gt;"/></source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/listen/listen.component.html</context>
+          <context context-type="linenumber">44</context>
+        </context-group>
+        <note priority="1" from="description">Listen Page - Completed notice</note>
+      </trans-unit>
       <trans-unit id="34746fb1c7f3d2194d99652bdff89e6e14c9c4f4" datatype="html">
         <source>Contact</source>
         <context-group purpose="location">

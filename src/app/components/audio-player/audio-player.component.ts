@@ -25,8 +25,9 @@ export class AudioPlayerComponent implements OnInit {
 	current = location.pathname;
 	origin = '/listen';
 	isRTL = (window as any).rtl;
-	volume = 100;
+	volume;
 	collapse;
+	track = '';
 
 	set display(val: boolean) {
 		this._display = val;
@@ -58,7 +59,7 @@ export class AudioPlayerComponent implements OnInit {
 	ngOnInit(): void {
 		const tracks = this.audioPlayerService.getTrack();
 		tracks.subscribe(data => {
-			this.launchTrack(data.title, data.track);
+			this.launchTrack(data.title, data.track, data.progress);
 		});
 		this.router.events.subscribe(event => {
 			if (event instanceof NavigationEnd) {
@@ -67,23 +68,38 @@ export class AudioPlayerComponent implements OnInit {
 		});
 	}
 
-	launchTrack(title: string, track: string) {
+	launchTrack(title: string, track: string, progress?: number) {
 		this.title = title;
 		this.display = true;
+		this.track = track;
 		if (this.sound) { this.sound.stop(); }
 		this.startMusic({
 			src: [track],
 			loop: true,
+			progress: progress ? progress : 0
 		});
 	}
 
 	startMusic(config) {
 		if (this.sound) { this.sound.stop(); }
 		this.sound = new Howl(config);
-		this.sound.on('load', () => {
+		this.sound.on('load', (() => {
 			this.duration = this.sound.duration();
 			this.playMusic();
-		});
+			if (localStorage.rate) {
+				this.rate = +localStorage.rate;
+				this.sound.rate(this.rate);
+			}
+			if (localStorage.volume) {
+				this.volume = (+localStorage.volume) * 100;
+				this.setVolume({
+					value: (+localStorage.volume) * 100
+				});
+			} else {
+				this.volume = 100;
+			}
+			this.sound.seek(config.progress);
+		}).bind(this));
 	}
 
 	closePlayer() {
@@ -98,6 +114,16 @@ export class AudioPlayerComponent implements OnInit {
 		this.locationUpdate = setInterval(() => {
 			const seek = this.sound.seek();
 			this.seek = typeof seek === 'number' ? seek : this.seek;
+			if (localStorage.episodes) {
+				const newEps = JSON.parse(localStorage.episodes).map((ep => {
+					if (ep.track === this.track) {
+						ep.progress = this.seek;
+					}
+					return ep;
+				}).bind(this));
+				localStorage.episodes = JSON.stringify(newEps);
+				this.audioPlayerService.reportChange();
+			}
 		}, 100);
 	}
 
@@ -111,6 +137,7 @@ export class AudioPlayerComponent implements OnInit {
 		this.sound.volume(event.value / 100);
 		if (event.value < 50) { this.volumeIcon = 'volume_down'; }
 		if (event.value > 50) { this.volumeIcon = 'volume_up'; }
+		localStorage.volume = `${this.sound.volume()}`;
 	}
 
 	muteMusic() {
@@ -143,6 +170,7 @@ export class AudioPlayerComponent implements OnInit {
 	nextRate() {
 		this.rate = this.rateList[this.nextInList(this.rateList, this.rateList.indexOf(this.rate))];
 		this.sound.rate(this.rate);
+		localStorage.rate = `${this.rate}`;
 	}
 
 	nextInList(list, ind) {
