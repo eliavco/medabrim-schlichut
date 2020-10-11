@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Howl } from 'howler';
 import { AudioPlayerService } from './../../services/audio-player/audio-player.service';
 import { Router, NavigationEnd } from '@angular/router';
+import hotkeys from 'hotkeys-js';
 
 @Component({
 	selector: 'ec-audio-player',
@@ -9,9 +10,10 @@ import { Router, NavigationEnd } from '@angular/router';
 	styleUrls: ['./audio-player.component.scss']
 })
 export class AudioPlayerComponent implements OnInit {
-	display = false;
+	_display: boolean = false;
 	playing = false;
 	sound;
+	_displayFullTitle = false;
 	mute = 0;
 	volumeIcon = 'volume_up';
 	locationUpdate;
@@ -23,6 +25,33 @@ export class AudioPlayerComponent implements OnInit {
 	current = location.pathname;
 	origin = '/listen';
 	isRTL = (window as any).rtl;
+	volume = 100;
+	collapse;
+
+	set display(val: boolean) {
+		this._display = val;
+		if (this._display === true) { this.keyStart(); }
+		else { this.keyStop(); }
+	}
+
+	get display(): boolean {
+		return this._display;
+	}
+
+	set displayFullTitle(val: boolean) {
+		this._displayFullTitle = val;
+		if (this._displayFullTitle === true) {
+			this.collapse = setTimeout((() => {
+				this._displayFullTitle = false;
+			}).bind(this), 7000);
+		} else {
+			if (this.collapse) { clearTimeout(this.collapse); }
+		}
+	}
+
+	get displayFullTitle(): boolean {
+		return this._displayFullTitle;
+	}
 
 	constructor(private audioPlayerService: AudioPlayerService, private router: Router) { }
 
@@ -41,6 +70,7 @@ export class AudioPlayerComponent implements OnInit {
 	launchTrack(title: string, track: string) {
 		this.title = title;
 		this.display = true;
+		if (this.sound) { this.sound.stop(); }
 		this.startMusic({
 			src: [track],
 			loop: true,
@@ -128,6 +158,38 @@ export class AudioPlayerComponent implements OnInit {
 	skip10Sec() {
 		if (this.seek + 10 > this.duration) { this.setSeek({ value: this.duration }); }
 		else { this.setSeek({ value: this.seek + 10 }); }
+	}
+
+	keyStart() {
+		hotkeys('space', (function (event, handler) {
+			event.preventDefault();
+			this.playing ? this.pauseMusic() : this.playMusic();
+		}).bind(this));
+		hotkeys('right', (function (event, handler) {
+			event.preventDefault();
+			this.isRTL ? this.back10Sec() : this.skip10Sec();
+		}).bind(this));
+		hotkeys('left', (function (event, handler) {
+			event.preventDefault();
+			this.isRTL ? this.skip10Sec() : this.back10Sec();
+		}).bind(this));
+		hotkeys('up', (function (event, handler) {
+			event.preventDefault();
+			this.volume = this.volume < 90 ? this.volume + 10 : 100;
+			this.setVolume({ value: this.volume });
+		}).bind(this));
+		hotkeys('down', (function (event, handler) {
+			event.preventDefault();
+			this.volume = this.volume > 10 ? this.volume - 10 : 0;
+			this.setVolume({ value: this.volume });
+		}).bind(this));
+	}
+
+	keyStop() {
+		const keys = ['space', 'left', 'right', 'up', 'down'];
+		keys.forEach(key => {
+			hotkeys.unbind(key);
+		});
 	}
 
 }

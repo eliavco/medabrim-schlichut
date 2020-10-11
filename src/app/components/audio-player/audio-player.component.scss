@@ -30,6 +30,31 @@
 	overflow: hidden;
 }
 
+.text-break {
+	white-space: normal;
+	max-width: 100%;
+	margin-bottom: 0;
+	text-align: justify;
+}
+
 .wrapper {
 	margin-top: 12.8rem;
+}
+
+.title {
+	&-collapse {
+		@media (max-width: 480px) {
+			display: none;
+		}
+	}
+
+	&-un-collapse {
+		@media (min-width: 479px) {
+			display: none;
+		}
+	}
+}
+
+.full-title {
+	display: none;
 }

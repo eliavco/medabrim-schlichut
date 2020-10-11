@@ -3,15 +3,11 @@
   <file source-language="en-US" datatype="plaintext" original="ng2.template">
     <body>
       <trans-unit id="75cb5ab2880489fe9cc8f563e02ad3d94363a23e" datatype="html">
-        <source>Medabrim Shlichut</source><target>Medabrim Shlichut</target>
+        <source>Medabrim Shlichut</source><target>מדברים שליחות</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/navbar/navbar.component.html</context>
           <context context-type="linenumber">5</context>
         </context-group>
-        <note priority="1" from="description">Title of app in navbar</note>
-      </trans-unit>
-      <trans-unit id="ccd61dc57b034b3061f60753c1f0c64e8cc90f56" datatype="html">
-        <source>Medbarim Shlichut</source><target>Medbarim Shlichut</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/about/about.component.html</context>
           <context context-type="linenumber">4</context>
@@ -20,10 +16,10 @@
           <context context-type="sourcefile">src/app/components/listen/listen.component.html</context>
           <context context-type="linenumber">4</context>
         </context-group>
-        <note priority="1" from="description">About page - Title of podcast</note>
+        <note priority="1" from="description">Title of podcast</note>
       </trans-unit>
       <trans-unit id="9e4cd0d087a10aff410f36bbd726761dd573ffd6" datatype="html">
-        <source>by Asi Aharonov PhD.</source><target>by Asi Aharonov PhD.</target>
+        <source>by Asi Aharonov PhD.</source><target>עם ד״ר אסי אהרונוב</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/about/about.component.html</context>
           <context context-type="linenumber">5</context>
@@ -42,11 +38,11 @@
 			Wether you consider going on a Shlichut, are on a Shlichut or were on a Shlichut - you will find here inspiration, important insights and useful tips through the Schlichim&apos;s stories.<x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br/&gt;"/>
 			Everywhere you are, in Israel or abroad, on foot or in your car - you are invited to listen to the podcast that talks with the Schlichim eye to eye
 		</source><target>
-			Welcome to the podcast Medabrim Shlichut (literally - Talking Mission) - the only podcast that gives a stage to Israeli Schlichim.<x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br/&gt;"/>
-			We interview past and present Schlichim who share their experiences with us.<x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br/&gt;"/>
-			A lot of their experiences are mutual, though many are unique.<x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br/&gt;"/>
-			Wether you consider going on a Shlichut, are on a Shlichut or were on a Shlichut - you will find here inspiration, important insights and useful tips through the Schlichim&apos;s stories.<x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br/&gt;"/>
-			Everywhere you are, in Israel or abroad, on foot or in your car - you are invited to listen to the podcast that talks with the Schlichim eye to eye
+			ברוכים הבאים לפודקאסט ״מדברים שליחות״ - הפודקאסט היחיד שנותן במה לשליחים, עבור השליחים.<x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br/&gt;"/>
+			אנחנו מראיינים שליחים בעבר ובהווה, שיישתפו בחווית השליחות שלהם.<x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br/&gt;"/>
+			רבות מהחוויות הללו הן משותפות, רבות מהן - ייחודיות.<x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br/&gt;"/>
+		בין אם אתם שוקלים לצאת לשליחות, נמצאים בשליחות או שכבר הייתם בשליחות - תוכלו למצוא כאן השראה, תובנות חשובות וטיפים באמצעות סיפוריהם של השליחים.<x id="LINE_BREAK" ctype="lb" equiv-text="&lt;br/&gt;"/>
+			בכל מקום בו אתם נמצאים - בארץ או בחוץ לארץ, בהליכה או ברכב - אתם מוזמנים להאזין לפודקאסט שמדבר עם השליחים ועל השליחות בגובה העיניים.
 		</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/about/about.component.html</context>
@@ -55,7 +51,7 @@
         <note priority="1" from="description">About - Description of the podcast</note>
       </trans-unit>
       <trans-unit id="b0624f0d2bd7bfb5a6be3b20f1c622241fdcb3f4" datatype="html">
-        <source>LISTEN</source><target>LISTEN</target>
+        <source>LISTEN</source><target>האזן</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/about/about.component.html</context>
           <context context-type="linenumber">18</context>
@@ -63,7 +59,7 @@
         <note priority="1" from="description">About page - listen link</note>
       </trans-unit>
       <trans-unit id="fdbe66d92e5382bb70088c9e8ea6baf47b83d7b6" datatype="html">
-        <source>CONTACT</source><target>CONTACT</target>
+        <source>CONTACT</source><target>צור קשר</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/about/about.component.html</context>
           <context context-type="linenumber">19</context>
@@ -71,7 +67,7 @@
         <note priority="1" from="description">About page - contact link</note>
       </trans-unit>
       <trans-unit id="83ea0f7a6f84393af198d48193e01a96f3fcbc9a" datatype="html">
-        <source>SHARE</source><target>SHARE</target>
+        <source>SHARE</source><target>שתף</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/about/about.component.html</context>
           <context context-type="linenumber">20</context>
@@ -79,7 +75,7 @@
         <note priority="1" from="description">About page - share button</note>
       </trans-unit>
       <trans-unit id="3605e5ce95d69a8050a9a4973456ad233b771aec" datatype="html">
-        <source>Search Episodes</source><target>Search Episodes</target>
+        <source>Search Episodes</source><target>חפש פרקים</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/listen/listen.component.html</context>
           <context context-type="linenumber">10</context>
@@ -87,7 +83,7 @@
         <note priority="1" from="description">Search bar label</note>
       </trans-unit>
       <trans-unit id="34746fb1c7f3d2194d99652bdff89e6e14c9c4f4" datatype="html">
-        <source>Contact</source><target>Contact</target>
+        <source>Contact</source><target>צור קשר</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/contact/contact.component.html</context>
           <context context-type="linenumber">3</context>
@@ -95,7 +91,7 @@
         <note priority="1" from="description">Contact page - Title</note>
       </trans-unit>
       <trans-unit id="6e3c5ff3699b5e53bdfdb0d9206f34bf811e8c58" datatype="html">
-        <source>Your Name</source><target>Your Name</target>
+        <source>Your Name</source><target>שם מלא</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/contact/contact.component.html</context>
           <context context-type="linenumber">7</context>
@@ -103,7 +99,7 @@
         <note priority="1" from="description">Contact form - name title</note>
       </trans-unit>
       <trans-unit id="c4a8655e28998f4dd34d8ea08fc5c744f83ca09a" datatype="html">
-        <source>John Smith</source><target>John Smith</target>
+        <source>John Smith</source><target>ישראל ישראלי</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/contact/contact.component.html</context>
           <context context-type="linenumber">8</context>
@@ -114,7 +110,7 @@
         <source>
 					Name is <x id="START_TAG_STRONG" ctype="x-strong" equiv-text="&lt;strong&gt;"/>required<x id="CLOSE_TAG_STRONG" ctype="x-strong" equiv-text="&lt;/strong&gt;"/>
 				</source><target>
-					Name is <x id="START_TAG_STRONG" ctype="x-strong" equiv-text="&lt;strong&gt;"/>required<x id="CLOSE_TAG_STRONG" ctype="x-strong" equiv-text="&lt;/strong&gt;"/>
+					שם השולח הוא <x id="START_TAG_STRONG" ctype="x-strong" equiv-text="&lt;strong&gt;"/>שדה חובה<x id="CLOSE_TAG_STRONG" ctype="x-strong" equiv-text="&lt;/strong&gt;"/>
 				</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/contact/contact.component.html</context>
@@ -123,7 +119,7 @@
         <note priority="1" from="description">Contact form - name required</note>
       </trans-unit>
       <trans-unit id="4b0ca852bafa5037c4e64c7b18f9cd1e14b799de" datatype="html">
-        <source>Subject</source><target>Subject</target>
+        <source>Subject</source><target>נושא</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/contact/contact.component.html</context>
           <context context-type="linenumber">15</context>
@@ -131,7 +127,7 @@
         <note priority="1" from="description">Contact form - subject title</note>
       </trans-unit>
       <trans-unit id="619d651c5566bc872d26ff4f8939e346921e289e" datatype="html">
-        <source>Great Podcast!</source><target>Great Podcast!</target>
+        <source>Great Podcast!</source><target>תסכית נהדר!</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/contact/contact.component.html</context>
           <context context-type="linenumber">16</context>
@@ -142,7 +138,7 @@
         <source>
 					Subject is <x id="START_TAG_STRONG" ctype="x-strong" equiv-text="&lt;strong&gt;"/>required<x id="CLOSE_TAG_STRONG" ctype="x-strong" equiv-text="&lt;/strong&gt;"/>
 				</source><target>
-					Subject is <x id="START_TAG_STRONG" ctype="x-strong" equiv-text="&lt;strong&gt;"/>required<x id="CLOSE_TAG_STRONG" ctype="x-strong" equiv-text="&lt;/strong&gt;"/>
+					נושא ההודעה הוא <x id="START_TAG_STRONG" ctype="x-strong" equiv-text="&lt;strong&gt;"/>שדה חובה<x id="CLOSE_TAG_STRONG" ctype="x-strong" equiv-text="&lt;/strong&gt;"/>
 				</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/contact/contact.component.html</context>
@@ -151,7 +147,7 @@
         <note priority="1" from="description">Contact form - subject required</note>
       </trans-unit>
       <trans-unit id="244aae9346da82b0922506c2d2581373a15641cc" datatype="html">
-        <source>Email</source><target>Email</target>
+        <source>Email</source><target>כתובת דואר אלקטרוני</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/contact/contact.component.html</context>
           <context context-type="linenumber">23</context>
@@ -159,7 +155,7 @@
         <note priority="1" from="description">Contact form - email title</note>
       </trans-unit>
       <trans-unit id="b695a5da109c93ef1aa7318ebba3a5c22c0eb6c0" datatype="html">
-        <source>Ex. pat@example.com</source><target>Ex. pat@example.com</target>
+        <source>Ex. pat@example.com</source><target>israel@example.com</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/contact/contact.component.html</context>
           <context context-type="linenumber">24</context>
@@ -170,7 +166,7 @@
         <source>
 					Please enter a valid email address
 				</source><target>
-					Please enter a valid email address
+					אנא הכנס כתובת דואר אלקטרוני תקינה
 				</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/contact/contact.component.html</context>
@@ -182,7 +178,7 @@
         <source>
 					Email is <x id="START_TAG_STRONG" ctype="x-strong" equiv-text="&lt;strong&gt;"/>required<x id="CLOSE_TAG_STRONG" ctype="x-strong" equiv-text="&lt;/strong&gt;"/>
 				</source><target>
-					Email is <x id="START_TAG_STRONG" ctype="x-strong" equiv-text="&lt;strong&gt;"/>required<x id="CLOSE_TAG_STRONG" ctype="x-strong" equiv-text="&lt;/strong&gt;"/>
+					כתובת דואר אלקטרוני היא <x id="START_TAG_STRONG" ctype="x-strong" equiv-text="&lt;strong&gt;"/>שדה חובה<x id="CLOSE_TAG_STRONG" ctype="x-strong" equiv-text="&lt;/strong&gt;"/>
 				</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/contact/contact.component.html</context>
@@ -191,7 +187,7 @@
         <note priority="1" from="description">Contact form - email required</note>
       </trans-unit>
       <trans-unit id="ccac601bf473fa28c9ac46794f1cd40542f74347" datatype="html">
-        <source>Message</source><target>Message</target>
+        <source>Message</source><target>הודעה</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/contact/contact.component.html</context>
           <context context-type="linenumber">34</context>
@@ -199,7 +195,7 @@
         <note priority="1" from="description">Contact form - message title</note>
       </trans-unit>
       <trans-unit id="ca07f504b425d6dc30a24c1eb6fa03271458013a" datatype="html">
-        <source>I had some ideas for the podcast...</source><target>I had some ideas for the podcast...</target>
+        <source>I had some ideas for the podcast...</source><target>יש לי כמה רעיונות עבור התסכית שלך...</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/contact/contact.component.html</context>
           <context context-type="linenumber">35</context>
@@ -210,7 +206,7 @@
         <source>
 					Message is <x id="START_TAG_STRONG" ctype="x-strong" equiv-text="&lt;strong&gt;"/>required<x id="CLOSE_TAG_STRONG" ctype="x-strong" equiv-text="&lt;/strong&gt;"/>
 				</source><target>
-					Message is <x id="START_TAG_STRONG" ctype="x-strong" equiv-text="&lt;strong&gt;"/>required<x id="CLOSE_TAG_STRONG" ctype="x-strong" equiv-text="&lt;/strong&gt;"/>
+					גוף ההודעה הוא <x id="START_TAG_STRONG" ctype="x-strong" equiv-text="&lt;strong&gt;"/>שדה חובה<x id="CLOSE_TAG_STRONG" ctype="x-strong" equiv-text="&lt;/strong&gt;"/>
 				</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/contact/contact.component.html</context>
@@ -219,7 +215,7 @@
         <note priority="1" from="description">Contact form - message required</note>
       </trans-unit>
       <trans-unit id="eff550208c514f5c350e6381df99fcb99c5920ea" datatype="html">
-        <source>SUBMIT</source><target>SUBMIT</target>
+        <source>SUBMIT</source><target>שלח</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/contact/contact.component.html</context>
           <context context-type="linenumber">41</context>
@@ -227,7 +223,7 @@
         <note priority="1" from="description">Contact form - submit button</note>
       </trans-unit>
       <trans-unit id="e4aaf490cfee276d3eb6bb7601db526dbce897e3" datatype="html">
-        <source>Medabrim</source><target>Medabrim</target>
+        <source>Medabrim</source><target>מדברים</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/welcome/welcome.component.html</context>
           <context context-type="linenumber">4</context>
@@ -235,7 +231,7 @@
         <note priority="1" from="description">Main title part 1</note>
       </trans-unit>
       <trans-unit id="1aad61c818b2252f01d146be5577ddbcb12119e5" datatype="html">
-        <source>Shlichut</source><target>Shlichut</target>
+        <source>Shlichut</source><target>שליחות</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/welcome/welcome.component.html</context>
           <context context-type="linenumber">5</context>
@@ -243,7 +239,7 @@
         <note priority="1" from="description">Main title part 2</note>
       </trans-unit>
       <trans-unit id="9da0672837366a9e66ac2f9caf1cc4bdc391a92a" datatype="html">
-        <source>THE podcast for Israeli expatriates around the world</source><target>THE podcast for Israeli expatriates around the world</target>
+        <source>THE podcast for Israeli expatriates around the world</source><target>ה-פודקאסט עבור שליחים יהודים בעולם</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/welcome/welcome.component.html</context>
           <context context-type="linenumber">6</context>
@@ -254,7 +250,7 @@
         <source>
 				ABOUT
 			</source><target>
-				ABOUT
+				אודות
 			</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/welcome/welcome.component.html</context>
@@ -266,7 +262,7 @@
         <source>
 				LISTEN
 			</source><target>
-				LISTEN
+				האזן
 			</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/welcome/welcome.component.html</context>
@@ -278,7 +274,7 @@
         <source>
 				CONTACT
 			</source><target>
-				CONTACT
+				צור קשר
 			</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/welcome/welcome.component.html</context>

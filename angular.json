@@ -91,8 +91,8 @@
 					"builder": "@angular-devkit/build-angular:dev-server",
 					"options": {
 						"browserTarget": "medabrim:build",
-						"sslKey": "./localhost.key",
-						"sslCert": "./localhost.crt"
+						"sslKey": "./../Certificates/localhost.key",
+						"sslCert": "./../Certificates/localhost.crt"
 					},
 					"configurations": {
 						"production": {

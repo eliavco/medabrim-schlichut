@@ -1,12 +1,23 @@
 <div class="wrapper" *ngIf="display">
 	<div class="player user-select-none" *ngIf="display">
-		<mat-toolbar class="seekbar">
+		<mat-toolbar style="height: inherit;" (click)="displayFullTitle = false;" [class.full-title]="!displayFullTitle">
+			<p class="text-break">שלום לכם ילדים וילדות מה המצב חברס רציני מה קורה איתכם קצת יותר</p>
+		</mat-toolbar>
+
+		<mat-toolbar class="seekbar title-un-collapse" (click)="displayFullTitle = true;" [class.full-title]="displayFullTitle">
 			<a *ngIf="current !== origin" mat-icon-button class="" [routerLink]="['/listen']">
 				<mat-icon>menu</mat-icon>
 			</a>
 			<span [title]="title" class="title">{{ title }}</span>
-			<span class="spacer"></span>
+		</mat-toolbar>
 
+		<mat-toolbar class="seekbar">
+			<a *ngIf="current !== origin" mat-icon-button class="title-collapse" [class.full-title]="displayFullTitle" [routerLink]="['/listen']">
+				<mat-icon>menu</mat-icon>
+			</a>
+			<span [title]="title" class="title title-collapse" (click)="displayFullTitle = true;" [class.full-title]="displayFullTitle">{{ title }}</span>
+			<span class="spacer title-collapse" [class.full-title]="displayFullTitle"></span>
+			
 			<button mat-icon-button class="" (click)="nextRate()">
 				{{ rate }}x
 			</button>
@@ -17,8 +28,10 @@
 			<button *ngIf="mute === 0" mat-icon-button  class="mat-icon-rtl-mirror" (click)="muteMusic()">
 				<mat-icon>{{ volumeIcon }}</mat-icon>
 			</button>
-			<mat-slider [disabled]="mute > 0" thumbLabel="true" min="0" max="100" step="1" value="100" (change)="setVolume($event)"></mat-slider>
+			<mat-slider [disabled]="mute > 0" thumbLabel="true" min="0" max="100" step="1" [value]="volume" (change)="setVolume($event)"></mat-slider>
 
+			<span class="spacer title-un-collapse" [class.title-un-collapse]="displayFullTitle"></span>
+			<span class="spacer" [class.full-title]="!displayFullTitle"></span>
 			<!-- close -->
 			<button mat-icon-button class="" (click)="closePlayer()">
 				<mat-icon>close</mat-icon>

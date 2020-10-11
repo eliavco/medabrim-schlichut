@@ -4,7 +4,7 @@ export const environment = {
 		he: 'מדברים שליחות'
 	},
 	images: {
-		logoTrans: 'assets/logo-transparent.png',
+		logoTrans: 'assets/logo.png',
 		homeBack: 'assets/hero/radio.jpg',
 		aboutBack: 'assets/about/radio.jpg',
 		listenBack: 'assets/about/radio.jpg',
@@ -34,6 +34,6 @@ export const environment = {
 		}
 	},
 	mailService: 'https://email-cohen.herokuapp.com/send',
-	destinationMailService: 'eliav.s.cohen@gmail.com',
+	destinationMailService: 'medabrimshlichut@gmail.com',
 	production: true
 };

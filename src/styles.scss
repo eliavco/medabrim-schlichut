@@ -1,30 +1,98 @@
 
 // Custom Theming for Angular Material
 // For more information: https://material.angular.io/guide/theming
-@import '@angular/material/prebuilt-themes/indigo-pink.css';
+// @import '@angular/material/prebuilt-themes/indigo-pink.css';
 // Plus imports for other components in your app.
 
 // Include the common styles for Angular Material. We include this here so that you only
 // have to load a single css file for Angular Material in your app.
 // Be sure that you only ever include this mixin once!
-// @include mat-core();
+@import '~@angular/material/theming';
+@include mat-core();
+
+/// THEME PALLETES
+$md-brand: (
+    50 : #e4e7eb,
+    100 : #bbc2cd,
+    200 : #8e9aab,
+    300 : #617289,
+    400 : #3f5370,
+    500 : #1d3557,
+    600 : #1a304f,
+    700 : #152846,
+    800 : #11223c,
+    900 : #0a162c,
+    A100 : #6896ff,
+    A200 : #3573ff,
+    A400 : #0250ff,
+    A700 : #0047e7,
+    contrast: (
+        50 : #000000,
+        100 : #000000,
+        200 : #000000,
+        300 : #ffffff,
+        400 : #ffffff,
+        500 : #ffffff,
+        600 : #ffffff,
+        700 : #ffffff,
+        800 : #ffffff,
+        900 : #ffffff,
+        A100 : #000000,
+        A200 : #ffffff,
+        A400 : #ffffff,
+        A700 : #ffffff,
+    )
+);
+$md-accent: (
+    50 : #fce7e9,
+    100 : #f8c4c8,
+    200 : #f39ca3,
+    300 : #ee747e,
+    400 : #ea5762,
+    500 : #e63946,
+    600 : #e3333f,
+    700 : #df2c37,
+    800 : #db242f,
+    900 : #d51720,
+    A100 : #ffffff,
+    A200 : #ffd4d5,
+    A400 : #ffa1a4,
+    A700 : #ff878b,
+    contrast: (
+        50 : #000000,
+        100 : #000000,
+        200 : #000000,
+        300 : #000000,
+        400 : #000000,
+        500 : #ffffff,
+        600 : #ffffff,
+        700 : #ffffff,
+        800 : #ffffff,
+        900 : #ffffff,
+        A100 : #000000,
+        A200 : #000000,
+        A400 : #000000,
+        A700 : #000000,
+    )
+);
+
 
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue. Available color palettes: https://material.io/design/color/
-// $medabrim-primary: mat-palette($mat-indigo);
-// $medabrim-accent: mat-palette($mat-pink, A200, A100, A400);
+$medabrim-primary: mat-palette($md-brand);
+$medabrim-accent: mat-palette($md-accent, A200, A100, A400);
 
 // The warn palette is optional (defaults to red).
-// $medabrim-warn: mat-palette($mat-red);
+$medabrim-warn: mat-palette($mat-red);
 
 // Create the theme object (a Sass map containing all of the palettes).
-// $medabrim-theme: mat-light-theme($medabrim-primary, $medabrim-accent, $medabrim-warn);
+$medabrim-theme: mat-light-theme($medabrim-primary, $medabrim-accent, $medabrim-warn);
 
 // Include theme styles for core and each component used in your app.
 // Alternatively, you can import and @include the theme mixins for each component
 // that you are using.
-// @include angular-material-theme($medabrim-theme);
+@include angular-material-theme($medabrim-theme);
 
 /* You can add global styles to this file, and also import other style files */
 

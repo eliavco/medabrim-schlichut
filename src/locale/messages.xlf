@@ -8,10 +8,6 @@
           <context context-type="sourcefile">src/app/components/navbar/navbar.component.html</context>
           <context context-type="linenumber">5</context>
         </context-group>
-        <note priority="1" from="description">Title of app in navbar</note>
-      </trans-unit>
-      <trans-unit id="ccd61dc57b034b3061f60753c1f0c64e8cc90f56" datatype="html">
-        <source>Medbarim Shlichut</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/about/about.component.html</context>
           <context context-type="linenumber">4</context>
@@ -20,7 +16,7 @@
           <context context-type="sourcefile">src/app/components/listen/listen.component.html</context>
           <context context-type="linenumber">4</context>
         </context-group>
-        <note priority="1" from="description">About page - Title of podcast</note>
+        <note priority="1" from="description">Title of podcast</note>
       </trans-unit>
       <trans-unit id="9e4cd0d087a10aff410f36bbd726761dd573ffd6" datatype="html">
         <source>by Asi Aharonov PhD.</source>
