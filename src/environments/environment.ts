@@ -39,7 +39,15 @@ export const environment = {
 	},
 	mailService: 'https://email-cohen.herokuapp.com/send',
 	destinationMailService: 'medabrimshlichut@gmail.com',
-	production: false
+	production: false,
+	artwork: [
+		{ src: '/assets/artworks/logo-square96.png', sizes: '96x96', type: 'image/png' },
+		{ src: '/assets/artworks/logo-square128.png', sizes: '128x128', type: 'image/png' },
+		{ src: '/assets/artworks/logo-square192.png', sizes: '192x192', type: 'image/png' },
+		{ src: '/assets/artworks/logo-square256.png', sizes: '256x256', type: 'image/png' },
+		{ src: '/assets/artworks/logo-square384.png', sizes: '384x384', type: 'image/png' },
+		{ src: '/assets/artworks/logo-square512.png', sizes: '512x512', type: 'image/png' },
+	]
 };
 
 /*
