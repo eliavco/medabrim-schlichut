@@ -3,6 +3,10 @@ export const environment = {
 		en: 'Medabrim Shlichut',
 		he: 'מדברים שליחות'
 	},
+	author: {
+		en: 'Asi Aharonov Ph.D.',
+		he: 'ד״ר אסי אהרונוב',
+	},
 	images: {
 		logoTrans: 'assets/logo.png',
 		homeBack: 'assets/hero/radio.jpg',

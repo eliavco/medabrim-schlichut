@@ -139,3 +139,11 @@ html {
 .mat-drawer.mat-drawer-side {
 	z-index: 1 !important;
 }
+
+.mat-slider-real-ltr .mat-slider-horizontal .mat-slider-track-background {
+	transform-origin: 100% 100% !important;
+}
+
+.mat-slider-real-ltr .mat-slider-horizontal .mat-slider-track-fill {
+	transform-origin: 0 0 !important;
+}

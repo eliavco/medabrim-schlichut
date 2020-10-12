@@ -4,6 +4,8 @@ import { AudioPlayerService } from './../../services/audio-player/audio-player.s
 import { Router, NavigationEnd } from '@angular/router';
 import hotkeys from 'hotkeys-js';
 
+import { environment } from './../../../environments/environment';
+
 @Component({
 	selector: 'ec-audio-player',
 	templateUrl: './audio-player.component.html',
@@ -11,12 +13,14 @@ import hotkeys from 'hotkeys-js';
 })
 export class AudioPlayerComponent implements OnInit {
 	_display: boolean = false;
-	playing = false;
+	_playing = false;
 	sound;
 	_displayFullTitle = false;
 	mute = 0;
 	volumeIcon = 'volume_up';
+	buffering = true;
 	locationUpdate;
+	locationUpdateBig;
 	seek = 0;
 	duration = 0;
 	rateList = [0.25, 0.5, 0.75, 1, 1.25, 1.5, 1.75, 2];
@@ -28,6 +32,16 @@ export class AudioPlayerComponent implements OnInit {
 	volume;
 	collapse;
 	track = '';
+	lang = (window as any).loc.substring(0, 2);
+
+	get playing(): boolean {
+		return this._playing;
+	}
+
+	set playing(val: boolean) {
+		(navigator as any).mediaSession.playbackState = val ? 'playing' : 'paused';
+		this._playing = val;
+	}
 
 	set display(val: boolean) {
 		this._display = val;
@@ -73,6 +87,8 @@ export class AudioPlayerComponent implements OnInit {
 		this.display = true;
 		this.track = track;
 		if (this.sound) { this.sound.stop(); }
+		this.stopMediaSession();
+		this.startMediaSession(title);
 		this.startMusic({
 			src: [track],
 			loop: true,
@@ -85,6 +101,7 @@ export class AudioPlayerComponent implements OnInit {
 		this.sound = new Howl(config);
 		this.sound.on('load', (() => {
 			this.duration = this.sound.duration();
+			this.setSeek({ value: config.progress });
 			this.playMusic();
 			if (localStorage.rate) {
 				this.rate = +localStorage.rate;
@@ -98,13 +115,13 @@ export class AudioPlayerComponent implements OnInit {
 			} else {
 				this.volume = 100;
 			}
-			this.sound.seek(config.progress);
 		}).bind(this));
 	}
 
 	closePlayer() {
 		this.display = false;
 		this.sound.stop();
+		this.stopMediaSession();
 		clearInterval(this.locationUpdate);
 	}
 
@@ -113,7 +130,10 @@ export class AudioPlayerComponent implements OnInit {
 		this.sound.play();
 		this.locationUpdate = setInterval(() => {
 			const seek = this.sound.seek();
+			if (typeof seek !== 'number') { if (!this.buffering) { this.buffering = true; } } else { if (this.buffering) { this.buffering = false; } }
 			this.seek = typeof seek === 'number' ? seek : this.seek;
+		}, 100);
+		this.locationUpdateBig = setInterval(() => {
 			if (localStorage.episodes) {
 				const newEps = JSON.parse(localStorage.episodes).map((ep => {
 					if (ep.track === this.track) {
@@ -124,13 +144,14 @@ export class AudioPlayerComponent implements OnInit {
 				localStorage.episodes = JSON.stringify(newEps);
 				this.audioPlayerService.reportChange();
 			}
-		}, 100);
+		}, 10000);
 	}
 
 	pauseMusic() {
 		this.playing = false;
 		this.sound.pause();
 		clearInterval(this.locationUpdate);
+		clearInterval(this.locationUpdateBig);
 	}
 
 	setVolume(event) {
@@ -195,11 +216,13 @@ export class AudioPlayerComponent implements OnInit {
 		}).bind(this));
 		hotkeys('right', (function (event, handler) {
 			event.preventDefault();
-			this.isRTL ? this.back10Sec() : this.skip10Sec();
+			this.skip10Sec();
+			// this.isRTL ? this.back10Sec() : this.skip10Sec();
 		}).bind(this));
 		hotkeys('left', (function (event, handler) {
 			event.preventDefault();
-			this.isRTL ? this.skip10Sec() : this.back10Sec();
+			this.back10Sec();
+			// this.isRTL ? this.skip10Sec() : this.back10Sec();
 		}).bind(this));
 		hotkeys('up', (function (event, handler) {
 			event.preventDefault();
@@ -218,6 +241,31 @@ export class AudioPlayerComponent implements OnInit {
 		keys.forEach(key => {
 			hotkeys.unbind(key);
 		});
+	}
+
+	startMediaSession(episodeName) {
+		if ('mediaSession' in navigator) {
+			(navigator as any).mediaSession.metadata = new (window as any).MediaMetadata({
+				title: episodeName,
+				artist: environment.author[this.lang],
+				album: environment.baseTitle[this.lang],
+				artwork: environment.artwork
+			});
+
+			(navigator as any).mediaSession.setActionHandler('play', (() => { this.playMusic(); }).bind(this));
+			(navigator as any).mediaSession.setActionHandler('pause', (() => { this.pauseMusic(); }).bind(this));
+			(navigator as any).mediaSession.setActionHandler('stop', (() => { this.closePlayer(); }).bind(this));
+			(navigator as any).mediaSession.setActionHandler('seekbackward', (() => { this.back10Sec(); }).bind(this));
+			(navigator as any).mediaSession.setActionHandler('seekforward', (() => { this.skip10Sec(); }).bind(this));
+			(navigator as any).mediaSession.setActionHandler('previoustrack', (() => { }).bind(this));
+			(navigator as any).mediaSession.setActionHandler('nexttrack', (() => { }).bind(this));
+		}
+	}
+
+	stopMediaSession() {
+		if ('mediaSession' in navigator) {
+			(navigator as any).mediaSession.metadata = null;
+		}
 	}
 
 }

@@ -32,7 +32,7 @@
 			</button>
 			<mat-slider [disabled]="mute > 0" thumbLabel="true" min="0" max="100" step="1" [value]="volume" (change)="setVolume($event)"></mat-slider>
 
-			<span class="spacer title-un-collapse" [class.title-un-collapse]="displayFullTitle"></span>
+			<span class="spacer" [class.title-un-collapse]="!displayFullTitle"></span>
 			<span class="spacer" [class.full-title]="!displayFullTitle"></span>
 			<!-- close -->
 			<button mat-icon-button class="" (click)="closePlayer()">
@@ -40,24 +40,33 @@
 			</button>
 		</mat-toolbar>
 
-		<mat-toolbar class="seekbar">
+		<mat-toolbar class="seekbar mat-slider-real-ltr" dir="ltr">
 			
 			<!-- play/pause -->
-			<button *ngIf="!playing" mat-icon-button (click)="playMusic()">
-				<mat-icon>play_arrow</mat-icon>
-			</button>
-			<button *ngIf="playing" mat-icon-button class="" (click)="pauseMusic()">
-				<mat-icon>pause</mat-icon>
-			</button>
+			<ng-container *ngIf="!buffering">
+				<button *ngIf="!playing" mat-icon-button (click)="playMusic()">
+					<mat-icon>play_arrow</mat-icon>
+				</button>
+				<button *ngIf="playing" mat-icon-button (click)="pauseMusic()">
+					<mat-icon>pause</mat-icon>
+				</button>
+			</ng-container>
+			<ng-container *ngIf="buffering">
+				<button mat-icon-button style="display:flex;justify-content:center;align-items:center">
+					<mat-spinner [diameter]="24"></mat-spinner>
+				</button>
+			</ng-container>
 			
 			<button mat-icon-button class="" (click)="back10Sec()">
-				<mat-icon>{{ isRTL ? 'forward_10' : 'replay_10' }}</mat-icon>
+				<mat-icon>replay_10</mat-icon>
+				<!-- <mat-icon>{{ isRTL ? 'forward_10' : 'replay_10' }}</mat-icon> -->
 			</button>
 			<p class="small-seek">{{ formatSeconds(seek) }}&nbsp;</p>
 			<mat-slider class="seek" min="0" [max]="duration" step="0.1" [value]="seek" (change)="setSeek($event)"></mat-slider>
 			<p class="small-seek">&nbsp;&nbsp;{{ formatSeconds(duration) }}</p>
 			<button mat-icon-button class="" (click)="skip10Sec()">
-				<mat-icon>{{ isRTL ? 'replay_10' : 'forward_10' }}</mat-icon>
+				<mat-icon>forward_10</mat-icon>
+				<!-- <mat-icon>{{ isRTL ? 'replay_10' : 'forward_10' }}</mat-icon> -->
 			</button>
 		</mat-toolbar>
 	</div>
