@@ -7,7 +7,7 @@
 		</mat-toolbar>
 
 		<mat-toolbar class="seekbar title-un-collapse" (click)="displayFullTitle = true;" [class.full-title]="displayFullTitle">
-			<a *ngIf="current !== origin" mat-icon-button class="" [routerLink]="['/listen']">
+			<a *ngIf="current !== origin" mat-icon-button [routerLink]="['/listen']">
 				<mat-icon>menu</mat-icon>
 			</a>
 			<span [title]="title" class="title">{{ title }}</span>
@@ -20,7 +20,7 @@
 			<span [title]="title" class="title title-collapse" (click)="displayFullTitle = true;" [class.full-title]="displayFullTitle">{{ title }}</span>
 			<span class="spacer title-collapse" [class.full-title]="displayFullTitle"></span>
 			
-			<button mat-icon-button class="" (click)="nextRate()">
+			<button mat-icon-button (click)="nextRate()">
 				{{ rate }}x
 			</button>
 			<!-- Volume -->
@@ -35,7 +35,7 @@
 			<span class="spacer" [class.title-un-collapse]="!displayFullTitle"></span>
 			<span class="spacer" [class.full-title]="!displayFullTitle"></span>
 			<!-- close -->
-			<button mat-icon-button class="" (click)="closePlayer()">
+			<button mat-icon-button (click)="closePlayer()">
 				<mat-icon>close</mat-icon>
 			</button>
 		</mat-toolbar>
@@ -57,16 +57,24 @@
 				</button>
 			</ng-container>
 			
-			<button mat-icon-button class="" (click)="back10Sec()">
+			<button mat-icon-button (click)="previousEpisode()">
+				<mat-icon>skip_previous</mat-icon>
+				<!-- <mat-icon>{{ isRTL ? 'skip_next' : 'skip_previous' }}</mat-icon> -->
+			</button>
+			<button mat-icon-button (click)="back10Sec()">
 				<mat-icon>replay_10</mat-icon>
 				<!-- <mat-icon>{{ isRTL ? 'forward_10' : 'replay_10' }}</mat-icon> -->
 			</button>
 			<p class="small-seek">{{ formatSeconds(seek) }}&nbsp;</p>
 			<mat-slider class="seek" min="0" [max]="duration" step="0.1" [value]="seek" (change)="setSeek($event)"></mat-slider>
 			<p class="small-seek">&nbsp;&nbsp;{{ formatSeconds(duration) }}</p>
-			<button mat-icon-button class="" (click)="skip10Sec()">
+			<button mat-icon-button (click)="skip10Sec()">
 				<mat-icon>forward_10</mat-icon>
 				<!-- <mat-icon>{{ isRTL ? 'replay_10' : 'forward_10' }}</mat-icon> -->
+			</button>
+			<button mat-icon-button (click)="skipEpisode()">
+				<mat-icon>skip_next</mat-icon>
+				<!-- <mat-icon>{{ isRTL ? 'skip_previous' : 'skip_next' }}</mat-icon> -->
 			</button>
 		</mat-toolbar>
 	</div>

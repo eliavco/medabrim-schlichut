@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Howl } from 'howler';
+import { Howl, Howler } from 'howler';
 import { AudioPlayerService } from './../../services/audio-player/audio-player.service';
 import { Router, NavigationEnd } from '@angular/router';
 import hotkeys from 'hotkeys-js';
@@ -89,9 +89,10 @@ export class AudioPlayerComponent implements OnInit {
 		if (this.sound) { this.sound.stop(); }
 		this.stopMediaSession();
 		this.startMediaSession(title);
+		Howler.stop();
 		this.startMusic({
 			src: [track],
-			loop: true,
+			loop: false,
 			progress: progress ? progress : 0
 		});
 	}
@@ -101,7 +102,7 @@ export class AudioPlayerComponent implements OnInit {
 		this.sound = new Howl(config);
 		this.sound.on('load', (() => {
 			this.duration = this.sound.duration();
-			this.setSeek({ value: config.progress });
+			if (config.progress + 5 < this.duration) { this.setSeek({ value: config.progress }); }
 			this.playMusic();
 			if (localStorage.rate) {
 				this.rate = +localStorage.rate;
@@ -116,35 +117,53 @@ export class AudioPlayerComponent implements OnInit {
 				this.volume = 100;
 			}
 		}).bind(this));
+		this.sound.on('end', (() => {
+			this.updateLocationBig();
+			this.skipEpisode();
+		}).bind(this));
 	}
 
 	closePlayer() {
 		this.display = false;
 		this.sound.stop();
+		Howler.stop();
 		this.stopMediaSession();
 		clearInterval(this.locationUpdate);
+		clearInterval(this.locationUpdateBig);
 	}
 
 	playMusic() {
 		this.playing = true;
+		this.display = true;
 		this.sound.play();
 		this.locationUpdate = setInterval(() => {
 			const seek = this.sound.seek();
 			if (typeof seek !== 'number') { if (!this.buffering) { this.buffering = true; } } else { if (this.buffering) { this.buffering = false; } }
 			this.seek = typeof seek === 'number' ? seek : this.seek;
+			if ("setPositionState" in (navigator as any).mediaSession) {
+				(navigator as any).mediaSession.setPositionState({
+					duration: this.duration,
+					playbackRate: this.rate,
+					position: this.seek
+				});
+			}
 		}, 100);
 		this.locationUpdateBig = setInterval(() => {
-			if (localStorage.episodes) {
-				const newEps = JSON.parse(localStorage.episodes).map((ep => {
-					if (ep.track === this.track) {
-						ep.progress = this.seek;
-					}
-					return ep;
-				}).bind(this));
-				localStorage.episodes = JSON.stringify(newEps);
-				this.audioPlayerService.reportChange();
-			}
+			this.updateLocationBig();
 		}, 10000);
+	}
+
+	updateLocationBig() {
+		if (localStorage.episodes) {
+			const newEps = JSON.parse(localStorage.episodes).map((ep => {
+				if (ep.track === this.track) {
+					ep.progress = this.seek;
+				}
+				return ep;
+			}).bind(this));
+			localStorage.episodes = JSON.stringify(newEps);
+			this.audioPlayerService.reportChange({ code: 1 });
+		}
 	}
 
 	pauseMusic() {
@@ -166,6 +185,16 @@ export class AudioPlayerComponent implements OnInit {
 			this.mute = this.sound.volume();
 			this.setVolume({ value: 0 });
 		}
+	}
+
+	skipEpisode() {
+		this.audioPlayerService.reportChange({ code: 2, track: this.track });
+		this.closePlayer();
+	}
+
+	previousEpisode() {
+		this.audioPlayerService.reportChange({ code: 3, track: this.track });
+		this.closePlayer();
 	}
 
 	unmuteMusic() {
@@ -257,14 +286,16 @@ export class AudioPlayerComponent implements OnInit {
 			(navigator as any).mediaSession.setActionHandler('stop', (() => { this.closePlayer(); }).bind(this));
 			(navigator as any).mediaSession.setActionHandler('seekbackward', (() => { this.back10Sec(); }).bind(this));
 			(navigator as any).mediaSession.setActionHandler('seekforward', (() => { this.skip10Sec(); }).bind(this));
-			(navigator as any).mediaSession.setActionHandler('previoustrack', (() => { }).bind(this));
-			(navigator as any).mediaSession.setActionHandler('nexttrack', (() => { }).bind(this));
+			(navigator as any).mediaSession.setActionHandler('previoustrack', (() => { this.previousEpisode(); }).bind(this));
+			(navigator as any).mediaSession.setActionHandler('nexttrack', (() => { this.skipEpisode(); }).bind(this));
+			(navigator as any).mediaSession.setActionHandler('seekto', ((details) => { this.setSeek(details.seekTime) }).bind(this));
 		}
 	}
 
 	stopMediaSession() {
 		if ('mediaSession' in navigator) {
 			(navigator as any).mediaSession.metadata = null;
+			(navigator as any).mediaSession.setPositionState(null);
 		}
 	}
 
