@@ -16,7 +16,7 @@
 			<mat-icon>search</mat-icon>
 		</button>
 	</mat-form-field>
-	
+
 	<div *ngIf="online" style="margin-bottom:2rem;">
 		<button mat-flat-button color="primary" (click)="fetchEpidoes(false)">
 			<mat-icon class="mat-icon-rtl-mirror">refresh</mat-icon>
@@ -33,32 +33,46 @@
 			Enjoy limited features until you connect back to the internet
 		</p>
 	</div>
-	
+
+	<button *ngIf="episodes && episodes.length > 0" mat-flat-button color="accent" (click)="nextEpisode(episodes[0].track)" style="margin-bottom:2rem;">
+		<mat-icon>play_arrow</mat-icon>
+		<span i18n="Listen Page - Play All">Play Podcast</span>
+	</button>
+
 	<mat-card-content *ngIf="episodes">
 		<mat-accordion>
-			<mat-expansion-panel class="gray-hover" style="margin-bottom:3rem;" *ngFor="let episode of episodes" hideToggle (opened)="toggleEpisodeOpen(episode)" (closed)="toggleEpisodeOpen(episode)">
+			<mat-expansion-panel class="gray-hover" style="margin-bottom:3rem;" *ngFor="let episode of episodes"
+				hideToggle (opened)="toggleEpisodeOpen(episode)" (closed)="toggleEpisodeOpen(episode)">
 				<mat-expansion-panel-header class="height-free user-select-none">
-					<mat-panel-title style="margin-top:2rem;margin-bottom:1rem;display:flex;" *ngIf="!episode.open" class="expansion-header expansion-header-full title-hide">
-						<span [class.title-margin]="episode.progress >= episode.duration" [class.title-margin-right]="episode.progress >= episode.duration && isRTL">{{ episode.title }}</span>
+					<mat-panel-title style="margin-top:2rem;margin-bottom:1rem;display:flex;" *ngIf="!episode.open"
+						class="expansion-header expansion-header-full title-hide">
+						<span [class.title-margin]="episode.progress >= episode.duration"
+							[class.title-margin-right]="episode.progress >= episode.duration && isRTL">{{ episode.title }}</span>
 						<span class="spacer"></span>&nbsp;
-						<span *ngIf="episode.progress >= episode.duration" style="color:#52b788;" i18n="Listen Page - Completed notice"><strong>Completed</strong></span>
+						<span *ngIf="episode.progress >= episode.duration" style="color:#52b788;"
+							i18n="Listen Page - Completed notice"><strong>Completed</strong></span>
 					</mat-panel-title>
 				</mat-expansion-panel-header>
-				
-				<mat-expansion-panel-header style="display:flex;justify-content:space-between;" class="height-free user-select-none">
+
+				<mat-expansion-panel-header style="display:flex;justify-content:space-between;"
+					class="height-free user-select-none">
 					<a mat-icon-button href="{{ episode.track }}" target="_blank" download>
 						<mat-icon>get_app</mat-icon>
 					</a>
 					<button mat-icon-button (click)="playEpisode(episode)">
 						<mat-icon>play_arrow</mat-icon>
 					</button>
-					<mat-panel-description style="flex:1;" class="expansion-header title-hide" [class.expansion-header-semi]="!episode.open" [class.expansion-header-full]="episode.open">
+					<mat-panel-description style="flex:1;" class="expansion-header title-hide"
+						[class.expansion-header-semi]="!episode.open" [class.expansion-header-full]="episode.open">
 						{{ formatSeconds(episode.duration) }} - {{ formatTimeAgo(episode.date) }}
 					</mat-panel-description>
 				</mat-expansion-panel-header>
 
-				<mat-expansion-panel-header *ngIf="episode.progress" style="padding:0;" class="height-free user-select-none">
-					<mat-progress-bar mode="determinate" [color]="episode.progress >= episode.duration ? 'primary' : 'accent'" [value]="episode.progress * 100 / episode.duration"></mat-progress-bar>
+				<mat-expansion-panel-header *ngIf="episode.progress" style="padding:0;"
+					class="height-free user-select-none">
+					<mat-progress-bar mode="determinate"
+						[color]="episode.progress >= episode.duration ? 'primary' : 'accent'"
+						[value]="episode.progress * 100 / episode.duration"></mat-progress-bar>
 				</mat-expansion-panel-header>
 
 				<p class="description"><strong>{{ episode.title }}</strong> - {{ formatTime(episode.date) }}</p>

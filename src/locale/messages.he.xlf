@@ -114,11 +114,19 @@
         </context-group>
         <note priority="1" from="description">Listen page: offline notice subtitle</note>
       </trans-unit>
+      <trans-unit id="588665845718c5d046473e04dedaae2164e56571" datatype="html">
+        <source>Play Podcast</source><target>נגן את הפודקאסט</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/listen/listen.component.html</context>
+          <context context-type="linenumber">39</context>
+        </context-group>
+        <note priority="1" from="description">Listen Page - Play All</note>
+      </trans-unit>
       <trans-unit id="0b8c0bb0c3c4b7addc6fb8305091d5766a2c3a62" datatype="html">
         <source><x id="START_TAG_STRONG" ctype="x-strong" equiv-text="&lt;strong&gt;"/>Completed<x id="CLOSE_TAG_STRONG" ctype="x-strong" equiv-text="&lt;/strong&gt;"/></source><target><x id="START_TAG_STRONG" ctype="x-strong" equiv-text="&lt;strong&gt;"/>הושלם<x id="CLOSE_TAG_STRONG" ctype="x-strong" equiv-text="&lt;/strong&gt;"/></target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/components/listen/listen.component.html</context>
-          <context context-type="linenumber">44</context>
+          <context context-type="linenumber">53</context>
         </context-group>
         <note priority="1" from="description">Listen Page - Completed notice</note>
       </trans-unit>

@@ -5,7 +5,7 @@ import { Injectable, EventEmitter } from '@angular/core';
 })
 export class AudioPlayerService {
 	track = new EventEmitter<{ track: string; title: string; progress: number }>();
-	change = new EventEmitter<string>();
+	change = new EventEmitter<any>();
 
 	constructor() { }
 
@@ -21,8 +21,8 @@ export class AudioPlayerService {
 		this.track.emit({ track, title, progress: progress ? progress : 0 });
 	}
 
-	reportChange() {
-		this.change.emit('changed');
+	reportChange(data) {
+		this.change.emit(data);
 	}
 
 }

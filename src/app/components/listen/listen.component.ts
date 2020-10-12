@@ -51,9 +51,82 @@ export class ListenComponent implements OnInit {
 		this.titleService.setTitle(`${environment.baseTitle[this.lang]} - ${this.titles[this.lang]}`);
 		addEventListener('online', () => { this.online = true; this.fetchEpidoes(false); });
 		addEventListener('offline', () => { this.online = false; });
-		this.audioPlayerService.getChange().subscribe((() => {
-			this.fetchEpidoes(true);
+		this.audioPlayerService.getChange().subscribe((data => {
+			if (data.code === 1) {
+				this.fetchEpidoes(true);
+			} else if (data.code === 2) {
+				this.nextEpisode(data.track);
+			} else if (data.code === 3) {
+				this.previousEpisode(data.track);
+			}
 		}).bind(this));
+	}
+
+	nextEpisode(track) {
+		let episodeIndex = this.findEpisodeIndex(track);
+		if (episodeIndex > -1) {
+			let newEpisode;
+			let proceed = false;
+			while (!proceed) {
+				let newEpisodeIndex;
+				if (episodeIndex > 0) {
+					newEpisodeIndex = episodeIndex - 1;
+				} else {
+					newEpisodeIndex = this.episodes.length - 1;
+				}
+				newEpisode = this.episodes[newEpisodeIndex];
+				if (newEpisode.track === track) {
+					proceed = true; newEpisode = undefined;
+				}
+				if (Math.floor(newEpisode.progress) !== newEpisode.duration) {
+					proceed = true;
+				}
+				episodeIndex = newEpisodeIndex;
+			}
+			if (newEpisode) {
+				this.playEpisode(newEpisode);
+			}
+		}
+	}
+
+	previousEpisode(track) {
+		let episodeIndex = this.findEpisodeIndex(track);
+		if (episodeIndex > -1) {
+			let newEpisode;
+			let proceed = false;
+			while (!proceed) {
+				let newEpisodeIndex;
+				if (episodeIndex < this.episodes.length - 1) {
+					newEpisodeIndex = episodeIndex + 1;
+				} else {
+					newEpisodeIndex = 0;
+				}
+				newEpisode = this.episodes[newEpisodeIndex];
+				if (newEpisode.track === track) {
+					proceed = true; newEpisode = undefined;
+				}
+				if (Math.floor(newEpisode.progress) !== newEpisode.duration) {
+					proceed = true;
+				}
+				episodeIndex = newEpisodeIndex;
+			}
+			if (newEpisode) {
+				this.playEpisode(newEpisode);
+			}
+		}
+	}
+
+	findEpisodeIndex(track) {
+		if (this.episodes) {
+			let ind = -1;
+			this.episodes.forEach((episode, index) => {
+				if (episode.track === track) {
+					ind = index;
+				}
+			});
+			return ind;
+		}
+		return -1;
 	}
 
 	fetchEpidoes(offline: boolean): void {
@@ -67,7 +140,7 @@ export class ListenComponent implements OnInit {
 				this.fuse = new Fuse(this.episodes, { includeScore: true, keys: ['title', 'description'] });
 				this.search();
 			});
-		}
+		};
 		if (!offline) {
 			if (navigator.onLine) {
 				fetchNewEpisodes();
