@@ -3,6 +3,7 @@ import { AudioPlayerService } from './../../services/audio-player/audio-player.s
 import { PodcastManagerService } from './../../services/podcast-manager/podcast-manager.service';
 import { environment } from './../../../environments/environment';
 import { Title } from '@angular/platform-browser';
+import { DownloadManagerService } from './../../services/download-manager/download-manager.service';
 import Fuse from 'fuse.js';
 
 import * as moment from 'moment';
@@ -43,6 +44,7 @@ export class ListenComponent implements OnInit {
 	constructor(
 		private audioPlayerService: AudioPlayerService,
 		private podcastManagerService: PodcastManagerService,
+		private downloadManagerService: DownloadManagerService,
 		private titleService: Title
 	) { }
 
@@ -60,6 +62,12 @@ export class ListenComponent implements OnInit {
 				this.previousEpisode(data.track);
 			}
 		}).bind(this));
+
+		// const tr = 'https://anchor.fm/s/d8db294/podcast/play/20841568/https%3A%2F%2Fd3ctxlq1ktw2nl.cloudfront.net%2Fstaging%2F2020-10-09%2Fe893030a1ab0bbba18bc5665b23d3d1f.m4a';
+		// this.downloadManagerService.downloadEpisode(tr).subscribe({
+		// 	next(x) { console.log(`${Math.floor(x.downloaded * 10000 / x.whole)/100}%`); },
+		// 	complete() { console.log('done'); }
+		// });
 	}
 
 	nextEpisode(track) {
@@ -206,7 +214,6 @@ export class ListenComponent implements OnInit {
 			fepisode = this.findEpisode(newEpisode, oldEpisodeList);
 			if (fepisode) {
 				newEpisode.progress = fepisode.progress;
-				newEpisode.download = fepisode.download;
 			}
 		});
 		localStorage.episodes = JSON.stringify(episodeList);

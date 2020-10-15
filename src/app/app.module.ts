@@ -44,6 +44,7 @@ import { AlertService } from './services/alert/alert.service';
 import { ContactService } from './services/contact/contact.service';
 import { AudioPlayerService } from './services/audio-player/audio-player.service';
 import { PodcastManagerService } from './services/podcast-manager/podcast-manager.service';
+import { DownloadManagerService } from './services/download-manager/download-manager.service';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -59,6 +60,7 @@ import { WelcomeComponent } from './components/welcome/welcome.component';
 import { PodcastAppsComponent } from './components/podcast-apps/podcast-apps.component';
 import { AudioPlayerComponent } from './components/audio-player/audio-player.component';
 import { OfflineNoticeComponent } from './components/offline-notice/offline-notice.component';
+import { DownloadButtonComponent } from './components/download-button/download-button.component';
 
 @NgModule({
 	declarations: [
@@ -73,7 +75,8 @@ import { OfflineNoticeComponent } from './components/offline-notice/offline-noti
 		WelcomeComponent,
 		PodcastAppsComponent,
 		AudioPlayerComponent,
-		OfflineNoticeComponent
+		OfflineNoticeComponent,
+		DownloadButtonComponent
 	],
 	imports: [
 		BrowserModule,
@@ -124,6 +127,7 @@ import { OfflineNoticeComponent } from './components/offline-notice/offline-noti
 		ContactService,
 		AudioPlayerService,
 		PodcastManagerService,
+		DownloadManagerService,
 		Title
 	],
 	bootstrap: [AppComponent]

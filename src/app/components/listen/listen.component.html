@@ -54,11 +54,9 @@
 					</mat-panel-title>
 				</mat-expansion-panel-header>
 
-				<mat-expansion-panel-header style="display:flex;justify-content:space-between;"
+				<mat-expansion-panel-header style="display:flex;justify-content:space-between;padding:1rem;"
 					class="height-free user-select-none">
-					<a mat-icon-button href="{{ episode.track }}" target="_blank" download>
-						<mat-icon>get_app</mat-icon>
-					</a>
+					<ec-download-button [track]="episode.track"></ec-download-button>
 					<button mat-icon-button (click)="playEpisode(episode)">
 						<mat-icon>play_arrow</mat-icon>
 					</button>
@@ -77,6 +75,11 @@
 
 				<p class="description"><strong>{{ episode.title }}</strong> - {{ formatTime(episode.date) }}</p>
 				<p class="description" [innerHTML]="episode.description"></p>
+				<p class="description">
+					<a href="{{ episode.track }}" target="_blank" download i18n="Listen Page - Download Link">
+						Download this episode as an audio file (MP3)
+					</a>
+				</p>
 			</mat-expansion-panel>
 		</mat-accordion>
 	</mat-card-content>
