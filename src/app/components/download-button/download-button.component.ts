@@ -8,13 +8,47 @@ import { DownloadManagerService } from './../../services/download-manager/downlo
 })
 export class DownloadButtonComponent implements OnInit {
 	@Input() track;
-	downloaded = ( Math.floor(Math.random() * 1000) % 2 ) === 0;
+	downloaded = false;
+	error;
+	progress;
 
 	constructor(
 		private downloadManagerService: DownloadManagerService
 	) { }
 
 	ngOnInit(): void {
+		this.isDownloaded();
+	}
+	
+	isDownloaded() {
+		this.downloadManagerService.isDownloaded(this.track).then(downloaded => {
+			this.downloaded = downloaded;
+		});
+	}
+
+	setError(err) {
+		this.error = err;
+	}
+
+	setProgress(pr) {
+		this.progress = pr;
+	}
+
+	download() {
+		const isDownloaded = this.isDownloaded.bind(this);
+		const setError = this.setError.bind(this);
+		const setProgress = this.setProgress.bind(this);
+		this.downloadManagerService.downloadEpisode(this.track).subscribe({
+			next(x) { setProgress(x); },
+			error(err) { setError(err); console.error(err); },
+			complete() { isDownloaded(); setProgress(undefined); }
+		});
+	}
+	
+	deleteEpisode() {
+		this.downloadManagerService.deleteEpisode(this.track).then((() => {
+			this.isDownloaded();
+		}).bind(this));
 	}
 
 }
