@@ -3,6 +3,7 @@ import { AudioPlayerService } from './../../services/audio-player/audio-player.s
 import { PodcastManagerService } from './../../services/podcast-manager/podcast-manager.service';
 import { environment } from './../../../environments/environment';
 import { Title } from '@angular/platform-browser';
+import { DownloadManagerService } from './../../services/download-manager/download-manager.service';
 import Fuse from 'fuse.js';
 
 import * as moment from 'moment';
@@ -17,6 +18,7 @@ interface Episode {
 	date: Date;
 	open: boolean;
 	progress?: number;
+	downloaded: boolean;
 }
 
 @Component({
@@ -43,6 +45,7 @@ export class ListenComponent implements OnInit {
 	constructor(
 		private audioPlayerService: AudioPlayerService,
 		private podcastManagerService: PodcastManagerService,
+		private downloadManagerService: DownloadManagerService,
 		private titleService: Title
 	) { }
 
@@ -81,6 +84,9 @@ export class ListenComponent implements OnInit {
 				if (Math.floor(newEpisode.progress) !== newEpisode.duration) {
 					proceed = true;
 				}
+				if (!this.online && !newEpisode.downloaded) {
+					proceed = false;
+				}
 				episodeIndex = newEpisodeIndex;
 			}
 			if (newEpisode) {
@@ -108,6 +114,9 @@ export class ListenComponent implements OnInit {
 				if (Math.floor(newEpisode.progress) !== newEpisode.duration) {
 					proceed = true;
 				}
+				if (!this.online && !newEpisode.downloaded) {
+					proceed = false;
+				}
 				episodeIndex = newEpisodeIndex;
 			}
 			if (newEpisode) {
@@ -131,8 +140,15 @@ export class ListenComponent implements OnInit {
 
 	fetchEpidoes(offline: boolean): void {
 		if (localStorage.episodes) {
-			this.episodes = JSON.parse(localStorage.episodes);
-			this.fuse = new Fuse(this.episodes, { includeScore: true, keys: ['title', 'description'] });
+			if (!this.online) {
+				this.isDownloadedForOffline().then(() => {
+					this.episodes = JSON.parse(localStorage.episodes);
+					this.fuse = new Fuse(this.episodes, { includeScore: true, keys: ['title', 'description'] });
+				});
+			} else {
+				this.episodes = JSON.parse(localStorage.episodes);
+				this.fuse = new Fuse(this.episodes, { includeScore: true, keys: ['title', 'description'] });
+			}
 		}
 		const fetchNewEpisodes = () => {
 			this.podcastManagerService.getPodcast().subscribe(podcast => {
@@ -142,7 +158,7 @@ export class ListenComponent implements OnInit {
 			});
 		};
 		if (!offline) {
-			if (navigator.onLine) {
+			if (this.online) {
 				fetchNewEpisodes();
 			} else {
 				addEventListener('online', () => {
@@ -150,6 +166,14 @@ export class ListenComponent implements OnInit {
 				});
 			}
 		}
+	}
+
+	async isDownloadedForOffline() {
+		const episodes = JSON.parse(localStorage.episodes);
+		for (let ep of episodes) {
+			ep.downloaded = await this.downloadManagerService.isDownloaded(ep.track, false);
+		}
+		localStorage.episodes = JSON.stringify(episodes);
 	}
 
 	search() {
@@ -199,16 +223,16 @@ export class ListenComponent implements OnInit {
 		return fepisode;
 	}
 
-	updateEpisodes(episodeList): void {
+	async updateEpisodes(episodeList) {
 		const oldEpisodeList = localStorage.episodes ? JSON.parse(localStorage.episodes) : [];
 		let fepisode;
-		episodeList.forEach(newEpisode => {
+		for (let newEpisode of episodeList) {
 			fepisode = this.findEpisode(newEpisode, oldEpisodeList);
 			if (fepisode) {
 				newEpisode.progress = fepisode.progress;
-				newEpisode.download = fepisode.download;
+				newEpisode.downloaded = await this.downloadManagerService.isDownloaded(newEpisode.track, false);
 			}
-		});
+		}
 		localStorage.episodes = JSON.stringify(episodeList);
 		return episodeList;
 	}
@@ -216,10 +240,11 @@ export class ListenComponent implements OnInit {
 	parseEpisodes(podcast: string) {
 		parseString(podcast, (err, result) => {
 			let newPodcastList = result.rss.channel[0].item.map(this.parseEpisode);
-			newPodcastList = this.updateEpisodes(newPodcastList);
-			this.episodes = newPodcastList;
-			localStorage.episodes = JSON.stringify(this.episodes);
-			this.bepisodes = this.episodes;
+			this.updateEpisodes(newPodcastList).then(newPodcastListU => {
+				this.episodes = newPodcastListU;
+				localStorage.episodes = JSON.stringify(this.episodes);
+				this.bepisodes = this.episodes;
+			});
 		});
 	}
 

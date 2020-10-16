@@ -130,6 +130,18 @@
         </context-group>
         <note priority="1" from="description">Listen Page - Completed notice</note>
       </trans-unit>
+      <trans-unit id="1ca8ba0fb9eb8868589e1c4457bcc21723e66589" datatype="html">
+        <source>
+						Download this episode as an audio file (MP3)
+					</source><target>
+						הורידו את הפרק כקובץ שמע (MP3)
+					</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/components/listen/listen.component.html</context>
+          <context context-type="linenumber">79</context>
+        </context-group>
+        <note priority="1" from="description">Listen Page - Download Link</note>
+      </trans-unit>
       <trans-unit id="34746fb1c7f3d2194d99652bdff89e6e14c9c4f4" datatype="html">
         <source>Contact</source><target>צור קשר</target>
         <context-group purpose="location">
