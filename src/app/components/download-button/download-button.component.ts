@@ -12,6 +12,7 @@ export class DownloadButtonComponent implements OnInit {
 	error;
 	progress;
 	online: boolean = navigator.onLine;
+	display = false;
 
 	constructor(
 		private downloadManagerService: DownloadManagerService
@@ -26,6 +27,7 @@ export class DownloadButtonComponent implements OnInit {
 	isDownloaded(full: boolean) {
 		this.downloadManagerService.isDownloaded(this.track, full).then(downloaded => {
 			this.downloaded = downloaded;
+			this.display = true;
 		});
 	}
 
