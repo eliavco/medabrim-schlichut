@@ -11,17 +11,20 @@ export class DownloadButtonComponent implements OnInit {
 	downloaded = false;
 	error;
 	progress;
+	online: boolean = navigator.onLine;
 
 	constructor(
 		private downloadManagerService: DownloadManagerService
 	) { }
 
 	ngOnInit(): void {
-		this.isDownloaded();
+		this.isDownloaded(false);
+		addEventListener('online', (() => { this.online = true; }).bind(this));
+		addEventListener('offline', (() => { this.online = false; }).bind(this));
 	}
 	
-	isDownloaded() {
-		this.downloadManagerService.isDownloaded(this.track).then(downloaded => {
+	isDownloaded(full: boolean) {
+		this.downloadManagerService.isDownloaded(this.track, full).then(downloaded => {
 			this.downloaded = downloaded;
 		});
 	}
@@ -41,13 +44,13 @@ export class DownloadButtonComponent implements OnInit {
 		this.downloadManagerService.downloadEpisode(this.track).subscribe({
 			next(x) { setProgress(x); },
 			error(err) { setError(err); console.error(err); },
-			complete() { isDownloaded(); setProgress(undefined); }
+			complete() { isDownloaded(true); setProgress(undefined); }
 		});
 	}
 	
 	deleteEpisode() {
 		this.downloadManagerService.deleteEpisode(this.track).then((() => {
-			this.isDownloaded();
+			this.isDownloaded(true);
 		}).bind(this));
 	}
 

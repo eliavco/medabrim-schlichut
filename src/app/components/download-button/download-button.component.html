@@ -1,19 +1,19 @@
 <ng-container *ngIf="!error">
-	<ng-container *ngIf="!progress">
-		<button mat-icon-button *ngIf="!downloaded" (click)="download()">
+	<ng-container *ngIf="!downloaded">
+		<button mat-icon-button *ngIf="!progress && online" (click)="download()">
 			<mat-icon>get_app</mat-icon>
 		</button>
-		<button mat-icon-button *ngIf="downloaded" (click)="deleteEpisode()" class="button button-green">
-			<mat-icon>delete</mat-icon>
-		</button>
-	</ng-container>
-	<ng-container *ngIf="progress">
-		<button mat-icon-button style="display:flex;justify-content:center;align-items:center">
+		<button mat-icon-button *ngIf="progress" style="display:flex;justify-content:center;align-items:center">
 			<mat-progress-spinner mode="determinate" [value]="progress.downloaded*100/progress.whole" diameter="32" strokeWidth="2"></mat-progress-spinner>
 			<mat-icon color="primary" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);">get_app</mat-icon>
 		</button>
 	</ng-container>
+	<ng-container *ngIf="downloaded">
+		<button mat-icon-button (click)="deleteEpisode()" class="button button-green">
+			<mat-icon>delete</mat-icon>
+		</button>
+	</ng-container>
 </ng-container>
-<button mat-icon-button *ngIf="error" (click)="download()" class="button button-error">
+<button mat-icon-button *ngIf="error && online" (click)="download()" class="button button-error">
 	<mat-icon>error</mat-icon>
 </button>

@@ -57,7 +57,7 @@
 				<mat-expansion-panel-header style="display:flex;justify-content:space-between;padding:1rem;"
 					class="height-free user-select-none">
 					<ec-download-button [track]="episode.track"></ec-download-button>
-					<button mat-icon-button (click)="playEpisode(episode)">
+					<button mat-icon-button *ngIf="online || episode.downloaded" (click)="playEpisode(episode)">
 						<mat-icon>play_arrow</mat-icon>
 					</button>
 					<mat-panel-description style="flex:1;" class="expansion-header title-hide"

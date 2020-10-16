@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Howl, Howler } from 'howler';
-import { AudioPlayerService } from './../../services/audio-player/audio-player.service';
 import { Router, NavigationEnd } from '@angular/router';
 import hotkeys from 'hotkeys-js';
 
+import { AudioPlayerService } from './../../services/audio-player/audio-player.service';
+import { DownloadManagerService } from './../../services/download-manager/download-manager.service';
 import { environment } from './../../../environments/environment';
 
 @Component({
@@ -68,7 +69,11 @@ export class AudioPlayerComponent implements OnInit {
 		return this._displayFullTitle;
 	}
 
-	constructor(private audioPlayerService: AudioPlayerService, private router: Router) { }
+	constructor(
+		private audioPlayerService: AudioPlayerService,
+		private downloadManagerService: DownloadManagerService,
+		private router: Router
+	) { }
 
 	ngOnInit(): void {
 		const tracks = this.audioPlayerService.getTrack();
@@ -85,15 +90,19 @@ export class AudioPlayerComponent implements OnInit {
 	launchTrack(title: string, track: string, progress?: number) {
 		this.title = title;
 		this.display = true;
-		this.track = track;
 		if (this.sound) { this.sound.stop(); }
 		this.stopMediaSession();
 		this.startMediaSession(title);
 		Howler.stop();
-		this.startMusic({
-			src: [track],
-			loop: false,
-			progress: progress ? progress : 0
+		this.track = track;
+
+		this.downloadManagerService.getDownloaded(track).then(newTrack => {
+			this.startMusic({
+				src: [newTrack],
+				loop: false,
+				format: ['m4a'],
+				progress: progress ? progress : 0
+			});
 		});
 	}
 

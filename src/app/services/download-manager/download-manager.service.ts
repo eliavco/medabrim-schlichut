@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { openDB, deleteDB } from 'idb';
+import { AudioPlayerService } from './../audio-player/audio-player.service';
 
 @Injectable({
 	providedIn: 'root'
@@ -8,7 +9,9 @@ import { openDB, deleteDB } from 'idb';
 export class DownloadManagerService {
 	storeName = 'episodes';
 
-	constructor() { }
+	constructor(
+		private audioPlayerService: AudioPlayerService
+	) { }
 
 	downloadEpisode(track: string): Observable<{ downloaded: number; whole: number; }> {
 		return new Observable<{ downloaded: number; whole: number; }>((subscriber => {
@@ -27,6 +30,7 @@ export class DownloadManagerService {
 
 		// Step 2: get total length
 		const contentLength = +response.headers.get('Content-Length');
+		const contentType = response.headers.get('Content-Type');
 
 		// Step 3: read the data
 		let receivedLength = 0; // received that many bytes at the moment
@@ -44,18 +48,32 @@ export class DownloadManagerService {
 			subscriber.next({ downloaded: receivedLength, whole: contentLength });
 		}
 
-		const blob = new Blob(chunks);
+		const blob = new Blob(chunks, {
+			type: contentType
+		});
 		
 		const episode = await this.saveEpisode(track, blob);
 		if (!episode) { throw new Error('We could not download the episode'); } 
 	}
 
-	async isDownloaded(track: string) {
+	async isDownloaded(track: string, full: boolean) {
 		const tx = await this.getDB();
 		const store = await tx.objectStore(this.storeName);
 		if (store) {
 			const episode = await store.get(track);
-			if (episode) { await tx.done; return true; }
+			if (episode) {
+				await tx.done;
+				if (localStorage.episodes && full) {
+					localStorage.episodes = JSON.stringify(JSON.parse(localStorage.episodes).map(ep => {
+						if (ep.track === track) {
+							ep.download = true;
+						}
+						return ep;
+					}));
+					this.audioPlayerService.reportChange({ code: 1 });
+				}
+				return true;
+			}
 		}
 		await tx.done;
 		return false;
@@ -99,6 +117,21 @@ export class DownloadManagerService {
 		const tx = db.transaction(storeName, 'readwrite');
 
 		return tx;
+	}
+
+	async getDownloaded(track: string) {
+		const tx = await this.getDB();
+		const store = await tx.objectStore(this.storeName);
+		if (store) {
+			const episode = await store.get(track);
+			if (episode) {
+				await tx.done;
+				const episodeUrl = URL.createObjectURL(episode);
+				track = episodeUrl;
+			}
+		}
+		await tx.done;
+		return track;
 	}
 
 }
