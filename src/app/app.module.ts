@@ -61,6 +61,8 @@ import { PodcastAppsComponent } from './components/podcast-apps/podcast-apps.com
 import { AudioPlayerComponent } from './components/audio-player/audio-player.component';
 import { OfflineNoticeComponent } from './components/offline-notice/offline-notice.component';
 import { DownloadButtonComponent } from './components/download-button/download-button.component';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
 
 @NgModule({
 	declarations: [
@@ -119,7 +121,8 @@ import { DownloadButtonComponent } from './components/download-button/download-b
 		MatTableModule,
 		MatSortModule,
 		BidiModule,
-		MatPaginatorModule
+		MatPaginatorModule,
+		ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
 	],
 	providers: [
 		AnalyticsEventService,

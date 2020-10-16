@@ -1,5 +1,6 @@
 import { Component, Inject, OnInit, LOCALE_ID } from '@angular/core';
 import { Router, NavigationEnd } from '@angular/router';
+import { SwUpdate } from '@angular/service-worker';
 import { environment } from './../environments/environment';
 import { Title } from '@angular/platform-browser';
 
@@ -19,8 +20,12 @@ export class AppComponent implements OnInit {
 	constructor(
 		private router: Router,
 		private titleService: Title,
+		private updates: SwUpdate,
 		@Inject(LOCALE_ID) public locale: string
 	) {
+		this.updates.available.subscribe(event => {
+			this.updates.activateUpdate().then(() => { document.location.reload() });
+		});
 		this.router.events.subscribe(event => {
 			if (event instanceof NavigationEnd) {
 				mgaids.forEach(mgaid => {

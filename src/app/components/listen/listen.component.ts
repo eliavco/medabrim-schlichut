@@ -41,6 +41,20 @@ export class ListenComponent implements OnInit {
 	fuse;
 	online: boolean = navigator.onLine;
 	isRTL: boolean = (window as any).rtl;
+	get deviceType(): string {
+		const ua = navigator.userAgent;
+		if (/(tablet|ipad|playbook|silk)|(android(?!.*mobi))/i.test(ua)) {
+			return "tablet";
+		}
+		if (
+			/Mobile|iP(hone|od|ad)|Android|BlackBerry|IEMobile|Kindle|Silk-Accelerated|(hpw|web)OS|Opera M(obi|ini)/.test(
+				ua
+			)
+		) {
+			return 'mobile';
+		}
+		return 'desktop';
+	};
 
 	constructor(
 		private audioPlayerService: AudioPlayerService,
