@@ -44,7 +44,7 @@ export class ListenComponent implements OnInit {
 	get deviceType(): string {
 		const ua = navigator.userAgent;
 		if (/(tablet|ipad|playbook|silk)|(android(?!.*mobi))/i.test(ua)) {
-			return "tablet";
+			return 'tablet';
 		}
 		if (
 			/Mobile|iP(hone|od|ad)|Android|BlackBerry|IEMobile|Kindle|Silk-Accelerated|(hpw|web)OS|Opera M(obi|ini)/.test(
