@@ -32,7 +32,7 @@ export class ListenComponent implements OnInit {
 	};
 
 	constructor(
-		protected episodeService: EpisodeService,
+		public episodeService: EpisodeService,
 		private titleService: Title
 	) { }
 

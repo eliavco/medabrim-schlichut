@@ -92,7 +92,7 @@ export class EpisodeService {
 
 	private async isDownloadedForOffline() {
 		const episodes = await Promise.all(this.currentEpisodes.map(async p => {
-			p.downloaded = await this.downloadManagerService.isDownloaded(p.track, false);
+			p.downloaded = await this.downloadManagerService.isDownloaded(p.track);
 			return p;
 		}));
 		this.setEpisodes(episodes);
