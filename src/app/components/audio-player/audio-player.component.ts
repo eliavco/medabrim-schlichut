@@ -4,6 +4,7 @@ import { Router, NavigationEnd } from '@angular/router';
 import hotkeys from 'hotkeys-js';
 
 import { AudioPlayerService } from './../../services/audio-player/audio-player.service';
+import { EpisodeService } from 'src/app/data/episode/episode.service';
 import { DownloadManagerService } from './../../services/download-manager/download-manager.service';
 import { environment } from './../../../environments/environment';
 
@@ -70,6 +71,7 @@ export class AudioPlayerComponent implements OnInit {
 	}
 
 	constructor(
+		private episodeService: EpisodeService,
 		private audioPlayerService: AudioPlayerService,
 		private downloadManagerService: DownloadManagerService,
 		private router: Router
@@ -127,7 +129,7 @@ export class AudioPlayerComponent implements OnInit {
 			}
 		}).bind(this));
 		this.sound.on('end', (() => {
-			this.updateLocationBig();
+			this.updateLocation();
 			this.skipEpisode();
 		}).bind(this));
 	}
@@ -158,21 +160,12 @@ export class AudioPlayerComponent implements OnInit {
 			}
 		}, 100);
 		this.locationUpdateBig = setInterval(() => {
-			this.updateLocationBig();
-		}, 10000);
+			this.updateLocation();
+		}, 1000);
 	}
-
-	updateLocationBig() {
-		if (localStorage.episodes) {
-			const newEps = JSON.parse(localStorage.episodes).map((ep => {
-				if (ep.track === this.track) {
-					ep.progress = this.seek;
-				}
-				return ep;
-			}).bind(this));
-			localStorage.episodes = JSON.stringify(newEps);
-			this.audioPlayerService.reportChange({ code: 1 });
-		}
+	
+	updateLocation(): void {
+		this.episodeService.updateLocation(this.track, this.seek);
 	}
 
 	pauseMusic() {
@@ -197,12 +190,12 @@ export class AudioPlayerComponent implements OnInit {
 	}
 
 	skipEpisode() {
-		this.audioPlayerService.reportChange({ code: 2, track: this.track });
+		this.episodeService.nextEpisode(this.track);
 		this.closePlayer();
 	}
 
 	previousEpisode() {
-		this.audioPlayerService.reportChange({ code: 3, track: this.track });
+		this.episodeService.previousEpisode(this.track);
 		this.closePlayer();
 	}
 

@@ -8,27 +8,19 @@ import { DownloadManagerService } from './../../services/download-manager/downlo
 })
 export class DownloadButtonComponent implements OnInit {
 	@Input() track;
-	downloaded = false;
+	@Input() downloaded: boolean;
 	error;
 	progress;
 	online: boolean = navigator.onLine;
-	display = false;
+	@Input() display: boolean;
 
 	constructor(
 		private downloadManagerService: DownloadManagerService
 	) { }
 
 	ngOnInit(): void {
-		this.isDownloaded(false);
 		addEventListener('online', (() => { this.online = true; }).bind(this));
 		addEventListener('offline', (() => { this.online = false; }).bind(this));
-	}
-	
-	isDownloaded(full: boolean) {
-		this.downloadManagerService.isDownloaded(this.track, full).then(downloaded => {
-			this.downloaded = downloaded;
-			this.display = true;
-		});
 	}
 
 	setError(err) {
@@ -40,19 +32,18 @@ export class DownloadButtonComponent implements OnInit {
 	}
 
 	download() {
-		const isDownloaded = this.isDownloaded.bind(this);
 		const setError = this.setError.bind(this);
 		const setProgress = this.setProgress.bind(this);
 		this.downloadManagerService.downloadEpisode(this.track).subscribe({
 			next(x) { setProgress(x); },
 			error(err) { setError(err); console.error(err); },
-			complete() { isDownloaded(true); setProgress(undefined); }
+			complete() { this.downloaded = true; setProgress(undefined); }
 		});
 	}
 	
 	deleteEpisode() {
 		this.downloadManagerService.deleteEpisode(this.track).then((() => {
-			this.isDownloaded(true);
+			this.downloaded = false;
 		}).bind(this));
 	}
 

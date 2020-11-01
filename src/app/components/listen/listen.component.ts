@@ -1,25 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { AudioPlayerService } from './../../services/audio-player/audio-player.service';
-import { PodcastManagerService } from './../../services/podcast-manager/podcast-manager.service';
 import { environment } from './../../../environments/environment';
 import { Title } from '@angular/platform-browser';
-import { DownloadManagerService } from './../../services/download-manager/download-manager.service';
 import Fuse from 'fuse.js';
+import { Episode } from 'src/app/models/episode.model';
+import { EpisodeService } from 'src/app/data/episode/episode.service';
+import { deviceType } from 'src/app/utils/deviceType';
 
 import * as moment from 'moment';
-
-const { parseString } = require('xml2js');
-
-interface Episode {
-	track: string;
-	title: string;
-	duration: number;
-	description: string;
-	date: Date;
-	open: boolean;
-	progress?: number;
-	downloaded: boolean;
-}
 
 @Component({
 	selector: 'ec-listen',
@@ -28,7 +15,6 @@ interface Episode {
 })
 export class ListenComponent implements OnInit {
 	episodes: Episode[];
-	bepisodes: Episode[];
 	time = moment;
 	locale = (window as any).loc;
 	lang = (window as any).loc.substring(0, 2);
@@ -42,162 +28,36 @@ export class ListenComponent implements OnInit {
 	online: boolean = navigator.onLine;
 	isRTL: boolean = (window as any).rtl;
 	get deviceType(): string {
-		const ua = navigator.userAgent;
-		if (/(tablet|ipad|playbook|silk)|(android(?!.*mobi))/i.test(ua)) {
-			return 'tablet';
-		}
-		if (
-			/Mobile|iP(hone|od|ad)|Android|BlackBerry|IEMobile|Kindle|Silk-Accelerated|(hpw|web)OS|Opera M(obi|ini)/.test(
-				ua
-			)
-		) {
-			return 'mobile';
-		}
-		return 'desktop';
+		return deviceType();
 	};
 
 	constructor(
-		private audioPlayerService: AudioPlayerService,
-		private podcastManagerService: PodcastManagerService,
-		private downloadManagerService: DownloadManagerService,
+		protected episodeService: EpisodeService,
 		private titleService: Title
 	) { }
 
 	ngOnInit(): void {
-		this.fetchEpidoes(false);
+		this.episodeService.episodes.subscribe(episodes => {
+			this.episodes = episodes;
+			this.fuse = new Fuse(this.episodes, { includeScore: true, keys: ['title', 'description'] });
+			this.search();
+		});
 		this.titleService.setTitle(`${environment.baseTitle[this.lang]} - ${this.titles[this.lang]}`);
-		addEventListener('online', () => { this.online = true; this.fetchEpidoes(false); });
+		addEventListener('online', () => { this.online = true; });
 		addEventListener('offline', () => { this.online = false; });
-		this.audioPlayerService.getChange().subscribe((data => {
-			if (data.code === 1) {
-				this.fetchEpidoes(true);
-			} else if (data.code === 2) {
-				this.nextEpisode(data.track);
-			} else if (data.code === 3) {
-				this.previousEpisode(data.track);
-			}
-		}).bind(this));
-	}
-
-	nextEpisode(track) {
-		let episodeIndex = this.findEpisodeIndex(track);
-		if (episodeIndex > -1) {
-			let newEpisode;
-			let proceed = false;
-			while (!proceed) {
-				let newEpisodeIndex;
-				if (episodeIndex > 0) {
-					newEpisodeIndex = episodeIndex - 1;
-				} else {
-					newEpisodeIndex = this.episodes.length - 1;
-				}
-				newEpisode = this.episodes[newEpisodeIndex];
-				if (newEpisode.track === track) {
-					proceed = true; newEpisode = undefined;
-				}
-				if (Math.floor(newEpisode.progress) !== newEpisode.duration) {
-					proceed = true;
-				}
-				if (!this.online && !newEpisode.downloaded) {
-					proceed = false;
-				}
-				episodeIndex = newEpisodeIndex;
-			}
-			if (newEpisode) {
-				this.playEpisode(newEpisode);
-			}
-		}
-	}
-
-	previousEpisode(track) {
-		let episodeIndex = this.findEpisodeIndex(track);
-		if (episodeIndex > -1) {
-			let newEpisode;
-			let proceed = false;
-			while (!proceed) {
-				let newEpisodeIndex;
-				if (episodeIndex < this.episodes.length - 1) {
-					newEpisodeIndex = episodeIndex + 1;
-				} else {
-					newEpisodeIndex = 0;
-				}
-				newEpisode = this.episodes[newEpisodeIndex];
-				if (newEpisode.track === track) {
-					proceed = true; newEpisode = undefined;
-				}
-				if (Math.floor(newEpisode.progress) !== newEpisode.duration) {
-					proceed = true;
-				}
-				if (!this.online && !newEpisode.downloaded) {
-					proceed = false;
-				}
-				episodeIndex = newEpisodeIndex;
-			}
-			if (newEpisode) {
-				this.playEpisode(newEpisode);
-			}
-		}
-	}
-
-	findEpisodeIndex(track) {
-		if (this.episodes) {
-			let ind = -1;
-			this.episodes.forEach((episode, index) => {
-				if (episode.track === track) {
-					ind = index;
-				}
-			});
-			return ind;
-		}
-		return -1;
-	}
-
-	fetchEpidoes(offline: boolean): void {
-		if (localStorage.episodes) {
-			if (!this.online) {
-				this.isDownloadedForOffline().then(() => {
-					this.episodes = JSON.parse(localStorage.episodes);
-					this.fuse = new Fuse(this.episodes, { includeScore: true, keys: ['title', 'description'] });
-				});
-			} else {
-				this.episodes = JSON.parse(localStorage.episodes);
-				this.fuse = new Fuse(this.episodes, { includeScore: true, keys: ['title', 'description'] });
-			}
-		}
-		const fetchNewEpisodes = () => {
-			this.podcastManagerService.getPodcast().subscribe(podcast => {
-				this.parseEpisodes(podcast);
-				this.fuse = new Fuse(this.episodes, { includeScore: true, keys: ['title', 'description'] });
-				this.search();
-			});
-		};
-		if (!offline) {
-			if (this.online) {
-				fetchNewEpisodes();
-			} else {
-				addEventListener('online', () => {
-					fetchNewEpisodes();
-				});
-			}
-		}
-	}
-
-	async isDownloadedForOffline() {
-		const episodes = JSON.parse(localStorage.episodes);
-		for (let ep of episodes) {
-			ep.downloaded = await this.downloadManagerService.isDownloaded(ep.track, false);
-		}
-		localStorage.episodes = JSON.stringify(episodes);
 	}
 
 	search() {
-		this.episodes = this.fuse.search(this.searchString).map(result => result.item);
-		if (!this.searchString) { this.episodes = this.bepisodes; }
+		if (!this.searchString) {
+			this.episodes = this.episodeService.currentEpisodes;
+		} else {
+			this.episodes = this.fuse.search(this.searchString).map(result => result.item);
+		}
 	}
 
 	clearSearch() {
 		this.searchString = '';
-		this.search();
+		this.episodes = this.episodeService.currentEpisodes;
 	}
 
 	formatSeconds(time: number) {
@@ -208,70 +68,12 @@ export class ListenComponent implements OnInit {
 		return `${minutesFormat}:${secondsFormat}`;
 	}
 
-	playEpisode(episode: Episode) {
-		if (episode.progress) {
-			this.audioPlayerService.startTrack(episode.track, episode.title, episode.progress);
-		} else {
-			this.audioPlayerService.startTrack(episode.track, episode.title);
-		}
-	}
-
-	parseEpisode(ep) {
-		return {
-			track: ep.enclosure[0].$.url, title: ep.title[0], date: new Date(ep.pubDate[0]),
-			duration: ep['itunes:duration'] * 1, description: ep.description[0], open: false
-		};
-	}
-
-	compareEpisodes(a, b): boolean {
-		return a.track === b.track;
-	}
-
-	findEpisode(nepisode, episodes): Episode {
-		let fepisode;
-		episodes.forEach(episode => {
-			if (this.compareEpisodes(nepisode, episode)) {
-				fepisode = episode;
-			}
-		});
-		return fepisode;
-	}
-
-	async updateEpisodes(episodeList) {
-		const oldEpisodeList = localStorage.episodes ? JSON.parse(localStorage.episodes) : [];
-		let fepisode;
-		for (let newEpisode of episodeList) {
-			fepisode = this.findEpisode(newEpisode, oldEpisodeList);
-			if (fepisode) {
-				newEpisode.progress = fepisode.progress;
-				newEpisode.downloaded = await this.downloadManagerService.isDownloaded(newEpisode.track, false);
-			}
-		}
-		localStorage.episodes = JSON.stringify(episodeList);
-		return episodeList;
-	}
-
-	parseEpisodes(podcast: string) {
-		parseString(podcast, (err, result) => {
-			let newPodcastList = result.rss.channel[0].item.map(this.parseEpisode);
-			this.updateEpisodes(newPodcastList).then(newPodcastListU => {
-				this.episodes = newPodcastListU;
-				localStorage.episodes = JSON.stringify(this.episodes);
-				this.bepisodes = this.episodes;
-			});
-		});
-	}
-
 	formatTimeAgo(date: Date) {
 		return this.time(date).locale(this.locale).fromNow();
 	}
 
 	formatTime(date: Date) {
 		return this.time(date).locale(this.locale).format('l');
-	}
-
-	toggleEpisodeOpen(episode) {
-		episode.open = !episode.open;
 	}
 
 }

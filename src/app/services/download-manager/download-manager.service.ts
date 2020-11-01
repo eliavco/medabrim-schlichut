@@ -56,22 +56,13 @@ export class DownloadManagerService {
 		if (!episode) { throw new Error('We could not download the episode'); } 
 	}
 
-	async isDownloaded(track: string, full: boolean) {
+	async isDownloaded(track: string) {
 		const tx = await this.getDB();
 		const store = await tx.objectStore(this.storeName);
 		if (store) {
 			const episode = await store.get(track);
 			if (episode) {
 				await tx.done;
-				if (localStorage.episodes && full) {
-					localStorage.episodes = JSON.stringify(JSON.parse(localStorage.episodes).map(ep => {
-						if (ep.track === track) {
-							ep.download = true;
-						}
-						return ep;
-					}));
-					this.audioPlayerService.reportChange({ code: 1 });
-				}
 				return true;
 			}
 		}
