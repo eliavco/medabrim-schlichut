@@ -45,6 +45,7 @@ import { ContactService } from './services/contact/contact.service';
 import { AudioPlayerService } from './services/audio-player/audio-player.service';
 import { PodcastManagerService } from './services/podcast-manager/podcast-manager.service';
 import { DownloadManagerService } from './services/download-manager/download-manager.service';
+import { EpisodeService } from './data/episode/episode.service';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
