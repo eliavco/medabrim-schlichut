@@ -6,5 +6,6 @@ export interface Episode {
 	date: Date;
 	open: boolean;
 	progress?: number;
+	image: string;
 	downloaded: boolean;
 }

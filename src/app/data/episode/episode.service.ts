@@ -70,9 +70,13 @@ export class EpisodeService {
 	}
 
 	private parseEpisode(ep) {
+		let image = 'https://d3t3ozftmdmh3i.cloudfront.net/production/podcast_uploaded/2173901/2173901-1572602667499-9faf320539db6.jpg';
+		try {
+			image = ep['itunes:image'][0].$.href;
+		} catch {}
 		return {
 			track: ep.enclosure[0].$.url, title: ep.title[0], date: new Date(ep.pubDate[0]),
-			duration: ep['itunes:duration'] * 1, description: ep.description[0], open: false
+			duration: ep['itunes:duration'] * 1, description: ep.description[0], open: false, image
 		};
 	}
 
