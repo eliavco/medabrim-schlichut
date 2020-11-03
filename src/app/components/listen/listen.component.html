@@ -41,46 +41,50 @@
 
 	<mat-card-content *ngIf="episodes">
 		<mat-accordion>
-			<mat-expansion-panel class="gray-hover" style="margin-bottom:3rem;" *ngFor="let episode of episodes"
-				hideToggle (opened)="episodeService.toggleEpisodeOpen(episode)" (closed)="episodeService.toggleEpisodeOpen(episode)">
-				<mat-expansion-panel-header class="height-free user-select-none">
-					<mat-panel-title style="margin-top:2rem;margin-bottom:1rem;display:flex;" *ngIf="!episode.open"
+			<div *ngFor="let episode of episodes" class="card-wrapper">
+
+				<mat-expansion-panel class="gray-hover" 
+					hideToggle (opened)="episodeService.toggleEpisodeOpen(episode)" (closed)="episodeService.toggleEpisodeOpen(episode)">
+					<mat-expansion-panel-header class="height-free user-select-none" *ngIf="!episode.open">
+						<mat-panel-title style="margin-top:2rem;margin-bottom:1rem;display:flex;"
 						class="expansion-header expansion-header-full title-hide">
-						<span [class.title-margin]="episode.progress >= episode.duration"
-							[class.title-margin-right]="episode.progress >= episode.duration && isRTL">{{ episode.title }}</span>
-						<span class="spacer"></span>&nbsp;
-						<span *ngIf="episode.progress >= episode.duration" style="color:#52b788;"
-							i18n="Listen Page - Completed notice"><strong>Completed</strong></span>
-					</mat-panel-title>
-				</mat-expansion-panel-header>
-
-				<mat-expansion-panel-header style="display:flex;justify-content:space-between;padding:1rem;"
-					class="height-free user-select-none">
-					<ec-download-button *ngIf="deviceType === 'desktop'" [track]="episode.track" [downloaded]="episode.downloaded" [display]="episode.downloaded !== null && episode.downloaded !== undefined"></ec-download-button>
-					<button mat-icon-button *ngIf="online || episode.downloaded" (click)="episodeService.playEpisode(episode)">
-						<mat-icon>play_arrow</mat-icon>
-					</button>
-					<mat-panel-description style="flex:1;" class="expansion-header title-hide"
-						[class.expansion-header-semi]="!episode.open" [class.expansion-header-full]="episode.open">
-						{{ formatSeconds(episode.duration) }} - {{ formatTimeAgo(episode.date) }}
-					</mat-panel-description>
-				</mat-expansion-panel-header>
-
-				<mat-expansion-panel-header *ngIf="episode.progress" style="padding:0;"
-					class="height-free user-select-none">
-					<mat-progress-bar mode="determinate"
-						[color]="episode.progress >= episode.duration ? 'primary' : 'accent'"
-						[value]="episode.progress * 100 / episode.duration"></mat-progress-bar>
-				</mat-expansion-panel-header>
-
-				<p class="description"><strong>{{ episode.title }}</strong> - {{ formatTime(episode.date) }}</p>
-				<p class="description" [innerHTML]="episode.description"></p>
-				<p class="description">
+							<span [class.title-margin]="episode.progress >= episode.duration"
+								[class.title-margin-right]="episode.progress >= episode.duration && isRTL">{{ episode.title }}</span>
+							<span class="spacer"></span>&nbsp;
+							<span *ngIf="episode.progress >= episode.duration" style="color:#52b788;"
+								i18n="Listen Page - Completed notice"><strong>Completed</strong></span>
+						</mat-panel-title>
+					</mat-expansion-panel-header>
+	
+					<mat-expansion-panel-header style="display:flex;justify-content:space-between;padding:1rem;"
+						class="height-free user-select-none">
+						<ec-download-button *ngIf="deviceType === 'desktop'" [track]="episode.track" [downloaded]="episode.downloaded" [display]="episode.downloaded !== null && episode.downloaded !== undefined"></ec-download-button>
+						<button mat-icon-button *ngIf="online || episode.downloaded" (click)="episodeService.playEpisode(episode)">
+							<mat-icon>play_arrow</mat-icon>
+						</button>
+						<mat-panel-description style="flex:1;" class="expansion-header title-hide"
+							[class.expansion-header-semi]="!episode.open" [class.expansion-header-full]="episode.open">
+							{{ formatSeconds(episode.duration) }} - {{ formatTimeAgo(episode.date) }}
+						</mat-panel-description>
+					</mat-expansion-panel-header>
+	
+					<mat-expansion-panel-header *ngIf="episode.progress" style="padding:0;"
+						class="height-free user-select-none">
+						<mat-progress-bar mode="determinate"
+							[color]="episode.progress >= episode.duration ? 'primary' : 'accent'"
+							[value]="episode.progress * 100 / episode.duration"></mat-progress-bar>
+					</mat-expansion-panel-header>
+	
+					<p class="description"><strong>{{ episode.title }}</strong> - {{ formatTime(episode.date) }}</p>
+					<p class="description" [innerHTML]="episode.description"></p>
+					<img class="description feature" [src]="episode.image">
+					<p class="description">
 					<a href="{{ episode.track }}" target="_blank" download i18n="Listen Page - Download Link">
 						Download this episode as an audio file (MP3)
 					</a>
-				</p>
-			</mat-expansion-panel>
+					</p>
+				</mat-expansion-panel>
+			</div>
 		</mat-accordion>
 	</mat-card-content>
 

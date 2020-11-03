@@ -8,6 +8,7 @@ import { AudioPlayerService } from './../audio-player/audio-player.service';
 })
 export class DownloadManagerService {
 	storeName = 'episodes';
+	proxyUrl = 'https://cors-anywhere.herokuapp.com/';
 
 	constructor(
 		private audioPlayerService: AudioPlayerService
@@ -22,9 +23,8 @@ export class DownloadManagerService {
 	}
 
 	private async downloadEpisodeSync(subscriber, track) {
-		const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
 		// Step 1: start the fetch and obtain a reader
-		let response = await fetch(`${proxyUrl}${track}`);
+		let response = await fetch(`${this.proxyUrl}${track}`);
 
 		const reader = response.body.getReader();
 
@@ -111,10 +111,12 @@ export class DownloadManagerService {
 	}
 
 	async getDownloaded(track: string) {
+		const original = track;
+		track = `${this.proxyUrl}${original}`;
 		const tx = await this.getDB();
 		const store = await tx.objectStore(this.storeName);
 		if (store) {
-			const episode = await store.get(track);
+			const episode = await store.get(original);
 			if (episode) {
 				await tx.done;
 				const episodeUrl = URL.createObjectURL(episode);
