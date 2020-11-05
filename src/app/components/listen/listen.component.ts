@@ -4,7 +4,6 @@ import { Title } from '@angular/platform-browser';
 import Fuse from 'fuse.js';
 import { Episode } from 'src/app/models/episode.model';
 import { EpisodeService } from 'src/app/data/episode/episode.service';
-import { deviceType } from 'src/app/utils/deviceType';
 
 import * as moment from 'moment';
 
@@ -27,9 +26,6 @@ export class ListenComponent implements OnInit {
 	fuse;
 	online: boolean = navigator.onLine;
 	isRTL: boolean = (window as any).rtl;
-	get deviceType(): string {
-		return deviceType();
-	};
 
 	constructor(
 		public episodeService: EpisodeService,

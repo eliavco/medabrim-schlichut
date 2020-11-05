@@ -88,6 +88,7 @@ export class DownloadManagerService {
 		if (tx) {
 			const episode = await store.delete(track);
 			await tx.done;
+			this.downloadedEvent.emit();
 			return episode;
 		}
 	}

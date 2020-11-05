@@ -16,4 +16,8 @@ export class AudioPlayerService {
 		this.track.emit({ track, title, progress: progress ? progress : 0 });
 	}
 
+	closeTrack() {
+		this.track.emit(undefined);
+	}
+
 }

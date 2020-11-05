@@ -6,6 +6,7 @@ import { AudioPlayerService } from './../../services/audio-player/audio-player.s
 import { EpisodeService } from 'src/app/data/episode/episode.service';
 import { DownloadManagerService } from './../../services/download-manager/download-manager.service';
 import { environment } from './../../../environments/environment';
+import { isTouch } from 'src/app/utils/deviceType';
 
 import { soundManager } from 'soundmanager2';
 
@@ -37,6 +38,7 @@ export class AudioPlayerComponent implements OnInit {
 	track = '';
 	lang = (window as any).loc.substring(0, 2);
 	modeDev = !environment.production;
+	isMobile: boolean = isTouch();
 
 	get playing(): boolean {
 		return this._playing;
@@ -85,7 +87,7 @@ export class AudioPlayerComponent implements OnInit {
 	}
 
 	initializeCurrent() {
-		soundManager.setup({ useConsole: this.modeDev })
+		soundManager.setup({ useConsole: this.modeDev, debugMode: this.modeDev })
 		this.router.events.subscribe(event => {
 			if (event instanceof NavigationEnd) {
 				this.current = location.pathname;
@@ -96,7 +98,12 @@ export class AudioPlayerComponent implements OnInit {
 	subscribeTracks() {
 		const tracks = this.audioPlayerService.getTrack();
 		tracks.subscribe(data => {
-			this.launchTrack(data.title, data.track, data.progress);
+			console.log('hello');
+			if (data) {
+				this.launchTrack(data.title, data.track, data.progress);
+			} else {
+				this.closePlayer();
+			}
 		});
 	}
 
@@ -127,6 +134,11 @@ export class AudioPlayerComponent implements OnInit {
 		this.sound = soundManager.createSound({
 			url: config.src[0],
 			autoLoad: true,
+			onfinish: () => {
+				this.finishedSound();
+			}
+		});
+		this.sound.load({
 			onload: success => {
 				if (success) {
 					this.loadedSound(config.progress);
@@ -134,9 +146,6 @@ export class AudioPlayerComponent implements OnInit {
 					this.closePlayer();
 				}
 			},
-			onfinish: () => {
-				this.finishedSound();
-			}
 		});
 	}
 
@@ -173,7 +182,6 @@ export class AudioPlayerComponent implements OnInit {
 		this.playing = true;
 		this.display = true;
 		this.sound.play();
-		console.log(this.sound);
 		this.locationUpdate = setInterval(() => {
 			const position = this.sound.position / 1000; // in seconds from miliseconds
 			this.buffering = this.sound.isBuffering;
@@ -262,37 +270,41 @@ export class AudioPlayerComponent implements OnInit {
 	}
 
 	keyStart() {
-		hotkeys('space', (event => {
-			event.preventDefault();
-			this.playing ? this.pauseMusic() : this.playMusic();
-		}).bind(this));
-		hotkeys('right', (event => {
-			event.preventDefault();
-			this.skip10Sec();
-			// this.isRTL ? this.back10Sec() : this.skip10Sec();
-		}).bind(this));
-		hotkeys('left', (event => {
-			event.preventDefault();
-			this.back10Sec();
-			// this.isRTL ? this.skip10Sec() : this.back10Sec();
-		}).bind(this));
-		hotkeys('up', (event => {
-			event.preventDefault();
-			this.volume = this.volume < 90 ? this.volume + 10 : 100;
-			this.setVolume(this.volume);
-		}).bind(this));
-		hotkeys('down', (event => {
-			event.preventDefault();
-			this.volume = this.volume > 10 ? this.volume - 10 : 0;
-			this.setVolume(this.volume);
-		}).bind(this));
+		if (!this.isMobile) {
+			hotkeys('space', (event => {
+				event.preventDefault();
+				this.playing ? this.pauseMusic() : this.playMusic();
+			}).bind(this));
+			hotkeys('right', (event => {
+				event.preventDefault();
+				this.skip10Sec();
+				// this.isRTL ? this.back10Sec() : this.skip10Sec();
+			}).bind(this));
+			hotkeys('left', (event => {
+				event.preventDefault();
+				this.back10Sec();
+				// this.isRTL ? this.skip10Sec() : this.back10Sec();
+			}).bind(this));
+			hotkeys('up', (event => {
+				event.preventDefault();
+				this.volume = this.volume < 90 ? this.volume + 10 : 100;
+				this.setVolume(this.volume);
+			}).bind(this));
+			hotkeys('down', (event => {
+				event.preventDefault();
+				this.volume = this.volume > 10 ? this.volume - 10 : 0;
+				this.setVolume(this.volume);
+			}).bind(this));
+		}
 	}
 
 	keyStop() {
-		const keys = ['space', 'left', 'right', 'up', 'down'];
-		keys.forEach(key => {
-			hotkeys.unbind(key);
-		});
+		if (!this.isMobile) {
+			const keys = ['space', 'left', 'right', 'up', 'down'];
+			keys.forEach(key => {
+				hotkeys.unbind(key);
+			});
+		}
 	}
 
 	private updateMediaSessionPositionState() {

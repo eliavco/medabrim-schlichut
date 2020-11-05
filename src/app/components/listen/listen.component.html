@@ -58,7 +58,7 @@
 	
 					<mat-expansion-panel-header style="display:flex;justify-content:space-between;padding:1rem;"
 						class="height-free user-select-none">
-						<ec-download-button *ngIf="deviceType === 'desktop'" [track]="episode.track" [downloaded]="episode.downloaded" [display]="episode.downloaded !== null && episode.downloaded !== undefined"></ec-download-button>
+						<ec-download-button [track]="episode.track" [downloaded]="episode.downloaded" [display]="episode.downloaded !== null && episode.downloaded !== undefined"></ec-download-button>
 						<button mat-icon-button *ngIf="online || episode.downloaded" (click)="episodeService.playEpisode(episode)">
 							<mat-icon>play_arrow</mat-icon>
 						</button>

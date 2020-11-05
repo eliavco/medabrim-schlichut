@@ -129,7 +129,7 @@ export class EpisodeService {
 
 				newEpisode = this.currentEpisodes[newEpisodeIndex];
 				if (newEpisode.track === track) {
-					proceed = true; newEpisode = undefined;
+					proceed = true; newEpisode = undefined; return;
 				}
 				if (Math.floor(newEpisode.progress) !== newEpisode.duration) {
 					proceed = true;
@@ -173,10 +173,14 @@ export class EpisodeService {
 	}
 
 	playEpisode(episode: Episode) {
-		if (episode.progress) {
-			this.audioPlayerService.startTrack(episode.track, episode.title, episode.progress);
+		if (episode) {
+			if (episode.progress) {
+				this.audioPlayerService.startTrack(episode.track, episode.title, episode.progress);
+			} else {
+				this.audioPlayerService.startTrack(episode.track, episode.title);
+			}
 		} else {
-			this.audioPlayerService.startTrack(episode.track, episode.title);
+			this.audioPlayerService.closeTrack();
 		}
 	}
 
