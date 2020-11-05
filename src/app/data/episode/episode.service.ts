@@ -28,6 +28,9 @@ export class EpisodeService {
 		this.isDownloadedForOffline();
 		addEventListener('online', () => { this.refreshPodcast(); });
 		if (this.online) { this.refreshPodcast(); }
+		this.downloadManagerService.downloadedEvent.subscribe(() => {
+			this.isDownloadedForOffline();
+		});
 	}
 
 	private closeEpisodes(): void {

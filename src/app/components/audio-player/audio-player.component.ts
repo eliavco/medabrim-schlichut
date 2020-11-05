@@ -8,6 +8,8 @@ import { EpisodeService } from 'src/app/data/episode/episode.service';
 import { DownloadManagerService } from './../../services/download-manager/download-manager.service';
 import { environment } from './../../../environments/environment';
 
+import { soundManager } from 'soundmanager2';
+
 @Component({
 	selector: 'ec-audio-player',
 	templateUrl: './audio-player.component.html',
@@ -35,6 +37,7 @@ export class AudioPlayerComponent implements OnInit {
 	collapse;
 	track = '';
 	lang = (window as any).loc.substring(0, 2);
+	modeDev = !environment.production;
 
 	get playing(): boolean {
 		return this._playing;
@@ -78,14 +81,23 @@ export class AudioPlayerComponent implements OnInit {
 	) { }
 
 	ngOnInit(): void {
-		const tracks = this.audioPlayerService.getTrack();
-		tracks.subscribe(data => {
-			this.launchTrack(data.title, data.track, data.progress);
-		});
+		this.subscribeTracks();
+		this.initializeCurrent();
+	}
+
+	initializeCurrent() {
+		soundManager.setup({ useConsole: this.modeDev })
 		this.router.events.subscribe(event => {
 			if (event instanceof NavigationEnd) {
 				this.current = location.pathname;
 			}
+		});
+	}
+
+	subscribeTracks() {
+		const tracks = this.audioPlayerService.getTrack();
+		tracks.subscribe(data => {
+			this.launchTrack(data.title, data.track, data.progress);
 		});
 	}
 
@@ -111,10 +123,17 @@ export class AudioPlayerComponent implements OnInit {
 	startMusic(config) {
 		if (this.sound) { this.sound.stop(); }
 		this.sound = new Howl(config);
+		const hello = soundManager.createSound({
+			url: config.src[0],
+			autoLoad: true,
+			onload: function () {
+				console.log(hello);
+			}
+		});
 		this.sound.on('load', (() => {
 			this.duration = this.sound.duration();
 			if (config.progress + 5 < this.duration) { this.setSeek({ value: config.progress }); }
-			this.playMusic();
+			// this.playMusic();
 			if (localStorage.rate) {
 				this.rate = +localStorage.rate;
 				this.sound.rate(this.rate);
