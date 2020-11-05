@@ -43,7 +43,7 @@
 		<mat-accordion>
 			<div *ngFor="let episode of episodes" class="card-wrapper">
 
-				<mat-expansion-panel class="gray-hover" 
+				<mat-expansion-panel class="gray-hover" style="width:100%;"
 					hideToggle (opened)="episodeService.toggleEpisodeOpen(episode)" (closed)="episodeService.toggleEpisodeOpen(episode)">
 					<mat-expansion-panel-header class="height-free user-select-none" *ngIf="!episode.open">
 						<mat-panel-title style="margin-top:2rem;margin-bottom:1rem;display:flex;"
