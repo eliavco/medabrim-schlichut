@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, EventEmitter } from '@angular/core';
 import { Observable } from 'rxjs';
 import { openDB, deleteDB } from 'idb';
 import { AudioPlayerService } from './../audio-player/audio-player.service';
@@ -9,6 +9,7 @@ import { AudioPlayerService } from './../audio-player/audio-player.service';
 export class DownloadManagerService {
 	storeName = 'episodes';
 	proxyUrl = 'https://cors-anywhere.herokuapp.com/';
+	downloadedEvent = new EventEmitter<void>();
 
 	constructor(
 		private audioPlayerService: AudioPlayerService
@@ -17,6 +18,7 @@ export class DownloadManagerService {
 	downloadEpisode(track: string): Observable<{ downloaded: number; whole: number; }> {
 		return new Observable<{ downloaded: number; whole: number; }>((subscriber => {
 			this.downloadEpisodeSync(subscriber, track).then(() => {
+				this.downloadedEvent.emit();
 				subscriber.complete();
 			});
 		}).bind(this));
@@ -53,7 +55,7 @@ export class DownloadManagerService {
 		});
 		
 		const episode = await this.saveEpisode(track, blob);
-		if (!episode) { throw new Error('We could not download the episode'); } 
+		if (!episode) { throw new Error('We could not download the episode'); }
 	}
 
 	async isDownloaded(track: string) {
@@ -86,6 +88,7 @@ export class DownloadManagerService {
 		if (tx) {
 			const episode = await store.delete(track);
 			await tx.done;
+			this.downloadedEvent.emit();
 			return episode;
 		}
 	}
@@ -112,7 +115,7 @@ export class DownloadManagerService {
 
 	async getDownloaded(track: string) {
 		const original = track;
-		track = `${this.proxyUrl}${original}`;
+		// track = `${this.proxyUrl}${original}`;
 		const tx = await this.getDB();
 		const store = await tx.objectStore(this.storeName);
 		if (store) {

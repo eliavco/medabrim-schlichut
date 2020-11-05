@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Howl, Howler } from 'howler';
 import { Router, NavigationEnd } from '@angular/router';
 import hotkeys from 'hotkeys-js';
 
@@ -7,6 +6,9 @@ import { AudioPlayerService } from './../../services/audio-player/audio-player.s
 import { EpisodeService } from 'src/app/data/episode/episode.service';
 import { DownloadManagerService } from './../../services/download-manager/download-manager.service';
 import { environment } from './../../../environments/environment';
+import { isTouch } from 'src/app/utils/deviceType';
+
+import { soundManager } from 'soundmanager2';
 
 @Component({
 	selector: 'ec-audio-player',
@@ -25,7 +27,7 @@ export class AudioPlayerComponent implements OnInit {
 	locationUpdateBig;
 	seek = 0;
 	duration = 0;
-	rateList = [0.25, 0.5, 0.75, 1, 1.25, 1.5, 1.75, 2];
+	rateList = [0.5, 0.75, 1, 1.25, 1.5, 1.75, 2];
 	rate = 1;
 	title = '';
 	current = location.pathname;
@@ -35,6 +37,8 @@ export class AudioPlayerComponent implements OnInit {
 	collapse;
 	track = '';
 	lang = (window as any).loc.substring(0, 2);
+	modeDev = !environment.production;
+	isMobile: boolean = isTouch();
 
 	get playing(): boolean {
 		return this._playing;
@@ -78,10 +82,12 @@ export class AudioPlayerComponent implements OnInit {
 	) { }
 
 	ngOnInit(): void {
-		const tracks = this.audioPlayerService.getTrack();
-		tracks.subscribe(data => {
-			this.launchTrack(data.title, data.track, data.progress);
-		});
+		this.subscribeTracks();
+		this.initializeCurrent();
+	}
+
+	initializeCurrent() {
+		soundManager.setup({ useConsole: this.modeDev, debugMode: this.modeDev })
 		this.router.events.subscribe(event => {
 			if (event instanceof NavigationEnd) {
 				this.current = location.pathname;
@@ -89,13 +95,28 @@ export class AudioPlayerComponent implements OnInit {
 		});
 	}
 
+	subscribeTracks() {
+		const tracks = this.audioPlayerService.getTrack();
+		tracks.subscribe(data => {
+			console.log('hello');
+			if (data) {
+				this.launchTrack(data.title, data.track, data.progress);
+			} else {
+				this.closePlayer();
+			}
+		});
+	}
+
+	private stopPlayingPreviousSound() {
+		if (this.sound) { this.sound.destruct(); }
+	}
+
 	launchTrack(title: string, track: string, progress?: number) {
 		this.title = title;
 		this.display = true;
-		if (this.sound) { this.sound.stop(); }
+		this.stopPlayingPreviousSound();
 		this.stopMediaSession();
 		this.startMediaSession(title);
-		Howler.stop();
 		this.track = track;
 
 		this.downloadManagerService.getDownloaded(track).then(newTrack => {
@@ -109,35 +130,49 @@ export class AudioPlayerComponent implements OnInit {
 	}
 
 	startMusic(config) {
-		if (this.sound) { this.sound.stop(); }
-		this.sound = new Howl(config);
-		this.sound.on('load', (() => {
-			this.duration = this.sound.duration();
-			if (config.progress + 5 < this.duration) { this.setSeek({ value: config.progress }); }
-			this.playMusic();
-			if (localStorage.rate) {
-				this.rate = +localStorage.rate;
-				this.sound.rate(this.rate);
+		this.stopPlayingPreviousSound();
+		this.sound = soundManager.createSound({
+			url: config.src[0],
+			autoLoad: true,
+			onfinish: () => {
+				this.finishedSound();
 			}
-			if (localStorage.volume) {
-				this.volume = (+localStorage.volume) * 100;
-				this.setVolume({
-					value: (+localStorage.volume) * 100
-				});
-			} else {
-				this.volume = 100;
-			}
-		}).bind(this));
-		this.sound.on('end', (() => {
-			this.updateLocation();
-			this.skipEpisode();
-		}).bind(this));
+		});
+		this.sound.load({
+			onload: success => {
+				if (success) {
+					this.loadedSound(config.progress);
+				} else {
+					this.closePlayer();
+				}
+			},
+		});
+	}
+
+	finishedSound() {
+		this.updateLocation();
+		this.skipEpisode();
+	}
+
+	loadedSound(progress) {
+		this.duration = this.sound.duration / 1000;
+		if (progress + 5 < this.duration) { this.setSeek(progress); }
+		this.playMusic();
+		if (localStorage.rate) {
+			this.rate = +localStorage.rate;
+			this.sound.setPlaybackRate(this.rate);
+		}
+		if (localStorage.volume) {
+			this.volume = +localStorage.volume;
+			this.setVolume(+localStorage.volume);
+		} else {
+			this.volume = 100;
+		}
 	}
 
 	closePlayer() {
 		this.display = false;
-		this.sound.stop();
-		Howler.stop();
+		this.stopPlayingPreviousSound();
 		this.stopMediaSession();
 		clearInterval(this.locationUpdate);
 		clearInterval(this.locationUpdateBig);
@@ -148,16 +183,10 @@ export class AudioPlayerComponent implements OnInit {
 		this.display = true;
 		this.sound.play();
 		this.locationUpdate = setInterval(() => {
-			const seek = this.sound.seek();
-			if (typeof seek !== 'number') { if (!this.buffering) { this.buffering = true; } } else { if (this.buffering) { this.buffering = false; } }
-			this.seek = typeof seek === 'number' ? seek : this.seek;
-			if ("setPositionState" in (navigator as any).mediaSession) {
-				(navigator as any).mediaSession.setPositionState({
-					duration: this.duration,
-					playbackRate: this.rate,
-					position: this.seek
-				});
-			}
+			const position = this.sound.position / 1000; // in seconds from miliseconds
+			this.buffering = this.sound.isBuffering;
+			this.seek = position;
+			this.updateMediaSessionPositionState()
 		}, 100);
 		this.locationUpdateBig = setInterval(() => {
 			this.updateLocation();
@@ -175,17 +204,17 @@ export class AudioPlayerComponent implements OnInit {
 		clearInterval(this.locationUpdateBig);
 	}
 
-	setVolume(event) {
-		this.sound.volume(event.value / 100);
-		if (event.value < 50) { this.volumeIcon = 'volume_down'; }
-		if (event.value > 50) { this.volumeIcon = 'volume_up'; }
-		localStorage.volume = `${this.sound.volume()}`;
+	setVolume(value) {
+		this.sound.setVolume(value); // out of 100
+		if (value < 50) { this.volumeIcon = 'volume_down'; }
+		if (value > 50) { this.volumeIcon = 'volume_up'; }
+		localStorage.volume = `${this.sound.volume}`; // out of 100
 	}
 
 	muteMusic() {
 		if (this.mute === 0) {
-			this.mute = this.sound.volume();
-			this.setVolume({ value: 0 });
+			this.mute = this.sound.volume; // out of 100
+			this.setVolume(0);
 		}
 	}
 
@@ -201,14 +230,14 @@ export class AudioPlayerComponent implements OnInit {
 
 	unmuteMusic() {
 		if (this.mute > 0) {
-			this.setVolume({ value: this.mute * 100 });
+			this.setVolume(this.mute);
 			this.mute = 0;
 		}
 	}
 
-	setSeek(event) {
-		this.sound.seek(event.value);
-		this.seek = event.value;
+	setSeek(value) {
+		this.sound.setPosition(value * 1000); // in miliseconds from seconds
+		this.seek = value;
 	}
 
 	formatSeconds(time: number) {
@@ -221,7 +250,7 @@ export class AudioPlayerComponent implements OnInit {
 
 	nextRate() {
 		this.rate = this.rateList[this.nextInList(this.rateList, this.rateList.indexOf(this.rate))];
-		this.sound.rate(this.rate);
+		this.sound.setPlaybackRate(this.rate);
 		localStorage.rate = `${this.rate}`;
 	}
 
@@ -231,47 +260,61 @@ export class AudioPlayerComponent implements OnInit {
 	}
 
 	back10Sec() {
-		if (this.seek < 10) { this.setSeek({ value: 0 }); }
-		else { this.setSeek({ value: this.seek - 10 }); }
+		if (this.seek < 10) { this.setSeek(0); }
+		else { this.setSeek(this.seek - 10); }
 	}
 
 	skip10Sec() {
-		if (this.seek + 10 > this.duration) { this.setSeek({ value: this.duration }); }
-		else { this.setSeek({ value: this.seek + 10 }); }
+		if (this.seek + 10 > this.duration) { this.setSeek(this.duration); }
+		else { this.setSeek(this.seek + 10); }
 	}
 
 	keyStart() {
-		hotkeys('space', (function (event, handler) {
-			event.preventDefault();
-			this.playing ? this.pauseMusic() : this.playMusic();
-		}).bind(this));
-		hotkeys('right', (function (event, handler) {
-			event.preventDefault();
-			this.skip10Sec();
-			// this.isRTL ? this.back10Sec() : this.skip10Sec();
-		}).bind(this));
-		hotkeys('left', (function (event, handler) {
-			event.preventDefault();
-			this.back10Sec();
-			// this.isRTL ? this.skip10Sec() : this.back10Sec();
-		}).bind(this));
-		hotkeys('up', (function (event, handler) {
-			event.preventDefault();
-			this.volume = this.volume < 90 ? this.volume + 10 : 100;
-			this.setVolume({ value: this.volume });
-		}).bind(this));
-		hotkeys('down', (function (event, handler) {
-			event.preventDefault();
-			this.volume = this.volume > 10 ? this.volume - 10 : 0;
-			this.setVolume({ value: this.volume });
-		}).bind(this));
+		if (!this.isMobile) {
+			hotkeys('space', (event => {
+				event.preventDefault();
+				this.playing ? this.pauseMusic() : this.playMusic();
+			}).bind(this));
+			hotkeys('right', (event => {
+				event.preventDefault();
+				this.skip10Sec();
+				// this.isRTL ? this.back10Sec() : this.skip10Sec();
+			}).bind(this));
+			hotkeys('left', (event => {
+				event.preventDefault();
+				this.back10Sec();
+				// this.isRTL ? this.skip10Sec() : this.back10Sec();
+			}).bind(this));
+			hotkeys('up', (event => {
+				event.preventDefault();
+				this.volume = this.volume < 90 ? this.volume + 10 : 100;
+				this.setVolume(this.volume);
+			}).bind(this));
+			hotkeys('down', (event => {
+				event.preventDefault();
+				this.volume = this.volume > 10 ? this.volume - 10 : 0;
+				this.setVolume(this.volume);
+			}).bind(this));
+		}
 	}
 
 	keyStop() {
-		const keys = ['space', 'left', 'right', 'up', 'down'];
-		keys.forEach(key => {
-			hotkeys.unbind(key);
-		});
+		if (!this.isMobile) {
+			const keys = ['space', 'left', 'right', 'up', 'down'];
+			keys.forEach(key => {
+				hotkeys.unbind(key);
+			});
+		}
+	}
+
+	private updateMediaSessionPositionState() {
+		if ("setPositionState" in (navigator as any).mediaSession) {
+			(navigator as any).mediaSession.setPositionState({
+				duration: this.duration,
+				playbackRate: this.rate,
+				position: this.seek
+			});
+		}
 	}
 
 	startMediaSession(episodeName) {

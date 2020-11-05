@@ -11,6 +11,9 @@
 				<mat-icon>menu</mat-icon>
 			</a>
 			<span [title]="title" class="title">{{ title }}</span>
+			<button mat-icon-button *ngIf="isMobile" (click)="closePlayer()">
+				<mat-icon>close</mat-icon>
+			</button>
 		</mat-toolbar>
 
 		<mat-toolbar class="seekbar">
@@ -30,12 +33,21 @@
 			<button *ngIf="mute === 0" mat-icon-button  class="mat-icon-rtl-mirror" (click)="muteMusic()">
 				<mat-icon>{{ volumeIcon }}</mat-icon>
 			</button>
-			<mat-slider [disabled]="mute > 0" thumbLabel="true" min="0" max="100" step="1" [value]="volume" (change)="setVolume($event)"></mat-slider>
+			<mat-slider [disabled]="mute > 0" thumbLabel="true" min="0" max="100" step="1" [value]="volume" (change)="setVolume($event.value)"></mat-slider>
+
+			<button mat-icon-button *ngIf="isMobile" (click)="previousEpisode()">
+				<!-- <mat-icon>skip_previous</mat-icon> -->
+				<mat-icon>{{ isRTL ? 'skip_next' : 'skip_previous' }}</mat-icon>
+			</button>
+			<button mat-icon-button *ngIf="isMobile" (click)="skipEpisode()">
+				<!-- <mat-icon>skip_next</mat-icon> -->
+				<mat-icon>{{ isRTL ? 'skip_previous' : 'skip_next' }}</mat-icon>
+			</button>
 
 			<span class="spacer" [class.title-un-collapse]="!displayFullTitle"></span>
 			<span class="spacer" [class.full-title]="!displayFullTitle"></span>
 			<!-- close -->
-			<button mat-icon-button (click)="closePlayer()">
+			<button mat-icon-button *ngIf="!isMobile" (click)="closePlayer()">
 				<mat-icon>close</mat-icon>
 			</button>
 		</mat-toolbar>
@@ -57,7 +69,7 @@
 				</button>
 			</ng-container>
 			
-			<button mat-icon-button (click)="previousEpisode()">
+			<button mat-icon-button *ngIf="!isMobile" (click)="previousEpisode()">
 				<mat-icon>skip_previous</mat-icon>
 				<!-- <mat-icon>{{ isRTL ? 'skip_next' : 'skip_previous' }}</mat-icon> -->
 			</button>
@@ -66,13 +78,13 @@
 				<!-- <mat-icon>{{ isRTL ? 'forward_10' : 'replay_10' }}</mat-icon> -->
 			</button>
 			<p class="small-seek">{{ formatSeconds(seek) }}&nbsp;</p>
-			<mat-slider class="seek" min="0" [max]="duration" step="0.1" [value]="seek" (change)="setSeek($event)"></mat-slider>
+			<mat-slider class="seek" min="0" [max]="duration" step="0.1" [value]="seek" (change)="setSeek($event.value)"></mat-slider>
 			<p class="small-seek">&nbsp;&nbsp;{{ formatSeconds(duration) }}</p>
 			<button mat-icon-button (click)="skip10Sec()">
 				<mat-icon>forward_10</mat-icon>
 				<!-- <mat-icon>{{ isRTL ? 'replay_10' : 'forward_10' }}</mat-icon> -->
 			</button>
-			<button mat-icon-button (click)="skipEpisode()">
+			<button mat-icon-button *ngIf="!isMobile" (click)="skipEpisode()">
 				<mat-icon>skip_next</mat-icon>
 				<!-- <mat-icon>{{ isRTL ? 'skip_previous' : 'skip_next' }}</mat-icon> -->
 			</button>
