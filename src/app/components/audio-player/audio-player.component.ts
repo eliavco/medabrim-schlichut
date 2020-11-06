@@ -45,7 +45,7 @@ export class AudioPlayerComponent implements OnInit {
 	}
 
 	set playing(val: boolean) {
-		(navigator as any).mediaSession.playbackState = val ? 'playing' : 'paused';
+		if (navigator && (navigator as any).mediaSession) { (navigator as any).mediaSession.playbackState = val ? 'playing' : 'paused'; }
 		this._playing = val;
 	}
 
@@ -98,7 +98,6 @@ export class AudioPlayerComponent implements OnInit {
 	subscribeTracks() {
 		const tracks = this.audioPlayerService.getTrack();
 		tracks.subscribe(data => {
-			console.log('hello');
 			if (data) {
 				this.launchTrack(data.title, data.track, data.progress);
 			} else {
@@ -308,13 +307,16 @@ export class AudioPlayerComponent implements OnInit {
 	}
 
 	private updateMediaSessionPositionState() {
-		if ("setPositionState" in (navigator as any).mediaSession) {
-			(navigator as any).mediaSession.setPositionState({
-				duration: this.duration,
-				playbackRate: this.rate,
-				position: this.seek
-			});
+		if ('mediaSession' in navigator) { 
+			if ('setPositionState' in (navigator as any).mediaSession) {
+				(navigator as any).mediaSession.setPositionState({
+					duration: this.duration,
+					playbackRate: this.rate,
+					position: this.seek
+				});
+			}
 		}
+
 	}
 
 	startMediaSession(episodeName) {
